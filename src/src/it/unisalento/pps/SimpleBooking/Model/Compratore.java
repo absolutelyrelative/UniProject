@@ -2,16 +2,16 @@ package it.unisalento.pps.SimpleBooking.Model;
 
 import java.io.Serializable;
 
-public class Amministratore extends Utente implements Serializable {
-    private int idAmministratore;
+public class Compratore extends Utente implements Serializable {
+    private int idCompratore;
     private int Utente_idUtente;
 
-    public int getIdAmministratore() {
-        return idAmministratore;
+    public int getIdCompratore() {
+        return idCompratore;
     }
 
-    public void setIdAmministratore(int idAmministratore) {
-        this.idAmministratore = idAmministratore;
+    public void setIdCompratore(int idCompratore) {
+        this.idCompratore = idCompratore;
     }
 
     public int getUtente_idUtente() {
