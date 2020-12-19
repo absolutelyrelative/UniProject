@@ -5,6 +5,7 @@ package it.unisalento.pps.SimpleBooking.dbInterface;
  * Gestisce l'apertura e la chiusura della connessione col Database
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
+
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -15,9 +16,9 @@ public class DbConnection {
     private static DbConnection instance; //istanza statica della classe
 
     public static DbConnection getInstance() {
-        if(instance == null)
+        if (instance == null)
             instance = new DbConnection();
-        if(connesso != true)
+        if (connesso != true)
             connetti("universita", "admin", "root");
         return instance;
     }
@@ -31,7 +32,7 @@ public class DbConnection {
             // Carico il driver JDBC per la connessione con il database MySQL
             Class.forName("com.mysql.jdbc.Driver");
             db = DriverManager.getConnection("jdbc:mysql://localhost/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
-            connesso=true;
+            connesso = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -45,7 +46,7 @@ public class DbConnection {
     // ritorna un ArrayList contenente tutte le tuple del risultato
     public ArrayList<String[]> eseguiQuery(String query) {
         ArrayList<String[]> v = null;
-        String [] record;
+        String[] record;
         int colonne = 0;
         try {
             Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
@@ -54,14 +55,16 @@ public class DbConnection {
             ResultSetMetaData rsmd = rs.getMetaData();
             colonne = rsmd.getColumnCount();
 
-            while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+            while (rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
                 record = new String[colonne];
-                for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
-                v.add( (String[]) record.clone() );
+                for (int i = 0; i < colonne; i++) record[i] = rs.getString(i + 1);
+                v.add((String[]) record.clone());
             }
             rs.close();     // Chiudo il ResultSet
             stmt.close();   // Chiudo lo Statement
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return v;
     }
@@ -89,8 +92,12 @@ public class DbConnection {
         try {
             db.close();
             connesso = false;
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public boolean isConnesso() { return connesso; }   // Ritorna TRUE se la connessione con il Database � attiva
+    public boolean isConnesso() {
+        return connesso;
+    }   // Ritorna TRUE se la connessione con il Database � attiva
 }

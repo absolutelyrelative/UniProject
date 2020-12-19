@@ -9,6 +9,15 @@ public class Line_Item implements Serializable {
     private int Beni_idBeni;
     private Date Data_sel_Inizio;
     private Date Data_sel_Fine;
+    private float Costo;
+
+    public float getCosto() {
+        return Costo;
+    }
+
+    public void setCosto(float costo) {
+        this.Costo = costo;
+    }
 
     public int getIdLine() {
         return idLine;
