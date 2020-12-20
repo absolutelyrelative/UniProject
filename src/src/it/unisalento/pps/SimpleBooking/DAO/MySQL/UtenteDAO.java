@@ -1,40 +1,35 @@
 package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
-import it.unisalento.pps.SimpleBooking.DAO.Interface.IAmministratoreDAO;
-import it.unisalento.pps.SimpleBooking.Exceptions.MySQLUnitaryException;
+import it.unisalento.pps.SimpleBooking.DAO.Interface.IUtenteDAO;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
+import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;
 
+public class UtenteDAO implements IUtenteDAO {
+    private static UtenteDAO instance;
 
-//TODO: REDO AMMINISTRATORE QUERY
-//TODO: REMEMBER THAT AMMINISTRATORE EXTENDS UTENTE!!!! IT HAS PASSWORD, EMAIL, USERNAME!!!
-
-public class AmministratoreDAO implements IAmministratoreDAO {
-
-    private static AmministratoreDAO instance;
-
-    public static AmministratoreDAO getInstance() {
+    public static UtenteDAO getInstance() {
         if (instance == null)
-            instance = new AmministratoreDAO();
+            instance = new UtenteDAO();
         return instance;
     }
 
     @Override
-    public Amministratore findById(int id) {
-        Amministratore a = null;
+    public Utente findById(int id) {
+        Utente a = null;
 
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM Amministratore WHERE idAmministratore='" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT * FROM Utente WHERE idUtente='" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
         if (res.size() != 1) {
             //TODO: Throw Exception, should never happen
         }
 
         String[] result = res.get(0);
-        a = new Amministratore();
-        a.setIdAmministratore(Integer.parseInt(result[0]));
-        a.setUtente_idUtente(Integer.parseInt(result[1]));
+        a = new Utente();
+        a.setIdUtente(Integer.parseInt(result[0]));
+        a.setEmail();
 
         return a;
     }

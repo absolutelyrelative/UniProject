@@ -24,7 +24,7 @@ public class Utente implements Serializable {
         return username;
     }
 
-    public void setId(int Id) {
+    public void setIdUtente(int Id) {
         this.idUtente = Id;
     }
 
