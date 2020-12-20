@@ -8,8 +8,15 @@ public interface IBaseDAO<T> {
 
     public ArrayList<T> findAll();
 
+    //TODO: Deprecate T t creation / deletion methods?
+    @Deprecated
     void create(T t);
 
+    @Deprecated
     void delete(T t);
+
+    void create(int id);
+
+    void delete(int id);
 }
 
