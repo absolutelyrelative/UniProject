@@ -15,5 +15,34 @@ public class UtenteDAO implements IUtenteDAO {
             instance = new UtenteDAO();
         return instance;
     }
-    
+
+    @Override
+    public Utente findById(int id) {
+        return null;
+    }
+
+    @Override
+    public ArrayList<Utente> findAll() {
+        return null;
+    }
+
+    @Override
+    public void create(Utente utente) {
+
+    }
+
+    @Override
+    public void delete(Utente utente) {
+
+    }
+
+    @Override
+    public void create(int id) {
+
+    }
+
+    @Override
+    public void delete(int id) {
+
+    }
 }

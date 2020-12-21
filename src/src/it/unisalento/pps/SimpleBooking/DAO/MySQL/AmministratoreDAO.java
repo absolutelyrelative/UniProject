@@ -31,6 +31,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
             //TODO: Throw Exception, should never happen
         }
 
+        //TODO: DEBUG RESULT
         String[] result = res.get(0);
         a = new Amministratore();
         a.setIdUtente(Integer.parseInt(result[0]));
