@@ -1,0 +1,1 @@
+SELECT idUtente, email, password, username FROM Utente WHERE idUtente = XX LIMIT 1;
