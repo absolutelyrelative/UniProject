@@ -9,14 +9,16 @@ public interface IBaseDAO<T> {
     public ArrayList<T> findAll();
 
     //TODO: Deprecate T t creation / deletion methods?
-    @Deprecated
+
     void create(T t);
 
-    @Deprecated
+
     void delete(T t);
 
+    @Deprecated
     void create(int id);
 
+    @Deprecated
     void delete(int id);
 }
 

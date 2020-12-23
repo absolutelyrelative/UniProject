@@ -17,6 +17,8 @@ USE `SimpleBooking` ;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Utente`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Utente` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Utente` (
   `idUtente` INT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(45) NOT NULL,
@@ -29,6 +31,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Amministratore`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Amministratore` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Amministratore` (
   `idAmministratore` INT NOT NULL AUTO_INCREMENT,
   `Utente_idUtente` INT NOT NULL,
@@ -38,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Amministratore` (
   CONSTRAINT `fk_Amministratore_Utente1`
     FOREIGN KEY (`Utente_idUtente`)
     REFERENCES `SimpleBooking`.`Utente` (`idUtente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -46,6 +50,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Compratore`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Compratore` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Compratore` (
   `idCompratore` INT NOT NULL AUTO_INCREMENT,
   `Utente_idUtente` INT NOT NULL,
@@ -55,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Compratore` (
   CONSTRAINT `fk_Compratore_Utente1`
     FOREIGN KEY (`Utente_idUtente`)
     REFERENCES `SimpleBooking`.`Utente` (`idUtente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -63,6 +69,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Venditore`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Venditore` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Venditore` (
   `idVenditore` INT NOT NULL AUTO_INCREMENT,
   `Utente_idUtente` INT NOT NULL,
@@ -72,7 +80,7 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Venditore` (
   CONSTRAINT `fk_Venditore_Utente1`
     FOREIGN KEY (`Utente_idUtente`)
     REFERENCES `SimpleBooking`.`Utente` (`idUtente`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -80,6 +88,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Ordine`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Ordine` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Ordine` (
   `idOrdine` INT NOT NULL AUTO_INCREMENT,
   `Compratore_idCompratore` INT NOT NULL,
@@ -98,6 +108,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Tipo_Bene`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Tipo_Bene` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Tipo_Bene` (
   `idTipo Bene` INT NOT NULL AUTO_INCREMENT,
   `Nome` VARCHAR(45) NOT NULL,
@@ -116,6 +128,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Beni`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Beni` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Beni` (
   `idBeni` INT NOT NULL AUTO_INCREMENT,
   `Nome` VARCHAR(45) NOT NULL,
@@ -141,12 +155,12 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Beni` (
   CONSTRAINT `fk_Beni_Venditore1`
     FOREIGN KEY (`Venditore_idVenditore`)
     REFERENCES `SimpleBooking`.`Venditore` (`idVenditore`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Beni_Tipo Bene1`
     FOREIGN KEY (`Tipo_Bene_idTipo_Bene`)
     REFERENCES `SimpleBooking`.`Tipo_Bene` (`idTipo Bene`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Beni_Amministratore1`
     FOREIGN KEY (`Amministratore_idAmministratore`)
@@ -159,6 +173,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Immagine`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Immagine` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Immagine` (
   `idImmagine` INT NOT NULL AUTO_INCREMENT,
   `Data` BLOB NULL,
@@ -169,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Immagine` (
   CONSTRAINT `fk_Immagine_Beni1`
     FOREIGN KEY (`Beni_idBeni`)
     REFERENCES `SimpleBooking`.`Beni` (`idBeni`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -177,6 +193,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Rating`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Rating` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Rating` (
   `idRating` INT NOT NULL AUTO_INCREMENT,
   `Rating` TINYINT(1) NULL DEFAULT 1,
@@ -188,12 +206,12 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Rating` (
   CONSTRAINT `fk_Feedback_Beni1`
     FOREIGN KEY (`Beni_idBeni`)
     REFERENCES `SimpleBooking`.`Beni` (`idBeni`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Rating_Compratore1`
     FOREIGN KEY (`Compratore_idCompratore`)
     REFERENCES `SimpleBooking`.`Compratore` (`idCompratore`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -201,6 +219,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Feedback`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Feedback` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Feedback` (
   `idFeedback` INT NOT NULL AUTO_INCREMENT,
   `Commento` VARCHAR(150) NULL,
@@ -217,22 +237,22 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Feedback` (
   CONSTRAINT `fk_Feedback_Feedback1`
     FOREIGN KEY (`Feedback_idFeedback`)
     REFERENCES `SimpleBooking`.`Feedback` (`idFeedback`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Feedback_Beni2`
     FOREIGN KEY (`Beni_idBeni`)
     REFERENCES `SimpleBooking`.`Beni` (`idBeni`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Feedback_Compratore1`
     FOREIGN KEY (`Compratore_idCompratore`)
     REFERENCES `SimpleBooking`.`Compratore` (`idCompratore`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Feedback_Venditore1`
     FOREIGN KEY (`Venditore_idVenditore`)
     REFERENCES `SimpleBooking`.`Venditore` (`idVenditore`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -240,24 +260,27 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Line_Item`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Line_Item` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Line_Item` (
   `idLine Item` INT NOT NULL AUTO_INCREMENT,
   `Ordine_idOrdine` INT NOT NULL,
   `Beni_idBeni` INT NOT NULL,
   `Data_sel_Inizio` DATE NOT NULL,
   `Data_sel_Fine` DATE NOT NULL,
+  `Costo` FLOAT NOT NULL,
   PRIMARY KEY (`idLine Item`),
   INDEX `fk_Line Item_Ordine1_idx` (`Ordine_idOrdine` ASC) VISIBLE,
   INDEX `fk_Line Item_Beni1_idx` (`Beni_idBeni` ASC) VISIBLE,
   CONSTRAINT `fk_Line Item_Ordine1`
     FOREIGN KEY (`Ordine_idOrdine`)
     REFERENCES `SimpleBooking`.`Ordine` (`idOrdine`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Line Item_Beni1`
     FOREIGN KEY (`Beni_idBeni`)
     REFERENCES `SimpleBooking`.`Beni` (`idBeni`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
@@ -265,6 +288,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `SimpleBooking`.`Pagamento`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `SimpleBooking`.`Pagamento` ;
+
 CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Pagamento` (
   `idPagamento` INT NOT NULL AUTO_INCREMENT,
   `Stato` TINYINT NOT NULL DEFAULT 0,
@@ -278,7 +303,7 @@ CREATE TABLE IF NOT EXISTS `SimpleBooking`.`Pagamento` (
   CONSTRAINT `fk_Pagamento_Ordine1`
     FOREIGN KEY (`Ordine_idOrdine`)
     REFERENCES `SimpleBooking`.`Ordine` (`idOrdine`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 

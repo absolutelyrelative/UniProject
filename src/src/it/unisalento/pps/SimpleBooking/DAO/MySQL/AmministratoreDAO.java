@@ -8,9 +8,6 @@ import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 import java.util.ArrayList;
 
 
-//TODO: REDO AMMINISTRATORE QUERY
-//TODO: REMEMBER THAT AMMINISTRATORE EXTENDS UTENTE!!!! IT HAS PASSWORD, EMAIL, USERNAME!!!
-
 public class AmministratoreDAO implements IAmministratoreDAO {
 
     private static AmministratoreDAO instance;
@@ -65,6 +62,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
     @Override
     public void create(Amministratore a) {
+        //TODO
 
     }
 
