@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Immagine implements Serializable {
     private int idImmagine;
-    private Byte[] Data;
+    private byte[] Data;
     private int Beni_idBeni;
 
     public int getIdImmagine() {
@@ -15,11 +15,11 @@ public class Immagine implements Serializable {
         this.idImmagine = idImmagine;
     }
 
-    public Byte[] getData() {
+    public byte[] getData() {
         return Data;
     }
 
-    public void setData(Byte[] data) {
+    public void setData(byte[] data) {
         this.Data = data; //TODO: COHERENCY CHECK
     }
 

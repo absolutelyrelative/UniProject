@@ -20,7 +20,7 @@ public class CompratoreDAO implements ICompratoreDAO {
     @Override
     public Compratore findById(int id) {
         Compratore a = null;
-        
+
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT U.idUtente, U.email, U.password, U.username, Com.idCompratore, Com.Utente_idUtente FROM Utente as U INNER JOIN Compratore as Com ON Com.Utente_idUtente = U.IdUtente WHERE Com.idCompratore = '" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
         if (res.size() != 1) {

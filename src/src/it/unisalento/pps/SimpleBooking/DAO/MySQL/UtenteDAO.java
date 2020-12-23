@@ -60,11 +60,10 @@ public class UtenteDAO implements IUtenteDAO {
         String username = a.getUsername();
 
         //DB COHERENCY CHECK
-        if(email.length() > 45 || password.length() > 45 || username.length() > 45){
+        if (email.length() > 45 || password.length() > 45 || username.length() > 45) {
             //TODO: Throw error
-        }
-        else{
-            DbConnection.getInstance().eseguiAggiornamento("insert into Utente (idUtente, email, password, username) values ('" + idUtente + "', '"+ email +"', '"+password+"', '"+username+"');");
+        } else {
+            DbConnection.getInstance().eseguiAggiornamento("insert into Utente (idUtente, email, password, username) values ('" + idUtente + "', '" + email + "', '" + password + "', '" + username + "');");
         }
     }
 

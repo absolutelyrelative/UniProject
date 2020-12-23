@@ -6,6 +6,8 @@ package it.unisalento.pps.SimpleBooking.dbInterface;
  * Fornisce i metodi per l'esecuzione delle query sul Database
  */
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -24,15 +26,15 @@ public class DbConnection {
     }
 
     // Apre la connessione con il Database
-    public static boolean connetti(String nomeDB, String nomeUtente, String pwdUtente) {
+    private static boolean connetti(String nomeDB, String nomeUtente, String pwdUtente) {
 
         connesso = false;
         try {
 
             // Carico il driver JDBC per la connessione con il database MySQL
-            Class.forName("com.mysql.jdbc.Driver");
-            db = DriverManager.getConnection("jdbc:mysql://localhost/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente);
-            connesso = true;
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            db = DriverManager.getConnection("jdbc:mysql://cthars2.cjrf5d1p9pbq.us-east-1.rds.amazonaws.com:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente+"&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            connesso=true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -46,7 +48,7 @@ public class DbConnection {
     // ritorna un ArrayList contenente tutte le tuple del risultato
     public ArrayList<String[]> eseguiQuery(String query) {
         ArrayList<String[]> v = null;
-        String[] record;
+        String [] record;
         int colonne = 0;
         try {
             Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
@@ -55,25 +57,59 @@ public class DbConnection {
             ResultSetMetaData rsmd = rs.getMetaData();
             colonne = rsmd.getColumnCount();
 
-            while (rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+            while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
                 record = new String[colonne];
-                for (int i = 0; i < colonne; i++) record[i] = rs.getString(i + 1);
-                v.add((String[]) record.clone());
+                for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
+                v.add( (String[]) record.clone() );
             }
             rs.close();     // Chiudo il ResultSet
             stmt.close();   // Chiudo lo Statement
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
 
         return v;
+    }
+
+    public void addFoto(File file, String sql) {
+
+        try {
+            FileInputStream inputStream = new FileInputStream(file);
+
+            PreparedStatement statement = db.prepareStatement(sql);
+            statement.setBlob(1, inputStream);
+            statement.executeUpdate();
+            statement.close();   // Chiudo lo Statement
+        } catch(Exception e) { e.printStackTrace(); }
+    }
+
+
+    public byte[] getFoto(String query) {
+        //query = "select F.foto from foto as F where F.idfoto=1;"
+        byte[] blob=null;
+        try {
+            Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
+            ResultSet rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
+
+            int rowcount = 0;
+            if (rs.last()) {
+                rowcount = rs.getRow();
+                rs.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
+            }
+            if(rowcount==1) {
+                rs.next();
+                blob = rs.getBytes(1);
+            }
+            rs.close();     // Chiudo il ResultSet
+            stmt.close();   // Chiudo lo Statement
+        } catch (Exception e) { e.printStackTrace(); }
+
+        return blob;
     }
 
     // Esegue una query di aggiornamento sul Database
     // query: una stringa che rappresenta un'istuzione SQL di tipo UPDATE da eseguire
     // ritorna TRUE se l'esecuzione � adata a buon fine, FALSE se c'� stata un'eccezione
     public boolean eseguiAggiornamento(String query) {
-        int numero = 0;
+        int numero ;
         boolean risultato = false;
         try {
             Statement stmt = db.createStatement();
@@ -87,17 +123,14 @@ public class DbConnection {
         return risultato;
     }
 
-    // Chiude la connessione con il Database
     public void disconnetti() {
         try {
-            db.close();
+            db.close();    // Chiude la connessione con il Database
             connesso = false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
     public boolean isConnesso() {
-        return connesso;
-    }   // Ritorna TRUE se la connessione con il Database � attiva
+        return connesso;      // Ritorna TRUE se la connessione con il Database � attiva
+    }
 }
