@@ -78,7 +78,7 @@ public class UtenteDAO implements IUtenteDAO {
         //UNUSED
     }
 
-    //TODO: TEST CASCADE DELETING COMPRATORE, AMMINISTRATORE, VENDITORE AND UTENTE
+    //Cascade delete tested successful on venditore
     @Override
     public void delete(Utente a) {
         int idUtente_td = a.getId();

@@ -44,5 +44,7 @@ public class Test {
             System.out.println(" password = " + u.getPassword());
             System.out.println(" username = " + u.getUsername());
         }*/
+        Utente u = UtenteDAO.getInstance().findById(23);
+        UtenteDAO.getInstance().delete(u);
     }
 }
