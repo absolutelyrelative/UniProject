@@ -60,9 +60,13 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         return amministratori;
     }
 
+    //In order to create Amministratore, you must first create a user. (?)
     @Override
     public void create(Amministratore a) {
-        //TODO
+        //TODO: IMPLEMENT
+        //int IdAdmin = a.getIdAmministratore();
+        //int IdUtente = a.getUtente_idUtente();
+        //create(IdAdmin,IdUtente);
 
     }
 

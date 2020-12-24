@@ -22,6 +22,16 @@ public class ImmagineDAO implements IImmagineDAO {
     //TODO: TEST
     @Override
     public ArrayList<Immagine> getImagesFromBene(Beni b) {
+        int IdBene = b.getIdBeni();
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idImmagine FROM Immagine WHERE Beni_idBeni = '" + IdBene + "';");
+        ArrayList<Immagine> immagini = new ArrayList<>();
+
+        for (String[] row : res) {
+            Immagine a = findById(Integer.parseInt(row[0]));
+            immagini.add(a);
+        }
+
+        return immagini;
 
     }
 
@@ -40,7 +50,7 @@ public class ImmagineDAO implements IImmagineDAO {
         String[] result = res.get(0);
         a = new Immagine();
         a.setIdImmagine(Integer.parseInt(result[0]));
-        a.setData(DbConnection.getInstance().getFoto("SELECT Data FROM Immagine WHERE idImmagine = '"+ a.getIdImmagine() + "';")); //TODO: Test Images
+        a.setData(DbConnection.getInstance().getFoto("SELECT Data FROM Immagine WHERE idImmagine = '" + a.getIdImmagine() + "';")); //TODO: Test Images
         a.setBeni_idBeni(Integer.parseInt(result[1]));
 
         return a;
@@ -61,25 +71,32 @@ public class ImmagineDAO implements IImmagineDAO {
 
     }
 
-
+    //TODO: Test
     @Override
-    void create(Immagine t) {
+    public void create(Immagine t) {
+        int IdImmagine = t.getIdImmagine();
+        byte[] blob = t.getData();
+        int IdBeni = t.getBeni_idBeni();
+
+        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(idImmagine, Data, Beni_idBeni) VALUES('" + IdImmagine + "','" + blob
+                + "','" + IdBeni + "';"); //TODO: Test
 
     }
 
 
     @Override
-    void delete(Immagine t) {
+    public void delete(Immagine t) {
+        int IdImmagine_td = t.getIdImmagine();
+        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Immagine WHERE idImmagine = '" + IdImmagine_td + "';");
+    }
+
+    @Override
+    public void create(int id) {
 
     }
 
     @Override
-    void create(int id) {
-
-    }
-
-    @Override
-    void delete(int id) {
+    public void delete(int id) {
 
     }
 }
