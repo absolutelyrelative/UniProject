@@ -1,0 +1,9 @@
+--TODO: ADD VENDITORE, TIPO BENE, ADMIN, ETC...
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (1, 'Jehanna', 'quam sapien varius ut', '1/19/2020', '2/12/2020', '1.54', '04 Esker Pass', 1, true);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (2, 'Shir', 'in faucibus orci luctus', '2/5/2020', '2/15/2020', '6.85', '0 West Terrace', 1, false);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (3, 'Artemis', 'suspendisse potenti nullam porttitor', '1/20/2020', '2/24/2020', '0.43', '3137 Cascade Lane', 1, false);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (4, 'Ilario', 'integer ac neque duis', '1/22/2020', '2/16/2020', '5.03', '76 Moulton Drive', 1, false);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (5, 'Holly', 'quis orci eget orci vehicula', '1/11/2020', '2/24/2020', '3.41', '30 Spohn Pass', 1, true);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (6, 'Cchaddie', 'id sapien in sapien iaculis', '1/8/2020', '3/4/2020', '6.46', '4697 Sycamore Terrace', 1, false);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (7, 'Alexandre', 'lacus morbi sem mauris laoreet', '2/4/2020', '3/2/2020', '6.64', '4 Macpherson Lane', 1, true);
+insert into Beni (idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pd, Addr, Stato_Bene, Pubblicazione) values (8, 'Tomasine', 'in sagittis dui vel nisl', '1/28/2020', '2/14/2020', '8.79', '99223 Independence Avenue', 1, false);
