@@ -32,17 +32,11 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         String[] result = res.get(0);
         a = new Amministratore();
         a.setIdUtente(Integer.parseInt(result[0]));
-        // System.out.println("IdUtente: " + a.getId());
         a.setEmail(result[1]);
-        // System.out.println("\neMail: " + a.getEmail());
         a.setPassword(result[2]);
-        // System.out.println("\nPassword: " + a.getPassword());
         a.setUsername(result[3]);
-        // System.out.println("\nUsername: " + a.getUsername());
         a.setIdAmministratore(Integer.parseInt(result[4]));
-        //  System.out.println("\nIdAmministratore: " + a.getIdAmministratore());
         a.setUtente_idUtente(Integer.parseInt(result[5]));
-        //  System.out.println("\nUtente_idUtente: " + a.getUtente_idUtente());
 
         return a;
     }
