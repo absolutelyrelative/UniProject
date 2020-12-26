@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.IBeniDAO;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
+import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;
@@ -90,7 +91,7 @@ public class BeniDAO implements IBeniDAO {
             Costo_pd = Costo_pw / 7;
         }
 
-        //TODO: ADD COHERENCY TEST FOR LENGHT IN GUI VIEW
+        //TODO: ADD COHERENCY TEST FOR LENGTH IN GUI VIEW
         int idBeni = b.getIdBeni();
         String nome = b.getNome();
         String descrizione = b.getDescrizione();
@@ -133,18 +134,75 @@ public class BeniDAO implements IBeniDAO {
 
     }
 
+    //TODO: TEST
     @Override
-    public ArrayList<Beni> sortByDate(Date Inizio, Date Fine) {
+    public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine) {
+        String query = "SELECT idBeni FROM Beni WHERE Data_Inizio <= '" + Inizio + "' AND Data_Fine >= '" + Fine + "'";
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
+        ArrayList<Beni> beni = new ArrayList<>();
+
+        for (String[] row : res) {
+            Beni a = findById(Integer.parseInt(row[0]));
+            beni.add(a);
+        }
+
+        return beni;
 
     }
 
+    //TODO: TEST
     @Override
     public ArrayList<Beni> sortByCost(Float cost, int type) {
+        float Cost_pd = 0;
+        float Cost_pw = 0;
+        float Cost_pm = 0;
+
+        switch (type) {
+            case 0:
+                //Daily Cost specified. UNNECESSARY ?
+                Cost_pd = cost;
+                break;
+            case 1:
+                //Weekly Cost specified
+                Cost_pw = cost;
+                Cost_pd = Cost_pw / 7;
+                break;
+            case 2:
+                //Monthly Cost specified
+                Cost_pm = cost;
+                Cost_pw = Cost_pm / 4.35f;
+                Cost_pd = Cost_pw / 7;
+                break;
+            default:
+                break;
+        }
+        String query = "SELECT idBeni FROM Beni WHERE Cost_pd = '" + Cost_pd + "'";
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
+        ArrayList<Beni> beni = new ArrayList<>();
+
+        for (String[] row : res) {
+            Beni a = findById(Integer.parseInt(row[0]));
+            beni.add(a);
+        }
+
+        return beni;
 
     } //Type 0 = per day, type 1 = per week, type 2 = per month
 
+    //TODO: TEST
     @Override
-    public ArrayList<Beni> sortByCreator(Utente u) {
+    public ArrayList<Beni> sortByCreator(Venditore v) {
+        int idVenditore = v.getIdVenditore();
+        String query = "SELECT idBeni FROM Beni WHERE Venditore_idVenditore = '" + idVenditore + "'";
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
+        ArrayList<Beni> beni = new ArrayList<>();
+
+        for (String[] row : res) {
+            Beni a = findById(Integer.parseInt(row[0]));
+            beni.add(a);
+        }
+
+        return beni;
 
     } //Used to create Mini Catalogue for Venditore
 
@@ -154,7 +212,7 @@ public class BeniDAO implements IBeniDAO {
     }
 
     @Override
-    public void updateBene(Beni b) {
+    public void updateBene(Beni b_old, Beni b_new) {
 
     } //TODO: Works with 'stato bene', is necessary to mark a bene as ordered, among other things. Break into smaller parts maybe?
 }
