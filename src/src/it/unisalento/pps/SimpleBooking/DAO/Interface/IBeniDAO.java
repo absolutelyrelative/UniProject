@@ -10,6 +10,8 @@ import java.util.Date;
 
 //TODO: IMPLEMENT SORT BY LOCATION
 //TODO: IMPLEMENT STATO BENE
+//TODO: CREATE() METHOD MUST NOT CONTAIN PRIMARY KEY? CORRECT ALL!
+//TODO: IS public float getCumulativeCost(Line_Item LI) NECESSARY?
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
     public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
