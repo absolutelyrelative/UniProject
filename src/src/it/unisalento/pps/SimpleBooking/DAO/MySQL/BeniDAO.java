@@ -75,24 +75,49 @@ public class BeniDAO implements IBeniDAO {
         float Costo_pw = b.getCosto_pw();
         float Costo_pm = b.getCosto_pm();
 
-        if(Costo_pd != 0.0f){
+
+        //TODO: PERHAPS THIS CALCULATION BELONGS IN THE GUI VIEW?
+        if (Costo_pd != 0.0f) {
             Costo_pw = Costo_pd * 7;
             Costo_pm = Costo_pw * 4.35f; //TODO: TEST, THIS IS AN ESTIMATE
         }
-        if(Costo_pw != 0.0f){
+        if (Costo_pw != 0.0f) {
             Costo_pd = Costo_pw / 7;
             Costo_pm = Costo_pw * 4.35f;
         }
-        if(Costo_pm != 0.0f){
+        if (Costo_pm != 0.0f) {
             Costo_pw = Costo_pm / 4.35f;
             Costo_pd = Costo_pw / 7;
         }
-        
+
+        //TODO: ADD COHERENCY TEST FOR LENGHT IN GUI VIEW
+        int idBeni = b.getIdBeni();
+        String nome = b.getNome();
+        String descrizione = b.getDescrizione();
+        java.sql.Date Data_Inizio = b.getData_Inizio();
+        java.sql.Date Data_Fine = b.getData_Fine();
+        float GPS_Lat = b.getGPS_Lat();
+        float GPS_Lon = b.getGPS_Lon();
+        String Addr = b.getAddr();
+        int Venditore_idVenditore = b.getVenditore_idVenditore();
+        int Tipo_Bene_idTipo_Bene = b.getTipo_Bene_idTipo_Bene();
+        int Stato_Bene = b.getStato_Bene();
+        int Pubblicazione = b.getPubblicazione();
+        int Amministratore_idAmministratore = b.getAmministratore_idAmministratore();
+
+        String query = "INSERT INTO Beni(idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pw, Costo_pm, Costo_pd" +
+                ", GPS_Lat, GPS_Lon, Addr, Venditore_idVenditore, Tipo_Bene_idTipo_Bene, Stato_Bene, Pubblicazione, " +
+                "Amministratore_idAmministratore) VALUES('" + idBeni + "', '" + nome + "','" + descrizione + "','" + Data_Inizio + "','" + Data_Fine + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
+                "'" + Venditore_idVenditore + "','" + Tipo_Bene_idTipo_Bene + "','" + Stato_Bene + "','" + Pubblicazione + "','" + Amministratore_idAmministratore + "');";
+        DbConnection.getInstance().eseguiAggiornamento(query);
 
     }
 
+    //TODO: TEST 'ON DELETE CASCADE' SETTING ON SQL
     @Override
     public void delete(Beni b) {
+        int idBeni_td = b.getIdBeni();
+        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Beni WHERE idBeni = '" + idBeni_td + "';"); //TODO: Test
 
     }
 

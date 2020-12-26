@@ -45,7 +45,7 @@ public class Beni implements Serializable {
         this.Descrizione = descrizione;
     }
 
-    public Date getData_Inizio() {
+    public java.sql.Date getData_Inizio() {
         return Data_Inizio;
     }
 
@@ -53,7 +53,7 @@ public class Beni implements Serializable {
         this.Data_Inizio = data_Inizio;
     }
 
-    public Date getData_Fine() {
+    public java.sql.Date getData_Fine() {
         return Data_Fine;
     }
 
