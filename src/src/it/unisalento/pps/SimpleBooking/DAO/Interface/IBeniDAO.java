@@ -10,7 +10,9 @@ import java.util.Date;
 
 //TODO: IMPLEMENT SORT BY LOCATION
 //TODO: IMPLEMENT STATO BENE
-//TODO: CREATE() METHOD MUST NOT CONTAIN PRIMARY KEY? CORRECT ALL!
+//TODO: CREATE() METHOD MUST NOT CONTAIN PRIMARY KEY? CORRECT ALL! - probable workaround is to set id to null, TEST:
+//Insert into utente(idUtente, email, password, username) VALUES(NULL,'nullemail','nullpassword','nullusername') works
+//Insert into utente(idUtente, email, password, username) VALUES('','nullemail','nullpassword','nullusername') doesn't work
 //TODO: IS public float getCumulativeCost(Line_Item LI) NECESSARY?
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
