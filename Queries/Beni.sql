@@ -6,3 +6,7 @@ WHERE us_reg_date >= '2000-07-05'
 SELECT *
 FROM players
 WHERE DATE(us_reg_date) BETWEEN '2000-07-05' AND '2011-11-10'
+
+UPDATE Customers
+SET ContactName = 'Alfred Schmidt', City= 'Frankfurt'
+WHERE CustomerID = 1;

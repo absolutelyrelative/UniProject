@@ -1,5 +1,6 @@
 package it.unisalento.pps.SimpleBooking.DAO.Interface;
 
+import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 //TODO: IMPLEMENT SORT BY LOCATION
+//TODO: IMPLEMENT STATO BENE
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
     public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
@@ -16,7 +18,11 @@ public interface IBeniDAO extends IBaseDAO<Beni> {
 
     public ArrayList<Beni> sortByCreator(Venditore v); //Used to create Mini Catalogue for Venditore
 
-    void publishBene(Beni b);
+    public ArrayList<Beni> sortByApprover(Amministratore a);
+
+    void publishBene(Beni b); //0 = unpublished, 1 = published
+
+    void unpublishBene(Beni b); //0 = unpublished, 1 = published
 
     void updateBene(Beni b_old, Beni b_new); //TODO: Works with 'stato bene', is necessary to mark a bene as ordered, among other things. Break into smaller parts maybe?
 }
