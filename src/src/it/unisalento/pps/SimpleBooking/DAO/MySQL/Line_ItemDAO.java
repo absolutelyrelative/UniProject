@@ -97,6 +97,7 @@ public class Line_ItemDAO implements ILine_ItemDAO {
     }
 
     //TODO: TEST
+    //UNUSED?
     @Override
     public float getCumulativeCost(Line_Item LI) {
         return 0;
