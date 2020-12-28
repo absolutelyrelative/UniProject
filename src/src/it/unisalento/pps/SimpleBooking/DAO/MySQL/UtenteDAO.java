@@ -1,7 +1,6 @@
 package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IUtenteDAO;
-import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 

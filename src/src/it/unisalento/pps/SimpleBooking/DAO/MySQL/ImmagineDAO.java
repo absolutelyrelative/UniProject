@@ -2,7 +2,6 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IImmagineDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.Model.Compratore;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 

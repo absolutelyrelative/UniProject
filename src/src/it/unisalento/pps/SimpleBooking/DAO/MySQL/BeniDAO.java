@@ -3,12 +3,10 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IBeniDAO;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class BeniDAO implements IBeniDAO {
 

@@ -1,7 +1,6 @@
 package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IAmministratoreDAO;
-import it.unisalento.pps.SimpleBooking.Exceptions.MySQLUnitaryException;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
