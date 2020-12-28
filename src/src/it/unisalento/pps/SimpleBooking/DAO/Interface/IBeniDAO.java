@@ -15,7 +15,7 @@ import java.util.Date;
 //Insert into utente(idUtente, email, password, username) VALUES('','nullemail','nullpassword','nullusername') doesn't work
 //TODO: IS public float getCumulativeCost(Line_Item LI) NECESSARY?
 //TODO: IMPLEMENT METHOD TO FIND IF USER IS ADMIN/VEND/COMPR?
-//TODO: IMPLEMENT LAST ORDINE METHOD
+//TODO: TEST CASCADE DELETE OF TIPO_BENE -> BENE
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
     public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
