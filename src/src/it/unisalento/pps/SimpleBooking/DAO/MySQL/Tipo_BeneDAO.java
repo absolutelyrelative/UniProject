@@ -1,7 +1,6 @@
 package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.ITipo_BeneDAO;
-import it.unisalento.pps.SimpleBooking.Model.Line_Item;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
