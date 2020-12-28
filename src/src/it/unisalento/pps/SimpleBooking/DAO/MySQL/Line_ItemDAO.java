@@ -2,6 +2,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.ILine_ItemDAO;
 import it.unisalento.pps.SimpleBooking.Model.Line_Item;
+import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;
@@ -101,5 +102,20 @@ public class Line_ItemDAO implements ILine_ItemDAO {
     @Override
     public float getCumulativeCost(Line_Item LI) {
         return 0;
+    }
+
+    //TODO: TEST
+    @Override
+    public ArrayList<Line_Item> getRelatedItems(Ordine o) {
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idLine_Item FROM Line_Item WHERE Ordine_idOrdine = '" + o.getIdOrdine() + "';");
+        ArrayList<Line_Item> Line_Items = new ArrayList<>();
+
+        for (String[] row : res) {
+            Line_Item a = findById(Integer.parseInt(row[0]));
+            Line_Items.add(a);
+        }
+
+        return Line_Items;
+
     }
 }

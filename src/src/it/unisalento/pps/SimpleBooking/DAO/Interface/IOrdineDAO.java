@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.Model.Ordine;
 
 public interface IOrdineDAO extends IBaseDAO<Ordine> {
 
-    public float closeOrderandGetCumulativeCost(Ordine o);
+    public void closeOrder(Ordine o);
+    public float getTotCost(Ordine o);
 
 }

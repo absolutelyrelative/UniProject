@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IOrdineDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
+import it.unisalento.pps.SimpleBooking.Model.Line_Item;
 import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
@@ -85,8 +86,31 @@ public class OrdineDAO implements IOrdineDAO {
 
     }
 
+    //TODO: TEST
     @Override
-    public float closeOrderandGetCumulativeCost(Ordine o){
+    public void closeOrder(Ordine o) {
+        float cumulative_cost = 0;
+        ArrayList<Line_Item> items = Line_ItemDAO.getInstance().getRelatedItems(o);
+        for (Line_Item u : items) {
+            cumulative_cost = cumulative_cost + u.getCosto();
+        }
+
+        String query = "UPDATE Ordine SET Importo_Tot = '" + cumulative_cost + "' WHERE idOrdine = '" + o.getIdOrdine() + "';";
+        DbConnection.getInstance().eseguiAggiornamento(query);
+
+        o.setImporto_Tot(cumulative_cost);
+
+    }
+
+    //TODO: TEST
+    @Override
+    public float getTotCost(Ordine o) {
+        String query = "SELECT Importo_Tot FROM Ordine WHERE idOrdine = '" + o.getIdOrdine() + "' LIMIT 1;";
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
+
+        String[] result = res.get(0);
+        return Float.parseFloat(result[0]);
+
 
     }
 }
