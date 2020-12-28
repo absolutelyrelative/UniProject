@@ -14,6 +14,7 @@ import java.util.ArrayList;
 //TODO: IS public float getCumulativeCost(Line_Item LI) NECESSARY?
 //TODO: IMPLEMENT METHOD TO FIND IF USER IS ADMIN/VEND/COMPR?
 //TODO: TEST CASCADE DELETE OF TIPO_BENE -> BENE
+//TODO: TEST CASCADE DELETE OF ORDINE -> PAGAMENTO
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
     public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
