@@ -57,13 +57,13 @@ public class FeedbackDAO implements IFeedbackDAO {
     //TODO: TEST
     @Override
     public void create(Feedback r) {
-        int idFeedback = r.getIdFeedback();
+        //int idFeedback = r.getIdFeedback();
         String Commento = r.getCommento(); //TODO: TEST STRING TYPE COHERENCY
         int Feedback_idFeedback = r.getFeedback_idFeedback(); //TODO: TEST IF NULL VALUE
         int Beni_idBeni = r.getBeni_idBeni();
         int Compratore_idCompratore = r.getCompratore_idCompratore();
         int Venditore_idVenditore = r.getVenditore_idVenditore();
-        String query = "INSERT INTO Feedback(idFeedback, Commento, Feedback_idFeedback, Beni_idBeni, Compratore_idCompratore, Venditore_idVenditore) VALUES ('" + idFeedback + "','" + Commento + "','" + Feedback_idFeedback + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "','" + Venditore_idVenditore + "');";
+        String query = "INSERT INTO Feedback(Commento, Feedback_idFeedback, Beni_idBeni, Compratore_idCompratore, Venditore_idVenditore) VALUES ('" + Commento + "','" + Feedback_idFeedback + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "','" + Venditore_idVenditore + "');";
         DbConnection.getInstance().eseguiAggiornamento(query);
     }
 

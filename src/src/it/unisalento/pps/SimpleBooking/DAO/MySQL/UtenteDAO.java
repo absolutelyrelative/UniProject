@@ -54,7 +54,7 @@ public class UtenteDAO implements IUtenteDAO {
     //TESTED
     @Override
     public void create(Utente a) {
-        int idUtente = a.getId();
+        //int idUtente = a.getId();
         String email = a.getEmail();
         String password = a.getPassword();
         String username = a.getUsername();
@@ -63,7 +63,7 @@ public class UtenteDAO implements IUtenteDAO {
         if (email.length() > 45 || password.length() > 45 || username.length() > 45) {
             //TODO: Throw error
         } else {
-            DbConnection.getInstance().eseguiAggiornamento("insert into Utente (idUtente, email, password, username) values ('" + idUtente + "', '" + email + "', '" + password + "', '" + username + "');");
+            DbConnection.getInstance().eseguiAggiornamento("insert into Utente (email, password, username) values ('" + email + "', '" + password + "', '" + username + "');");
         }
     }
 

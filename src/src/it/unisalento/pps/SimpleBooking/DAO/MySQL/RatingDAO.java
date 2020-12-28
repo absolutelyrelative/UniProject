@@ -54,11 +54,11 @@ public class RatingDAO implements IRatingDAO {
     //TODO: TEST
     @Override
     public void create(Rating r) {
-        int idRating = r.getIdRating();
+        //int idRating = r.getIdRating();
         int Rating = r.getIdRating();
         int Beni_idBeni = r.getBeni_idBeni();
         int Compratore_idCompratore = r.getCompratore_idCompratore();
-        String query = "INSERT INTO Rating(idRating, Rating, Beni_idBeni, Compratore_idCompratore VALUES('" + idRating + "','" + Rating + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "');";
+        String query = "INSERT INTO Rating(Rating, Beni_idBeni, Compratore_idCompratore VALUES('" + Rating + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "');";
         DbConnection.getInstance().eseguiAggiornamento(query);
     }
 

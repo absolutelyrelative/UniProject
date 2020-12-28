@@ -92,7 +92,7 @@ public class BeniDAO implements IBeniDAO {
         }
 
         //TODO: ADD COHERENCY TEST FOR LENGTH IN GUI VIEW
-        int idBeni = b.getIdBeni();
+        //int idBeni = b.getIdBeni();
         String nome = b.getNome();
         String descrizione = b.getDescrizione();
         java.sql.Date Data_Inizio = b.getData_Inizio();
@@ -106,9 +106,9 @@ public class BeniDAO implements IBeniDAO {
         int Pubblicazione = b.getPubblicazione();
         int Amministratore_idAmministratore = b.getAmministratore_idAmministratore();
 
-        String query = "INSERT INTO Beni(idBeni, Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pw, Costo_pm, Costo_pd" +
+        String query = "INSERT INTO Beni(Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pw, Costo_pm, Costo_pd" +
                 ", GPS_Lat, GPS_Lon, Addr, Venditore_idVenditore, Tipo_Bene_idTipo_Bene, Stato_Bene, Pubblicazione, " +
-                "Amministratore_idAmministratore) VALUES('" + idBeni + "', '" + nome + "','" + descrizione + "','" + Data_Inizio + "','" + Data_Fine + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
+                "Amministratore_idAmministratore) VALUES('" + nome + "','" + descrizione + "','" + Data_Inizio + "','" + Data_Fine + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
                 "'" + Venditore_idVenditore + "','" + Tipo_Bene_idTipo_Bene + "','" + Stato_Bene + "','" + Pubblicazione + "','" + Amministratore_idAmministratore + "');";
         DbConnection.getInstance().eseguiAggiornamento(query);
 

@@ -59,14 +59,14 @@ public class Line_ItemDAO implements ILine_ItemDAO {
     //TODO: TEST
     @Override
     public void create(Line_Item t) {
-        int idLine_Item = t.getIdLine();
+        //int idLine_Item = t.getIdLine();
         int Ordine_idOrdine = t.getOrdine_idOrdine();
         int Beni_idBeni = t.getBeni_idBeni();
         java.sql.Date Data_sel_Inizio = t.getData_sel_Inizio();
         java.sql.Date Data_sel_Fine = t.getData_sel_Fine();
         float Costo = t.getCosto();
 
-        String query = "INSERT INTO Line_Item(idLine_Item, Ordine_idOrdine, Beni_idBeni, Data_sel_Inizio, Data_sel_Fine, Costo) VALUES('" + idLine_Item + "','" + Ordine_idOrdine + "','" + Beni_idBeni + "'," +
+        String query = "INSERT INTO Line_Item(Ordine_idOrdine, Beni_idBeni, Data_sel_Inizio, Data_sel_Fine, Costo) VALUES('" + Ordine_idOrdine + "','" + Beni_idBeni + "'," +
                 "'" + Data_sel_Inizio + "','" + Data_sel_Fine + "','" + Costo + "');";
 
 

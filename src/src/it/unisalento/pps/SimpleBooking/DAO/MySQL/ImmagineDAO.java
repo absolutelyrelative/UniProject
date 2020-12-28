@@ -74,11 +74,11 @@ public class ImmagineDAO implements IImmagineDAO {
     //TODO: Test
     @Override
     public void create(Immagine t) {
-        int IdImmagine = t.getIdImmagine();
+        //int IdImmagine = t.getIdImmagine();
         byte[] blob = t.getData();
         int IdBeni = t.getBeni_idBeni();
 
-        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(idImmagine, Data, Beni_idBeni) VALUES('" + IdImmagine + "','" + blob
+        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(Data, Beni_idBeni) VALUES('" + blob
                 + "','" + IdBeni + "';"); //TODO: Test
 
     }
