@@ -2,7 +2,6 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IPagamentoDAO;
 import it.unisalento.pps.SimpleBooking.Model.Pagamento;
-import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;

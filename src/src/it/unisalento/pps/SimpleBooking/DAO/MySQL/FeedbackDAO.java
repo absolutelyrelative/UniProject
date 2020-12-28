@@ -3,7 +3,6 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IFeedbackDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Feedback;
-import it.unisalento.pps.SimpleBooking.Model.Rating;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 
 import java.util.ArrayList;
