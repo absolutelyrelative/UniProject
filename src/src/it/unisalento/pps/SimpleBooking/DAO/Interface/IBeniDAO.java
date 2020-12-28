@@ -2,11 +2,9 @@ package it.unisalento.pps.SimpleBooking.DAO.Interface;
 
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 //TODO: IMPLEMENT SORT BY LOCATION
 //TODO: IMPLEMENT STATO BENE
