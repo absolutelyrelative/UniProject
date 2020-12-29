@@ -6,5 +6,5 @@ import it.unisalento.pps.SimpleBooking.Model.Rating;
 import java.util.ArrayList;
 
 public interface IRatingDAO extends IBaseDAO<Rating> {
-    public ArrayList<Rating> getCumulativeRating(Beni b);
+    ArrayList<Rating> getCumulativeRating(Beni b);
 }

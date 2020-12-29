@@ -17,13 +17,13 @@ import java.util.ArrayList;
 //TODO: TEST CASCADE DELETE OF ORDINE -> PAGAMENTO
 
 public interface IBeniDAO extends IBaseDAO<Beni> {
-    public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
+    ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine);
 
-    public ArrayList<Beni> sortByCost(Float cost, int type); //Type 0 = per day, type 1 = per week, type 2 = per month
+    ArrayList<Beni> sortByCost(Float cost, int type); //Type 0 = per day, type 1 = per week, type 2 = per month
 
-    public ArrayList<Beni> sortByCreator(Venditore v); //Used to create Mini Catalogue for Venditore
+    ArrayList<Beni> sortByCreator(Venditore v); //Used to create Mini Catalogue for Venditore
 
-    public ArrayList<Beni> sortByApprover(Amministratore a);
+    ArrayList<Beni> sortByApprover(Amministratore a);
 
     void publishBene(Beni b); //0 = unpublished, 1 = published
 

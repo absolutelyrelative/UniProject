@@ -6,5 +6,5 @@ import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import java.util.ArrayList;
 
 public interface IImmagineDAO extends IBaseDAO<Immagine> {
-    public ArrayList<Immagine> getImagesFromBene(Beni b);
+    ArrayList<Immagine> getImagesFromBene(Beni b);
 }
