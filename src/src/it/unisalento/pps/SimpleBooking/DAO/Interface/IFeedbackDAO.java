@@ -6,7 +6,7 @@ import it.unisalento.pps.SimpleBooking.Model.Feedback;
 import java.util.ArrayList;
 
 public interface IFeedbackDAO extends IBaseDAO<Feedback> {
-    public ArrayList<Feedback> getRepliestoBeni(Beni b);
+    ArrayList<Feedback> getRepliestoBeni(Beni b);
 
-    public ArrayList<Feedback> getRepliestoReply(Feedback f);
+    ArrayList<Feedback> getRepliestoReply(Feedback f);
 }
