@@ -24,19 +24,23 @@ public class Line_ItemDAO implements ILine_ItemDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idLine_Item, Ordine_idOrdine, Beni_idBeni, Data_sel_Inizio, Data_sel_Fine, Costo FROM Line_Item WHERE idLine_Item = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Line_Item();
+            a.setIdLine(Integer.parseInt(result[0]));
+            a.setOrdine_idOrdine(Integer.parseInt(result[1]));
+            a.setBeni_idBeni(Integer.parseInt(result[2]));
+            a.setData_sel_Inizio(new java.sql.Date(Long.parseLong(result[3]))); //TODO: TEST DATE TYPE
+            a.setData_sel_Fine(new java.sql.Date(Long.parseLong(result[4]))); //TODO: TEST DATE TYPE
+            a.setCosto(Float.parseFloat(result[5]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Line_Item();
-        a.setIdLine(Integer.parseInt(result[0]));
-        a.setOrdine_idOrdine(Integer.parseInt(result[1]));
-        a.setBeni_idBeni(Integer.parseInt(result[2]));
-        a.setData_sel_Inizio(new java.sql.Date(Long.parseLong(result[3]))); //TODO: TEST DATE TYPE
-        a.setData_sel_Fine(new java.sql.Date(Long.parseLong(result[4]))); //TODO: TEST DATE TYPE
-        a.setCosto(Float.parseFloat(result[5]));
 
         return a;
 

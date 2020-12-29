@@ -25,16 +25,20 @@ public class OrdineDAO implements IOrdineDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idOrdine, Compratore_idCompratore, Importo_Tot FROM Ordine WHERE idOrdine = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Ordine();
+            a.setIdOrdine(Integer.parseInt(result[0]));
+            a.setCompratore_idCompratore(Integer.parseInt(result[1]));
+            a.setImporto_Tot(Float.parseFloat(result[2]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Ordine();
-        a.setIdOrdine(Integer.parseInt(result[0]));
-        a.setCompratore_idCompratore(Integer.parseInt(result[1]));
-        a.setImporto_Tot(Float.parseFloat(result[2]));
 
         return a;
     }

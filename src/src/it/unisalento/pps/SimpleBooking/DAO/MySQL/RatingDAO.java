@@ -23,16 +23,21 @@ public class RatingDAO implements IRatingDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idRating, Rating, Beni_idBeni, Compratore_idCompratore FROM Rating WHERE idRating = '" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {
+            String[] result = res.get(0);
+            r = new Rating();
+            r.setIdRating(Integer.parseInt(result[0]));
+            r.setRating(Integer.parseInt(result[1]));
+            r.setBeni_idBeni(Integer.parseInt(result[2]));
+            r.setCompratore_idCompratore(Integer.parseInt(result[3]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        String[] result = res.get(0);
-        r = new Rating();
-        r.setIdRating(Integer.parseInt(result[0]));
-        r.setRating(Integer.parseInt(result[1]));
-        r.setBeni_idBeni(Integer.parseInt(result[2]));
-        r.setCompratore_idCompratore(Integer.parseInt(result[3]));
 
         return r;
     }

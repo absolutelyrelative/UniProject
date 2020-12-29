@@ -22,20 +22,24 @@ public class PagamentoDAO implements IPagamentoDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idPagamento, Stato, Ordine_idOrdine, Numero_Carta, CVV, PIN, Importo FROM Pagamento WHERE idPagamento = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Pagamento();
+            a.setIdPagamento(Integer.parseInt(result[0]));
+            a.setStato(Integer.parseInt(result[1]));
+            a.setOrdine_idOrdine(Integer.parseInt(result[2]));
+            a.setNumero_Carta(result[3]);
+            a.setCVV(result[4]);
+            a.setPIN(result[5]);
+            a.setImporto(Float.parseFloat(result[6]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Pagamento();
-        a.setIdPagamento(Integer.parseInt(result[0]));
-        a.setStato(Integer.parseInt(result[1]));
-        a.setOrdine_idOrdine(Integer.parseInt(result[2]));
-        a.setNumero_Carta(result[3]);
-        a.setCVV(result[4]);
-        a.setPIN(result[5]);
-        a.setImporto(Float.parseFloat(result[6]));
 
         return a;
 
@@ -101,7 +105,7 @@ public class PagamentoDAO implements IPagamentoDAO {
     public void updatePaymentStato(Pagamento p, int status) {
         //DATA COHERENCY CHECK
         //TODO: THROW ARITHMETIC ERROR?
-        if(status >= 1)
+        if (status >= 1)
             status = 1;
         else
             status = 0;

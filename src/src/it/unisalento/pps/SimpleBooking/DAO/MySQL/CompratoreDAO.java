@@ -22,19 +22,24 @@ public class CompratoreDAO implements ICompratoreDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT U.idUtente, U.email, U.password, U.username, Com.idCompratore, Com.Utente_idUtente FROM Utente as U INNER JOIN Compratore as Com ON Com.Utente_idUtente = U.IdUtente WHERE Com.idCompratore = '" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Compratore();
+            a.setIdUtente(Integer.parseInt(result[0]));
+            a.setEmail(result[1]);
+            a.setPassword(result[2]);
+            a.setUsername(result[3]);
+            a.setIdCompratore(Integer.parseInt(result[4]));
+            a.setUtente_idUtente(Integer.parseInt(result[5]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Compratore();
-        a.setIdUtente(Integer.parseInt(result[0]));
-        a.setEmail(result[1]);
-        a.setPassword(result[2]);
-        a.setUsername(result[3]);
-        a.setIdCompratore(Integer.parseInt(result[4]));
-        a.setUtente_idUtente(Integer.parseInt(result[5]));
 
         return a;
     }

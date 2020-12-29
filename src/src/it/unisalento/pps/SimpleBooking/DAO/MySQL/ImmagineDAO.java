@@ -41,16 +41,20 @@ public class ImmagineDAO implements IImmagineDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idImmagine, Beni_idBeni FROM Immagine WHERE idImmagine = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Immagine();
+            a.setIdImmagine(Integer.parseInt(result[0]));
+            a.setData(DbConnection.getInstance().getFoto("SELECT Data FROM Immagine WHERE idImmagine = '" + a.getIdImmagine() + "';")); //TODO: Test Images
+            a.setBeni_idBeni(Integer.parseInt(result[1]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Immagine();
-        a.setIdImmagine(Integer.parseInt(result[0]));
-        a.setData(DbConnection.getInstance().getFoto("SELECT Data FROM Immagine WHERE idImmagine = '" + a.getIdImmagine() + "';")); //TODO: Test Images
-        a.setBeni_idBeni(Integer.parseInt(result[1]));
 
         return a;
     }

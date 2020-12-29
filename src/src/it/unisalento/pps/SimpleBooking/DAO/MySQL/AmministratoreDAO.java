@@ -23,20 +23,25 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT U.idUtente, U.email, U.password, U.username, Adm.idAmministratore, Adm.Utente_idUtente FROM Utente as U INNER JOIN Amministratore as Adm ON Adm.Utente_idUtente = U.IdUtente WHERE Adm.idAmministratore = '" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
-        }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Amministratore();
-        a.setIdUtente(Integer.parseInt(result[0]));
-        a.setEmail(result[1]);
-        a.setPassword(result[2]);
-        a.setUsername(result[3]);
-        a.setIdAmministratore(Integer.parseInt(result[4]));
-        a.setUtente_idUtente(Integer.parseInt(result[5]));
+        try {
+            String[] result = res.get(0);
+            a = new Amministratore();
+            a.setIdUtente(Integer.parseInt(result[0]));
+            a.setEmail(result[1]);
+            a.setPassword(result[2]);
+            a.setUsername(result[3]);
+            a.setIdAmministratore(Integer.parseInt(result[4]));
+            a.setUtente_idUtente(Integer.parseInt(result[5]));
 
+
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
+        }//DEBUG RESULT
         return a;
     }
 

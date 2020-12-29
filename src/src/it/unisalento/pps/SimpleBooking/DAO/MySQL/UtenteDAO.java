@@ -22,16 +22,21 @@ public class UtenteDAO implements IUtenteDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idUtente, email, password, username FROM Utente WHERE idUtente = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {
+            String[] result = res.get(0);
+            a = new Utente();
+            a.setIdUtente(Integer.parseInt(result[0]));
+            a.setEmail(result[1]);
+            a.setPassword(result[2]);
+            a.setUsername(result[3]);
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        String[] result = res.get(0);
-        a = new Utente();
-        a.setIdUtente(Integer.parseInt(result[0]));
-        a.setEmail(result[1]);
-        a.setPassword(result[2]);
-        a.setUsername(result[3]);
 
         return a;
     }

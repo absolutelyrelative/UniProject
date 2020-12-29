@@ -23,16 +23,20 @@ public class Tipo_BeneDAO implements ITipo_BeneDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idTipo_Bene, Nome, Amministratore_idAmministratore FROM Tipo_Bene WHERE idTipo_Bene = '" + id + "' LIMIT 1;");
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {//DEBUG RESULT
+            String[] result = res.get(0);
+            a = new Tipo_Bene();
+            a.setIdTipo(Integer.parseInt(result[0]));
+            a.setNome(result[1]);
+            a.setAmministratore_idAmministratore(Integer.parseInt(result[2]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        //DEBUG RESULT
-        String[] result = res.get(0);
-        a = new Tipo_Bene();
-        a.setIdTipo(Integer.parseInt(result[0]));
-        a.setNome(result[1]);
-        a.setAmministratore_idAmministratore(Integer.parseInt(result[2]));
 
         return a;
 

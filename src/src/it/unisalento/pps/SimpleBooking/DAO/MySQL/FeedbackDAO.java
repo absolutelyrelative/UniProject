@@ -23,18 +23,23 @@ public class FeedbackDAO implements IFeedbackDAO {
 
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idFeedback, Commento, Feedback_idFeedback, Beni_idBeni, Compratore_idCompratore, Venditore_idVenditore FROM Feedback WHERE idFeedback = '" + id + "' LIMIT 1;"); //TODO: Test LIMIT 1
 
-        if (res.size() != 1) {
-            //TODO: Throw Exception, should never happen
+        try {
+            String[] result = res.get(0);
+            r = new Feedback();
+            r.setIdFeedback(Integer.parseInt(result[0]));
+            r.setCommento(result[1]); //TODO: TEST STRING TYPE COHERENCY
+            r.setFeedback_idFeedback(Integer.parseInt(result[2]));
+            r.setBeni_idBeni(Integer.parseInt(result[3]));
+            r.setCompratore_idCompratore(Integer.parseInt(result[4]));
+            r.setVenditore_idVenditore(Integer.parseInt(result[5]));
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
         }
 
-        String[] result = res.get(0);
-        r = new Feedback();
-        r.setIdFeedback(Integer.parseInt(result[0]));
-        r.setCommento(result[1]); //TODO: TEST STRING TYPE COHERENCY
-        r.setFeedback_idFeedback(Integer.parseInt(result[2]));
-        r.setBeni_idBeni(Integer.parseInt(result[3]));
-        r.setCompratore_idCompratore(Integer.parseInt(result[4]));
-        r.setVenditore_idVenditore(Integer.parseInt(result[5]));
 
         return r;
     }
