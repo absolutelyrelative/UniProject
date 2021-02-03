@@ -8,18 +8,24 @@ import javax.swing.*;
 import java.awt.*;
 
 public class View {
-    public static void main(String args[]) {
+    JFrame frame;
+    JTabbedPane tabbedPane;
+    loginstatusView loginstatus;
+    loginView login;
+    registerView register;
+
+    public View() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        JFrame frame = new JFrame("TabDemo");
+        frame = new JFrame("TabDemo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
+        tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
 
         //COMPONENTI
-        loginstatusView loginstatus = new loginstatusView();
+        loginstatus = new loginstatusView();
 
         //COMPONENTI DI JTabbedPane
-        loginView login = new loginView();
-        registerView register = new registerView();
+        login = new loginView();
+        register = new registerView();
         tabbedPane.addTab("Log in", login.returnPane());
         tabbedPane.addTab("Register", register.returnPane());
         //
@@ -29,11 +35,52 @@ public class View {
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
-        frame.getContentPane().add(loginstatus.returnPane(),BorderLayout.SOUTH);
+        frame.getContentPane().add(loginstatus.returnPane(), BorderLayout.SOUTH);
 
         //frame.setMinimumSize(new Dimension(100,100));
         frame.pack();
         frame.setVisible(true);
 
     }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public void setFrame(JFrame frame) {
+        this.frame = frame;
+    }
+
+    public JTabbedPane getTabbedPane() {
+        return tabbedPane;
+    }
+
+    public void setTabbedPane(JTabbedPane tabbedPane) {
+        this.tabbedPane = tabbedPane;
+    }
+
+    public loginstatusView getLoginstatus() {
+        return loginstatus;
+    }
+
+    public void setLoginstatus(loginstatusView loginstatus) {
+        this.loginstatus = loginstatus;
+    }
+
+    public loginView getLogin() {
+        return login;
+    }
+
+    public void setLogin(loginView login) {
+        this.login = login;
+    }
+
+    public registerView getRegister() {
+        return register;
+    }
+
+    public void setRegister(registerView register) {
+        this.register = register;
+    }
+
 }

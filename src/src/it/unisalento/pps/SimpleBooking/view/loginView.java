@@ -1,7 +1,10 @@
 package it.unisalento.pps.SimpleBooking.view;
 
+import it.unisalento.pps.SimpleBooking.Listener.loginListener;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class loginView extends JPanel {
     public JPanel c;
@@ -11,10 +14,13 @@ public class loginView extends JPanel {
     JTextField lg_username;
     JPasswordField lg_password;
     JButton lg_button = new JButton("Log in");
+    loginListener listener = new loginListener();
 
-    public loginView(){
+    public loginView() {
         c = new JPanel();
         c.setLayout(new FlowLayout());
+
+        //Components
         lg_username = new JTextField(10);
         lg_password = new JPasswordField(10);
         c.add(new JLabel("Username: "));
@@ -23,10 +29,14 @@ public class loginView extends JPanel {
         c.add(lg_password);
         c.add(lg_button);
 
+        //Listeners
+        lg_button.addActionListener(listener);
+        lg_button.setActionCommand(loginListener.login_cmd);
+
     }
 
     //PER GERARCHIA DI SWING
-    public JPanel returnPane(){
+    public JPanel returnPane() {
         return c;
     }
 }
