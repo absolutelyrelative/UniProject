@@ -11,6 +11,7 @@ public class loginstatusView extends JPanel {
         c = new JPanel();
         c.setLayout(new FlowLayout());
         status = new JLabel("Test.");
+        status.setForeground(Color.BLACK);
         c.add(status);
         c.setBackground(Color.gray);
     }
@@ -19,10 +20,15 @@ public class loginstatusView extends JPanel {
         return c;
     }
 
-    public JLabel returnStatusLabel(){
+    public JLabel returnStatusLabel() {
         return status;
     }
-    public void setStatusLabel(String text){
+
+    public void setStatusLabel(String text) {
         status.setText(text);
+    }
+
+    public void setStatusLabelColour(Color c){
+        status.setForeground(c);
     }
 }

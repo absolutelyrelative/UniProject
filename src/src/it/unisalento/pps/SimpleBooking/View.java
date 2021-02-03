@@ -28,7 +28,6 @@ public class View {
         register = new registerView();
         tabbedPane.addTab("Log in", login.returnPane());
         tabbedPane.addTab("Register", register.returnPane());
-        //
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
@@ -37,7 +36,6 @@ public class View {
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(loginstatus.returnPane(), BorderLayout.SOUTH);
 
-        //frame.setMinimumSize(new Dimension(100,100));
         frame.pack();
         frame.setVisible(true);
 

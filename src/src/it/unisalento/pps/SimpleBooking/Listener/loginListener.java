@@ -1,5 +1,6 @@
 package it.unisalento.pps.SimpleBooking.Listener;
 
+import java.awt.*;
 import java.awt.event.*;
 
 import it.unisalento.pps.SimpleBooking.View;
@@ -14,14 +15,13 @@ public class loginListener implements ActionListener {
         String com = e.getActionCommand();
         if (com.equals(login_cmd)) {
             login();
-        } else {
-
         }
     }
 
     private void login() {
         View v = new View();
         v.getLoginstatus().setStatusLabel("Pressed.");
+        v.getLoginstatus().setStatusLabelColour(Color.GREEN);
     }
 
 }
