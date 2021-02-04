@@ -7,10 +7,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class SessionHelper {
-    //TODO: TEST. Pleriminary tests done.
+    //TODO: TEST. Preliminary tests done.
     //Risulta utile avere un salvatore di sessione corrente. Il componente SessionHelper di Java mi risultava
     //un pochino poco-bene documentato, e altre librerie non mi sono piaciute. Quindi ecco qui un semplice
     //session object.
@@ -40,12 +41,17 @@ public class SessionHelper {
         deleteFile(attribute_isActive);
     }
 
-    public void getSession() {
+    public boolean getSession() {
         int user_id;
-        this.isActive = Integer.parseInt(readFile(attribute_isActive));
-        user_id = Integer.parseInt(readFile(attribute_Utente));
-        this.user = UtenteDAO.getInstance().findById(user_id);
-        //TODO: IMPLEMENT userType FIND
+        if (readFile(attribute_isActive).isEmpty() || readFile(attribute_isActive) == null || readFile(attribute_Utente).isEmpty() || readFile(attribute_Utente) == null) {
+            return false;
+        } else {
+            this.isActive = Integer.parseInt(readFile(attribute_isActive));
+            user_id = Integer.parseInt(readFile(attribute_Utente));
+            this.user = UtenteDAO.getInstance().findById(user_id);
+            //TODO: IMPLEMENT userType FIND
+            return true;
+        }
     }
 
     public boolean createFile(String name) { //0 - failure, 1 - success
@@ -102,6 +108,8 @@ public class SessionHelper {
             System.out.println("An error occurred." + e.getMessage());
             e.printStackTrace();
             return null;
+        } catch (NoSuchElementException e) { //Fai in modo che ritorna null se non esiste riga
+            return null;
         }
 
     }
@@ -117,14 +125,18 @@ public class SessionHelper {
 
     public Utente getUser() {
         this.getSession();
-        return user;
+        if (user != null) {
+            return user;
+        } else {
+            return null;
+        }
     }
 
     public void setUser(Utente user) {
         this.user = user;
     }
 
-    public int getUserType() {
+    public int getUserType() { //TODO: ADD DATA COHERENCY CHECK
         this.getSession();
         return userType;
     }

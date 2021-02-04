@@ -28,7 +28,7 @@ public class loginstatusView extends JPanel {
         status.setText(text);
     }
 
-    public void setStatusLabelColour(Color c){
+    public void setStatusLabelColour(Color c) {
         status.setForeground(c);
     }
 }

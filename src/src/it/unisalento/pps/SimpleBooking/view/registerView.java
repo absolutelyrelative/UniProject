@@ -13,7 +13,7 @@ public class registerView extends JPanel {
     JPasswordField rg_password;
     JButton rg_button = new JButton("Register");
 
-    public registerView(){
+    public registerView() {
         c = new JPanel();
         c.setLayout(new FlowLayout());
         rg_username = new JTextField(10);
@@ -30,7 +30,7 @@ public class registerView extends JPanel {
     }
 
     //PER GERARCHIA DI SWING
-    public JPanel returnPane(){
+    public JPanel returnPane() {
         return c;
     }
 }
