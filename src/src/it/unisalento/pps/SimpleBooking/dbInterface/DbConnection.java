@@ -32,8 +32,8 @@ public class DbConnection {
         try {
 
             // Carico il driver JDBC per la connessione con il database MySQL
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            db = DriverManager.getConnection("jdbc:mysql://cthars2.cjrf5d1p9pbq.us-east-1.rds.amazonaws.com:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente+"&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            Class.forName("com.mysql.jdbc.Driver");
+            db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente+"&useLegacyDatetimeCode=false&serverTimezone=UTC");
             connesso=true;
 
         } catch (Exception e) {
