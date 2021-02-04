@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Session {
-    //TODO: TEST
+    //TODO: TEST. Pleriminary tests done.
     //Risulta utile avere un salvatore di sessione corrente. Il componente SessionHelper di Java mi risultava
     //un pochino poco-bene documentato, e altre librerie non mi sono piaciute. Quindi ecco qui un semplice
     //session object.
@@ -59,7 +59,7 @@ public class Session {
                 return true;
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred." + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -73,7 +73,7 @@ public class Session {
             System.out.println("Successfully wrote to the file.");
             return true;
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred." + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -99,7 +99,7 @@ public class Session {
             myReader.close();
             return data;
         } catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred." + e.getMessage());
             e.printStackTrace();
             return null;
         }
