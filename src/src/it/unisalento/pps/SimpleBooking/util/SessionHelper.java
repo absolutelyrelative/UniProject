@@ -9,12 +9,12 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Session {
+public class SessionHelper {
     //TODO: TEST. Pleriminary tests done.
     //Risulta utile avere un salvatore di sessione corrente. Il componente SessionHelper di Java mi risultava
     //un pochino poco-bene documentato, e altre librerie non mi sono piaciute. Quindi ecco qui un semplice
     //session object.
-    private static Session instance;
+    private static SessionHelper instance;
     private final static String attribute_isActive = "isActive.txt";
     private final static String attribute_Utente = "Utente.txt";
     private int isActive = 0; //Default initialisation, 0 - inactive, 1 - active
@@ -22,9 +22,9 @@ public class Session {
     private int userType = 0; //0 - Normal user, 1 - Seller, 2 - Vendor, 3 - Administrator
 
     //synchronised fa in modo che solo 1 thread è permesso
-    public static synchronized Session getInstance() {
+    public static synchronized SessionHelper getInstance() {
         if (instance == null)
-            instance = new Session();
+            instance = new SessionHelper();
         return instance;
     }
 
