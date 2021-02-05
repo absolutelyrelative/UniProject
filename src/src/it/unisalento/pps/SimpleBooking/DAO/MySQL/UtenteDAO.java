@@ -6,6 +6,7 @@ import it.unisalento.pps.SimpleBooking.Model.Compratore;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -60,9 +61,16 @@ public class UtenteDAO implements IUtenteDAO {
         return utenti;
     }
 
-    //TESTED
+    //TODO: GET RID OR REFACTOR!!
     @Override
-    public void create(Utente a) {
+    public void create(Utente a){
+
+    }
+
+
+    //TODO: TEST WITH NEW DATA COHERENCY CHECK!!
+    public Result createWithResult(Utente a) {
+        Result r = new Result();
         //int idUtente = a.getId();
         String email = a.getEmail();
         String password = a.getPassword();
@@ -70,9 +78,21 @@ public class UtenteDAO implements IUtenteDAO {
 
         //DB COHERENCY CHECK
         if (email.length() > 45 || password.length() > 45 || username.length() > 45) {
-            //TODO: Throw error
+            r.setSuccess(false);
+            r.setMessage("Data coherency fail. Check email lenght <= 45, password length <= 45, username length < 45.");
+            return r;
         } else {
-            DbConnection.getInstance().eseguiAggiornamento("insert into Utente (email, password, username) values ('" + email + "', '" + password + "', '" + username + "');");
+            if(DbConnection.getInstance().eseguiAggiornamento("insert into Utente (email, password, username) values ('" + email + "', '" + password + "', '" + username + "');") == true){
+                r.setSuccess(true);
+                r.setMessage("Data inserted in DB.");
+                return r;
+            }
+            else{
+                r.setSuccess(false);
+                r.setMessage("DB Error Occurred.");
+                return r;
+            }
+
         }
     }
 
@@ -93,11 +113,11 @@ public class UtenteDAO implements IUtenteDAO {
         DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Utente WHERE idUtente = '" + String.valueOf(idUtente_td) + "';");
     }
 
-    //TODO: TEST!!
+    //[Tested with Log-in routine]
     public Utente findByUsername(String username) {
         Utente a = null;
 
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idUtente, email, password, username FROM Utente WHERE username = " + username + " LIMIT 1;");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idUtente, email, password, username FROM Utente WHERE username = '" + username + "' LIMIT 1;");
 
         try {
             String[] result = res.get(0);
@@ -118,11 +138,11 @@ public class UtenteDAO implements IUtenteDAO {
         return a;
     }
 
-    //TODO: TEST!!
+    //[Tested with Log-in routine]
     public Amministratore findIfUserIsAdmin(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idAmministratore, Utente_idUtente FROM Amministratore WHERE Utente_idUtente = " + String.valueOf(u.getId()) + " LIMIT 1;");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idAmministratore, Utente_idUtente FROM Amministratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
         if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
             return null;
         } else {
@@ -138,11 +158,11 @@ public class UtenteDAO implements IUtenteDAO {
         }
     }
 
-    //TODO: TEST!!
+    //[Tested with Log-in routine]
     public Compratore findIfUserIsCompratore(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idCompratore, Utente_idUtente FROM Compratore WHERE Utente_idUtente = " + String.valueOf(u.getId()) + " LIMIT 1;");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idCompratore, Utente_idUtente FROM Compratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
         if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
             return null;
         } else {
@@ -159,11 +179,11 @@ public class UtenteDAO implements IUtenteDAO {
         }
     }
 
-    //TODO: TEST!!
+    //[Tested with Log-in routine]
     public Venditore findIfUserIsVenditore(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idVenditore, Utente_idUtente FROM Venditore WHERE Utente_idUtente = " + String.valueOf(u.getId()) + " LIMIT 1;");
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idVenditore, Utente_idUtente FROM Venditore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
         if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
             return null;
         } else {
@@ -181,7 +201,7 @@ public class UtenteDAO implements IUtenteDAO {
 
     }
 
-    //TODO: TEST!!
+    //[Tested with Log-in routine]
     public boolean validateLogin(String username, String password) {
         Utente u;
         u = this.findByUsername(username);

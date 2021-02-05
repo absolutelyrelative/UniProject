@@ -10,6 +10,7 @@ public interface IBaseDAO<T> {
 
     //TODO: Deprecate T t creation / deletion methods?
 
+    //TODO: ADD RESULT RETURN!!
     void create(T t);
 
 
