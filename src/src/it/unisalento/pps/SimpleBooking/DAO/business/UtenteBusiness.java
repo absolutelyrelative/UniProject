@@ -21,6 +21,7 @@ public class UtenteBusiness {
 
 
     //[Tested, works in all three cases.]
+    //Uses HASHed password
     public Result login(String username, String password) {
         Result r = new Result();
         int hash = new HashGenerator().returnHash(password);
@@ -48,7 +49,7 @@ public class UtenteBusiness {
     }
 
     //TODO: TEST
-    //TODO: IMPLEMENT PASSWORD HASH
+    //Uses HASHed password
     public Result register(String username, String email) {
         Result r = new Result();
         Utente u = UtenteDAO.getInstance().findByUsername(username);
@@ -60,14 +61,16 @@ public class UtenteBusiness {
                 //Generate password and send it via e-mail if user creation is successful
                 PasswordGenerator p = new PasswordGenerator();
                 String password = p.generatePassword();
+                int hash = new HashGenerator().returnHash(password);
+                String realpassword = String.valueOf(hash);
                 Utente a = new Utente();
                 a.setUsername(username);
-                a.setPassword(password);
+                a.setPassword(realpassword);
                 a.setEmail(email);
                 Result insertion = new Result();
                 insertion = UtenteDAO.getInstance().create(a);
                 if (insertion.isSuccess() == true) { //No error occurred, send e-mail with password.
-                    new MailHelper().send(email, "SimpleBooking: La tua nuova password", "Ciao.<br >La tua nuova password è: " + password);
+                    new MailHelper().send(email, "SimpleBooking: La tua nuova password", "Ciao.<br >La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
                     r.setSuccess(true);
                     r.setMessage("Utente added succesfully.");
                     return r;

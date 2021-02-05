@@ -3,10 +3,7 @@ package it.unisalento.pps.SimpleBooking;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.UtenteBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
-import it.unisalento.pps.SimpleBooking.util.MailHelper;
-import it.unisalento.pps.SimpleBooking.util.PasswordGenerator;
-import it.unisalento.pps.SimpleBooking.util.Result;
-import it.unisalento.pps.SimpleBooking.util.SessionHelper;
+import it.unisalento.pps.SimpleBooking.util.*;
 
 public class App {
     public static void main(String[] args) {
@@ -19,7 +16,7 @@ public class App {
         //Session.getInstance().closeSession();
         //System.out.println("isActive: " + SessionHelper.getInstance().isActive());
         //new MailHelper().send("paolo.danese@studenti.unisalento.it", "oggetto", "msg di test");
-        Result r = UtenteBusiness.getInstance().login("","");
-        System.out.println(r.isSuccess() + r.getMessage() + r.getType());
+        //Result r = UtenteBusiness.getInstance().login("","");
+        //System.out.println(r.isSuccess() + r.getMessage() + r.getType());
     }
 }

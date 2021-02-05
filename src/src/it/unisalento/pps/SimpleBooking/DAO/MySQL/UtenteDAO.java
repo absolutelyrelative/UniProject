@@ -203,4 +203,20 @@ public class UtenteDAO implements IUtenteDAO {
             return false;
         }
     }
+
+    //TODO: TEST!!
+    public Result updatePassword(Utente u, String password){
+        Result r = new Result();
+        String query = "UPDATE Utente SET password = '" + password + "' WHERE idUtente = '" + String.valueOf(u.getId()) + "';";
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation == true) {
+            r.setMessage("Password updated.");
+            r.setSuccess(true);
+            return r;
+        } else {
+            r.setMessage("Couldn't update password.");
+            r.setSuccess(false);
+            return r;
+        }
+    }
 }
