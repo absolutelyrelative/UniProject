@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IVenditoreDAO;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -59,27 +60,34 @@ public class VenditoreDAO implements IVenditoreDAO {
 
     //TODO: TEST
     @Override
-    public void create(Venditore a) {
+    public Result create(Venditore a) {
+        Result r = new Result();
         int idUtente = a.getId();
 
-        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Venditore(Utente_idUtente) VALUES('" + idUtente + "');");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Venditore(Utente_idUtente) VALUES('" + idUtente + "');");
+        if (operation == true) {
+            r.setSuccess(true);
+            return r;
+        } else {
+            r.setSuccess(false);
+            return r;
+        }
 
     }
 
-    @Override
-    public void create(int id) {
-        //UNUSED
-    }
-
-    @Override
-    public void delete(int id) {
-        //UNUSED
-    }
 
     //TODO: TEST
     @Override
-    public void delete(Venditore a) {
+    public Result delete(Venditore a) {
+        Result r = new Result();
         int idVenditore_td = a.getIdVenditore();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Venditore WHERE idVenditore = '" + idVenditore_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Venditore WHERE idVenditore = '" + idVenditore_td + "';");
+        if (operation == true) {
+            r.setSuccess(true);
+            return r;
+        } else {
+            r.setSuccess(false);
+            return r;
+        }
     }
 }

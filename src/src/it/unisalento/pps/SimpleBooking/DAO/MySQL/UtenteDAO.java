@@ -61,15 +61,9 @@ public class UtenteDAO implements IUtenteDAO {
         return utenti;
     }
 
-    //TODO: GET RID OR REFACTOR!!
-    @Override
-    public void create(Utente a){
-
-    }
-
 
     //TODO: TEST WITH NEW DATA COHERENCY CHECK!!
-    public Result createWithResult(Utente a) {
+    public Result create(Utente a) {
         Result r = new Result();
         //int idUtente = a.getId();
         String email = a.getEmail();
@@ -82,12 +76,11 @@ public class UtenteDAO implements IUtenteDAO {
             r.setMessage("Data coherency fail. Check email lenght <= 45, password length <= 45, username length < 45.");
             return r;
         } else {
-            if(DbConnection.getInstance().eseguiAggiornamento("insert into Utente (email, password, username) values ('" + email + "', '" + password + "', '" + username + "');") == true){
+            if (DbConnection.getInstance().eseguiAggiornamento("insert into Utente (email, password, username) values ('" + email + "', '" + password + "', '" + username + "');") == true) {
                 r.setSuccess(true);
                 r.setMessage("Data inserted in DB.");
                 return r;
-            }
-            else{
+            } else {
                 r.setSuccess(false);
                 r.setMessage("DB Error Occurred.");
                 return r;
@@ -96,21 +89,20 @@ public class UtenteDAO implements IUtenteDAO {
         }
     }
 
-    @Override
-    public void create(int id) {
-        //UNUSED
-    }
-
-    @Override
-    public void delete(int id) {
-        //UNUSED
-    }
 
     //Cascade delete tested successful on venditore
     @Override
-    public void delete(Utente a) {
+    public Result delete(Utente a) {
+        Result r = new Result();
         int idUtente_td = a.getId();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Utente WHERE idUtente = '" + String.valueOf(idUtente_td) + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Utente WHERE idUtente = '" + String.valueOf(idUtente_td) + "';");
+        if (operation == true) {
+            r.setSuccess(true);
+            return r;
+        } else {
+            r.setSuccess(false);
+            return r;
+        }
     }
 
     //[Tested with Log-in routine]

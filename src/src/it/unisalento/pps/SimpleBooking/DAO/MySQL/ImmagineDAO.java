@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.IImmagineDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -76,30 +77,35 @@ public class ImmagineDAO implements IImmagineDAO {
 
     //TODO: Test
     @Override
-    public void create(Immagine t) {
+    public Result create(Immagine t) {
+        Result r = new Result();
         //int IdImmagine = t.getIdImmagine();
         byte[] blob = t.getData();
         int IdBeni = t.getBeni_idBeni();
 
-        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(Data, Beni_idBeni) VALUES('" + blob
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(Data, Beni_idBeni) VALUES('" + blob
                 + "','" + IdBeni + "';"); //TODO: Test
-
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
 
     @Override
-    public void delete(Immagine t) {
+    public Result delete(Immagine t) {
+        Result r = new Result();
         int IdImmagine_td = t.getIdImmagine();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Immagine WHERE idImmagine = '" + IdImmagine_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Immagine WHERE idImmagine = '" + IdImmagine_td + "';");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
-    @Override
-    public void create(int id) {
 
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
 }

@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.IRatingDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Rating;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -58,34 +59,39 @@ public class RatingDAO implements IRatingDAO {
 
     //TODO: TEST
     @Override
-    public void create(Rating r) {
+    public Result create(Rating r) {
+        Result c = new Result();
         //int idRating = r.getIdRating();
         int Rating = r.getIdRating();
         int Beni_idBeni = r.getBeni_idBeni();
         int Compratore_idCompratore = r.getCompratore_idCompratore();
         String query = "INSERT INTO Rating(Rating, Beni_idBeni, Compratore_idCompratore VALUES('" + Rating + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "');";
-        DbConnection.getInstance().eseguiAggiornamento(query);
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation) {
+            c.setSuccess(true);
+        } else {
+            c.setSuccess(false);
+        }
+        return c;
     }
 
 
     //TODO: TEST
     @Override
-    public void delete(Rating r) {
+    public Result delete(Rating r) {
+        Result c = new Result();
         int idRating_td = r.getIdRating();
         String query = "DELETE FROM Rating WHERE idRating = '" + idRating_td + "';";
-        DbConnection.getInstance().eseguiAggiornamento(query);
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation) {
+            c.setSuccess(true);
+        } else {
+            c.setSuccess(false);
+        }
+        return c;
 
     }
 
-    @Deprecated
-    public void create(int id) {
-
-    }
-
-    @Deprecated
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     @Override

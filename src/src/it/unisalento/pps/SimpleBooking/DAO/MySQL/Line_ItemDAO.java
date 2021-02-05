@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.ILine_ItemDAO;
 import it.unisalento.pps.SimpleBooking.Model.Line_Item;
 import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,8 @@ public class Line_ItemDAO implements ILine_ItemDAO {
 
     //TODO: TEST
     @Override
-    public void create(Line_Item t) {
+    public Result create(Line_Item t) {
+        Result r = new Result();
         //int idLine_Item = t.getIdLine();
         int Ordine_idOrdine = t.getOrdine_idOrdine();
         int Beni_idBeni = t.getBeni_idBeni();
@@ -75,31 +77,32 @@ public class Line_ItemDAO implements ILine_ItemDAO {
                 "'" + Data_sel_Inizio + "','" + Data_sel_Fine + "','" + Costo + "');";
 
 
-        DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
 
     //TODO: TEST
     @Override
-    public void delete(Line_Item t) {
+    public Result delete(Line_Item t) {
+        Result r = new Result();
         int idLine_Item_td = t.getIdLine();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Line_Item WHERE idLine_Item = '" + idLine_Item_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Line_Item WHERE idLine_Item = '" + idLine_Item_td + "';");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
-
-    @Deprecated
-    @Override
-    public void create(int id) {
-
-    }
-
-    @Deprecated
-    @Override
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     //UNUSED?

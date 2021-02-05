@@ -5,6 +5,7 @@ import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -73,7 +74,8 @@ public class BeniDAO implements IBeniDAO {
 
     //TODO: CALCULATE COSTS PM,PW,PD HERE. ON SETTING, VISUALIZE ERROR IF MORE THAN ONE INTERVAL CHOSEN BY USER
     @Override
-    public void create(Beni b) {
+    public Result create(Beni b) {
+        Result r = new Result();
         float Costo_pd = b.getCosto_pd();
         float Costo_pw = b.getCosto_pw();
         float Costo_pm = b.getCosto_pm();
@@ -112,29 +114,31 @@ public class BeniDAO implements IBeniDAO {
                 ", GPS_Lat, GPS_Lon, Addr, Venditore_idVenditore, Tipo_Bene_idTipo_Bene, Stato_Bene, Pubblicazione, " +
                 "Amministratore_idAmministratore) VALUES('" + nome + "','" + descrizione + "','" + Data_Inizio + "','" + Data_Fine + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
                 "'" + Venditore_idVenditore + "','" + Tipo_Bene_idTipo_Bene + "','" + Stato_Bene + "','" + Pubblicazione + "','" + Amministratore_idAmministratore + "');";
-        DbConnection.getInstance().eseguiAggiornamento(query);
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
     //TODO: TEST 'ON DELETE CASCADE' SETTING ON SQL
     @Override
-    public void delete(Beni b) {
+    public Result delete(Beni b) {
+        Result r = new Result();
         int idBeni_td = b.getIdBeni();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Beni WHERE idBeni = '" + idBeni_td + "';"); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Beni WHERE idBeni = '" + idBeni_td + "';"); //TODO: Test
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
-    @Override
-    @Deprecated
-    public void create(int id) {
-
-    }
-
-    @Override
-    @Deprecated
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     @Override

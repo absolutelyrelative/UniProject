@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IPagamentoDAO;
 import it.unisalento.pps.SimpleBooking.Model.Pagamento;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -62,7 +63,8 @@ public class PagamentoDAO implements IPagamentoDAO {
 
     //TODO: TEST
     @Override
-    public void create(Pagamento t) {
+    public Result create(Pagamento t) {
+        Result r = new Result();
         //int idLine_Item = t.getIdLine();
         int Stato = t.getStato();
         int Ordine_idOrdine = t.getOrdine_idOrdine();
@@ -73,7 +75,13 @@ public class PagamentoDAO implements IPagamentoDAO {
 
         String query = "INSERT INTO Pagamento(Stato, Ordine_idOrdine, Numero_Carta, CVV, PIN, Importo) VALUES('" + Stato + "','" + Ordine_idOrdine + "','" + Numero_Carta + "','" + CVV + "','" + PIN + "','" + importo + "');";
 
-        DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
@@ -81,24 +89,19 @@ public class PagamentoDAO implements IPagamentoDAO {
     //TODO: TEST
     //TODO: TEST CASCADE DELETE OF ORDINE -> PAGAMENTO
     @Override
-    public void delete(Pagamento t) {
+    public Result delete(Pagamento t) {
+        Result r = new Result();
         int idPagamento_td = t.getIdPagamento();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Pagamento WHERE idPagamento = '" + idPagamento_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Pagamento WHERE idPagamento = '" + idPagamento_td + "';");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
-
-    @Deprecated
-    @Override
-    public void create(int id) {
-
-    }
-
-    @Deprecated
-    @Override
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     @Override

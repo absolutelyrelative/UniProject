@@ -55,8 +55,8 @@ public class UtenteBusiness {
 
         //Phase 1 - Check if email is *actually* an email
         EmailValidator e = new EmailValidator();
-        if(e.validateEmail(email) == true){ //Phase 2 - check if username already exists
-            if(u == null || u.getUsername() == null){ //Phase 2 passed, username not taken
+        if (e.validateEmail(email) == true) { //Phase 2 - check if username already exists
+            if (u == null || u.getUsername() == null) { //Phase 2 passed, username not taken
                 //Generate password and send it via e-mail if user creation is successful
                 PasswordGenerator p = new PasswordGenerator();
                 String password = p.generatePassword();
@@ -65,14 +65,13 @@ public class UtenteBusiness {
                 a.setPassword(password);
                 a.setEmail(email);
                 Result insertion = new Result();
-                insertion = UtenteDAO.getInstance().createWithResult(a);
-                if(insertion.isSuccess() == true){ //No error occurred, send e-mail with password.
+                insertion = UtenteDAO.getInstance().create(a);
+                if (insertion.isSuccess() == true) { //No error occurred, send e-mail with password.
                     new MailHelper().send(email, "SimpleBooking: La tua nuova password", "Ciao.<br >La tua nuova password è: " + password);
                     r.setSuccess(true);
                     r.setMessage("Utente added succesfully.");
                     return r;
-                }
-                else{
+                } else {
                     r.setSuccess(false);
                     r.setMessage("Unknown error occurred upon utente creation.");
                     r.setType(0x01);
@@ -80,14 +79,12 @@ public class UtenteBusiness {
                 }
 
 
-            }
-            else{ //Phase 2 failed, username taken
+            } else { //Phase 2 failed, username taken
                 r.setSuccess(false);
                 r.setMessage("Username taken.");
                 return r;
             }
-        }
-        else{ //Phase 1 failed - email is not an email.
+        } else { //Phase 1 failed - email is not an email.
             r.setSuccess(false);
             r.setMessage("Insert a *real* E-Mail.");
             return r;

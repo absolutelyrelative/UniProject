@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.IOrdineDAO;
 import it.unisalento.pps.SimpleBooking.Model.Line_Item;
 import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -60,33 +61,38 @@ public class OrdineDAO implements IOrdineDAO {
 
     //TODO: Test
     @Override
-    public void create(Ordine t) {
+    public Result create(Ordine t) {
+        Result r = new Result();
         //int IdImmagine = t.getIdImmagine();
         int Compratore_idCompratore = t.getCompratore_idCompratore();
         float Importo_Tot = 0; //INIITIAL VALUE, UPDATE WITH closeOrderGetCumulativeCost
 
-        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Ordine(Compratore_idCompratore, Importo_Tot) VALUES('" + Compratore_idCompratore
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Ordine(Compratore_idCompratore, Importo_Tot) VALUES('" + Compratore_idCompratore
                 + "','" + Importo_Tot + "';"); //TODO: Test
-
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
 
     @Override
-    public void delete(Ordine t) {
+    public Result delete(Ordine t) {
+        Result r = new Result();
+
         int IdOrdine_td = t.getIdOrdine();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Ordine WHERE idOrdine = '" + IdOrdine_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Ordine WHERE idOrdine = '" + IdOrdine_td + "';");
+
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
-
-    @Override
-    public void create(int id) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     @Override

@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.Interface.IFeedbackDAO;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Feedback;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,8 @@ public class FeedbackDAO implements IFeedbackDAO {
 
     //TODO: TEST
     @Override
-    public void create(Feedback r) {
+    public Result create(Feedback r) {
+        Result c = new Result();
         //int idFeedback = r.getIdFeedback();
         String Commento = r.getCommento(); //TODO: TEST STRING TYPE COHERENCY
         int Feedback_idFeedback = r.getFeedback_idFeedback(); //TODO: TEST IF NULL VALUE
@@ -68,27 +70,30 @@ public class FeedbackDAO implements IFeedbackDAO {
         int Compratore_idCompratore = r.getCompratore_idCompratore();
         int Venditore_idVenditore = r.getVenditore_idVenditore();
         String query = "INSERT INTO Feedback(Commento, Feedback_idFeedback, Beni_idBeni, Compratore_idCompratore, Venditore_idVenditore) VALUES ('" + Commento + "','" + Feedback_idFeedback + "','" + Beni_idBeni + "','" + Compratore_idCompratore + "','" + Venditore_idVenditore + "');";
-        DbConnection.getInstance().eseguiAggiornamento(query);
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation) {
+            c.setSuccess(true);
+        } else {
+            c.setSuccess(false);
+        }
+        return c;
     }
 
 
     //TODO: TEST
     //TODO: TEST CASCADE DELETE OF CHILD/PARENT FEEDBACK
     @Override
-    public void delete(Feedback r) {
+    public Result delete(Feedback r) {
+        Result c = new Result();
         int idFeedback_td = r.getIdFeedback();
         String query = "DELETE FROM Feedback WHERE idFeedback = '" + idFeedback_td + "';";
-        DbConnection.getInstance().eseguiAggiornamento(query);
-
-    }
-
-    @Deprecated
-    public void create(int id) {
-
-    }
-
-    @Deprecated
-    public void delete(int id) {
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
+        if (operation) {
+            c.setSuccess(true);
+        } else {
+            c.setSuccess(false);
+        }
+        return c;
 
     }
 

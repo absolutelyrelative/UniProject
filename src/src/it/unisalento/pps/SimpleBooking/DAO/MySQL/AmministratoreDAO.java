@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.IAmministratoreDAO;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -60,31 +61,36 @@ public class AmministratoreDAO implements IAmministratoreDAO {
 
     //In order to create Amministratore, you must first create a user. (?)
     @Override
-    public void create(Amministratore a) {
+    public Result create(Amministratore a) {
         //TODO: IMPLEMENT
         //int IdAdmin = a.getIdAmministratore();
         //int IdUtente = a.getUtente_idUtente();
         //create(IdAdmin,IdUtente);
-
+        return null;
     }
 
-    @Override
-    public void create(int id) {
-
-    }
 
     @Override
-    public void delete(int id) {
-
-    }
-
-    @Override
-    public void delete(Amministratore a) {
+    public Result delete(Amministratore a) {
+        Result r = new Result();
         int idAmministratore_td = a.getIdAmministratore();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Amministratore WHERE idAmministratore = '" + idAmministratore_td + "';"); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Amministratore WHERE idAmministratore = '" + idAmministratore_td + "';"); //TODO: Test
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
-    public void create(int IdAdmin, int IdUtente) {
-        DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(idAmministratore,Utente_idUtente) VALUES('" + IdAdmin + "','" + IdUtente + "');");
+    public Result create(int IdAdmin, int IdUtente) {
+        Result r = new Result();
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(idAmministratore,Utente_idUtente) VALUES('" + IdAdmin + "','" + IdUtente + "');");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 }

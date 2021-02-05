@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.DAO.MySQL;
 import it.unisalento.pps.SimpleBooking.DAO.Interface.ITipo_BeneDAO;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -59,7 +60,8 @@ public class Tipo_BeneDAO implements ITipo_BeneDAO {
 
     //TODO: TEST
     @Override
-    public void create(Tipo_Bene t) {
+    public Result create(Tipo_Bene t) {
+        Result r = new Result();
         //int idLine_Item = t.getIdLine();
         String nome = t.getNome();
         int Amministratore_idAmministratore = t.getAmministratore_idAmministratore();
@@ -67,32 +69,33 @@ public class Tipo_BeneDAO implements ITipo_BeneDAO {
         String query = "INSERT INTO Tipo_Bene(Nome, Amministratore_idAmministratore) VALUES('" + nome + "','" + Amministratore_idAmministratore + "');";
 
 
-        DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento(query); //TODO: Test
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
 
     //TODO: TEST
-    //TODO: TEST CASCADE DELETE OF TIPO_BENE -> BENE
+    //TODO: TEST SQL'S CASCADE DELETE OF TIPO_BENE -> BENE
     @Override
-    public void delete(Tipo_Bene t) {
+    public Result delete(Tipo_Bene t) {
+        Result r = new Result();
         int idTipo_Bene_td = t.getIdTipo();
-        DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Tipo_Bene WHERE idTipo_Bene = '" + idTipo_Bene_td + "';");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Tipo_Bene WHERE idTipo_Bene = '" + idTipo_Bene_td + "';");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
 
     }
 
-
-    @Deprecated
-    @Override
-    public void create(int id) {
-
-    }
-
-    @Deprecated
-    @Override
-    public void delete(int id) {
-
-    }
 
     //TODO: TEST
     @Override
