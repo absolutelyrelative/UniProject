@@ -48,7 +48,12 @@ public class UtenteBusiness {
         }
     }
 
-    //TODO: TEST
+    //TODO: TEST!!
+    public void logout(){
+        SessionHelper.getInstance().closeSession();
+    }
+
+    //TODO: TEST!!
     //Uses HASHed password
     public Result register(String username, String email) {
         Result r = new Result();
@@ -92,6 +97,74 @@ public class UtenteBusiness {
             r.setMessage("Insert a *real* E-Mail.");
             return r;
         }
+    }
+
+    //TODO: TEST!!
+    public Result changePassword(String username, String oldpassword, String newpassword){
+        Result r = new Result();
+        Utente u = UtenteDAO.getInstance().findByUsername(username);
+        int hash_newPw = new HashGenerator().returnHash(newpassword);
+        int hash_oldPw = new HashGenerator().returnHash(oldpassword);
+
+        //Phase 1 - check if old password inserted matches with password in db
+        if(String.valueOf(hash_oldPw) == u.getPassword() || String.valueOf(hash_oldPw).equals(u.getPassword())){
+            //Phase 2 - now check if old password is the same as new password
+            if(String.valueOf(hash_oldPw) == String.valueOf(hash_newPw) || String.valueOf(hash_oldPw).equals(String.valueOf(hash_newPw))){
+                //The passwords are the same, show error message
+                r.setSuccess(false);
+                r.setMessage("New password cannot be the same as old password.");
+                return r;
+            }
+            else{
+                //Success, passwords differ
+                Result operation = UtenteDAO.getInstance().updatePassword(u,String.valueOf(hash_newPw));
+                if(operation.isSuccess() == true){
+                    //No problem in updating password, continue.
+                    r.setSuccess(true);
+                    r.setMessage("Password updated. Please Log-in with your new credentials.");
+                    this.logout();
+                    return r;
+                }
+                else{
+                    r.setSuccess(false);
+                    r.setMessage("Problem updating password query. Check with administrator.");
+                    r.setType(0x01);
+                    return r;
+                }
+            }
+        }
+        else{
+            r.setSuccess(false);
+            r.setMessage("Old password doesn't match. Check your password or request a reset.");
+            return r;
+        }
+
+    }
+
+    //TODO: TEST!!
+    public Result requestPasswordReset(String username){
+        Result r = new Result();
+        Utente u = UtenteDAO.getInstance().findByUsername(username);
+        //Generate password and send it via e-mail if user creation is successful
+        PasswordGenerator p = new PasswordGenerator();
+        String password = p.generatePassword();
+        int hash = new HashGenerator().returnHash(password);
+        String realpassword = String.valueOf(hash);
+
+        Result insertion = new Result();
+        insertion = UtenteDAO.getInstance().updatePassword(u,realpassword);
+        if (insertion.isSuccess() == true) { //No error occurred, send e-mail with password.
+            new MailHelper().send(u.getEmail(), "SimpleBooking: Richiesta di reset della password", "Ciao.<br >La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
+            r.setSuccess(true);
+            r.setMessage("Password reset succesfully.");
+            return r;
+        } else {
+            r.setSuccess(false);
+            r.setMessage("Unknown error occurred upon password reset.");
+            r.setType(0x01);
+            return r;
+        }
+
     }
 
 }
