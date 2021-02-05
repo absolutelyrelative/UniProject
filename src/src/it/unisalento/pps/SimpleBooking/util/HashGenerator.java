@@ -7,6 +7,8 @@ public class HashGenerator {
     //(Se due String a & b, sono tali che a.equals(b), allora i loro hash saranno uguali.
     private int hash;
 
+    public HashGenerator(){}
+
     public int returnHash(String password) {
         hash = password.hashCode();
         return hash;
