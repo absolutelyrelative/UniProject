@@ -59,14 +59,19 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         return amministratori;
     }
 
+    //TODO: TEST!!
     //In order to create Amministratore, you must first create a user. (?)
     @Override
     public Result create(Amministratore a) {
-        //TODO: IMPLEMENT
-        //int IdAdmin = a.getIdAmministratore();
-        //int IdUtente = a.getUtente_idUtente();
-        //create(IdAdmin,IdUtente);
-        return null;
+        Result r = new Result();
+        int IdUtente = a.getUtente_idUtente();
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(Utente_idUtente) VALUES('" + IdUtente + ");");
+        if (operation) {
+            r.setSuccess(true);
+        } else {
+            r.setSuccess(false);
+        }
+        return r;
     }
 
 
@@ -83,6 +88,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         return r;
     }
 
+    //TODO: REMOVE, NOT USED
     public Result create(int IdAdmin, int IdUtente) {
         Result r = new Result();
         boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(idAmministratore,Utente_idUtente) VALUES('" + IdAdmin + "','" + IdUtente + "');");
