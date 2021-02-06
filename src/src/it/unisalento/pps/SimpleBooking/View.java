@@ -34,7 +34,9 @@ public class View {
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(loginstatus.returnPane(), BorderLayout.SOUTH);
 
-        frame.pack();
+        frame.setResizable(false);
+        frame.setSize(800,600);
+        //frame.pack();
         frame.setVisible(true);
 
     }

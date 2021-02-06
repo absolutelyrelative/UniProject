@@ -53,7 +53,9 @@ public class UtenteBusiness {
         SessionHelper.getInstance().closeSession();
     }
 
-    //TODO: TEST!!
+    //Sembra funzionare. Controlla HASH match.
+    //Usernames matching -> Error
+    //Emails matching -> No error. Should this be fixed?
     //Uses HASHed password
     public Result register(String username, String email) {
         Result r = new Result();
