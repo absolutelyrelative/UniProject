@@ -6,6 +6,7 @@ import it.unisalento.pps.SimpleBooking.Listener.loginViewListener;
 import javax.swing.*;
 import java.awt.*;
 
+//TODO: RETURN TO JPanel ?
 public class addadminView extends JFrame {
     //Non è corretto prendere il parent object di un child object in questo modo
     //ma lo è stato fatto temporaneamente
