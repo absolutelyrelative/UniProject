@@ -15,7 +15,6 @@ public class AmministratoreBusiness {
         return instance;
     }
 
-    //TODO: TEST!!
     //Gli amministratori possono creare altri amministratori
     public Result createAmministratore(String username) {
         Result r = new Result();
@@ -40,7 +39,6 @@ public class AmministratoreBusiness {
         return r;
     }
 
-    //TODO: TEST!!
     public Result deleteAmministratore(String username) {
         Result r = new Result();
         Utente u = UtenteDAO.getInstance().findByUsername(username); //This is probably redundant

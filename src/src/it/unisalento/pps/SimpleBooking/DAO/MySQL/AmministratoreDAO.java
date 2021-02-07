@@ -79,7 +79,7 @@ public class AmministratoreDAO implements IAmministratoreDAO {
     public Result delete(Amministratore a) {
         Result r = new Result();
         int idAmministratore_td = a.getIdAmministratore();
-        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Amministratore WHERE idAmministratore = '" + idAmministratore_td + "';"); //TODO: Test
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("DELETE FROM Amministratore WHERE idAmministratore = '" + idAmministratore_td + "';");
         if (operation) {
             r.setSuccess(true);
         } else {

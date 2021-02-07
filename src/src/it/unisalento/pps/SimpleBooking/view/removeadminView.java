@@ -1,21 +1,20 @@
 package it.unisalento.pps.SimpleBooking.view;
 
 import it.unisalento.pps.SimpleBooking.Listener.addadminViewListener;
-import it.unisalento.pps.SimpleBooking.Listener.loginViewListener;
 
 import javax.swing.*;
 import java.awt.*;
 
 //TODO: RETURN TO JPanel ?
-public class addadminView extends JFrame {
+public class removeadminView extends JFrame {
     //Non è corretto prendere il parent object di un child object in questo modo
     //ma lo è stato fatto temporaneamente
     //JPanel Card = this;
     JTextField username;
-    JButton button = new JButton("Aggiungi Admin");
-    JLabel add = new JLabel("Username dell'admin da aggiungere: ");
+    JButton button = new JButton("Rimuovi Admin");
+    JLabel add = new JLabel("Username dell'admin da rimuovere: ");
 
-    public addadminView() {
+    public removeadminView() {
         setLayout(new BorderLayout());
         setForeground(new Color(86, 214, 120));
         username = new JTextField(10);
@@ -25,8 +24,8 @@ public class addadminView extends JFrame {
         center.add(username);
         center.add(button);
 
-        getContentPane().add(north,BorderLayout.NORTH);
-        getContentPane().add(center,BorderLayout.CENTER);
+        getContentPane().add(north, BorderLayout.NORTH);
+        getContentPane().add(center, BorderLayout.CENTER);
 
         //add(add);
         //add(username);

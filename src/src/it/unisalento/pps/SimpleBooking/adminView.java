@@ -11,6 +11,7 @@ public class adminView {
     adminstatusView adminstatus = new adminstatusView();
     thirdView tV = new thirdView();
     addadminView aaV = new addadminView();
+    removeadminView raV = new removeadminView();
 
     public adminView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -21,7 +22,7 @@ public class adminView {
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Third Panel",tV);
         tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
-
+        tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);

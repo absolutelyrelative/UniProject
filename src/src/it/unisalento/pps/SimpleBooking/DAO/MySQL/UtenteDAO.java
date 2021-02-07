@@ -120,9 +120,11 @@ public class UtenteDAO implements IUtenteDAO {
             a.setUsername(result[3]);
         } catch (RuntimeException e) {
             System.out.println(e.toString());
+            return null;
         } finally {
             if (res.size() != 1) {
                 System.out.println("Out of bounds.\n");
+                return null;
             }
         }
 
@@ -134,19 +136,25 @@ public class UtenteDAO implements IUtenteDAO {
     public Amministratore findIfUserIsAdmin(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idAmministratore, Utente_idUtente FROM Amministratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
-        if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
-            return null;
+        if (u != null) {    //TODO: ADD CHECKS TO SIMILAR CASES!!!
+            ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idAmministratore, Utente_idUtente FROM Amministratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
+            if (res.size() == 0 || res == null || res.isEmpty() || u == null) {//TODO: CHECK FOR REDUNDANCY
+                return null;
+            } else if (res.size() != 0) {
+                String[] result = res.get(0);
+                Amministratore a = new Amministratore();
+                a.setIdAmministratore(Integer.parseInt(result[0]));
+                a.setUtente_idUtente(Integer.parseInt(result[1]));
+                a.setIdUtente(Integer.parseInt(result[1]));
+                a.setEmail(u.getEmail());
+                a.setPassword(u.getPassword());
+                a.setUsername(u.getUsername());
+                return a;
+            } else {
+                return null;
+            }
         } else {
-            String[] result = res.get(0);
-            Amministratore a = new Amministratore();
-            a.setIdAmministratore(Integer.parseInt(result[0]));
-            a.setUtente_idUtente(Integer.parseInt(result[1]));
-            a.setIdUtente(Integer.parseInt(result[1]));
-            a.setEmail(u.getEmail());
-            a.setPassword(u.getPassword());
-            a.setUsername(u.getUsername());
-            return a;
+            return null;
         }
     }
 
@@ -205,7 +213,7 @@ public class UtenteDAO implements IUtenteDAO {
     }
 
     //TODO: TEST!!
-    public Result updatePassword(Utente u, String password){
+    public Result updatePassword(Utente u, String password) {
         Result r = new Result();
         String query = "UPDATE Utente SET password = '" + password + "' WHERE idUtente = '" + String.valueOf(u.getId()) + "';";
         boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
