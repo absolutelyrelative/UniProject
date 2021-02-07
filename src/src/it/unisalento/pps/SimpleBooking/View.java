@@ -23,8 +23,8 @@ public class View {
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Log in", login.returnPane());
-        tabbedPane.addTab("Register", register.returnPane());
+        tabbedPane.addTab("Log in", login);
+        tabbedPane.addTab("Register", register);
         tabbedPane.addTab("Third Panel",tV);
 
 
@@ -32,10 +32,12 @@ public class View {
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
-        frame.getContentPane().add(loginstatus.returnPane(), BorderLayout.SOUTH);
+        frame.getContentPane().add(loginstatus, BorderLayout.SOUTH);
 
         frame.setResizable(false);
         frame.setSize(800,600);
+        frame.validate();
+        frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
 

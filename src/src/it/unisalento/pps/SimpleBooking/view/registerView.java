@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class registerView extends JPanel {
-    public JPanel c;
     //Non è corretto prendere il parent object di un child object in questo modo
     //ma lo è stato fatto temporaneamente
     //JPanel Card = this;
@@ -15,24 +14,23 @@ public class registerView extends JPanel {
     JButton rg_button = new JButton("Register");
 
     public registerView() {
-        c = new JPanel();
-        c.setLayout(new FlowLayout());
+        FlowLayout f = new FlowLayout(FlowLayout.CENTER);
+        f.setHgap(10);
+        f.setVgap(10);
+        setLayout(f);
+        setBackground(new Color(200, 221, 242));
+        add(new JLabel("Username: "));
+        add(rg_username);
+        add(new JLabel("E-Mail: "));
+        add(rg_email);
+        add(rg_button);
+        add(new JLabel("Enter your new username & E-Mail. A password will be e-mailed to you, which you can later change or reset."));
 
-        c.add(new JLabel("Username: "));
-        c.add(rg_username);
-        c.add(new JLabel("E-Mail: "));
-        c.add(rg_email);
-        c.add(rg_button);
-
-        registerViewListener listener = new registerViewListener(rg_username,rg_email);
+        registerViewListener listener = new registerViewListener(rg_username, rg_email);
         rg_button.addActionListener(listener);
 
     }
 
-    //PER GERARCHIA DI SWING
-    public JPanel returnPane() {
-        return c;
-    }
 
     public String getUsernameInput() {
         return rg_username.getText();
@@ -41,4 +39,5 @@ public class registerView extends JPanel {
     public String getEMailInput() {
         return rg_email.getText();
     }
+
 }

@@ -4,21 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class loginstatusView extends JPanel {
-    public JPanel c;
     public JLabel status;
 
     public loginstatusView() {
-        c = new JPanel();
-        c.setLayout(new FlowLayout());
+        setLayout(new FlowLayout());
         status = new JLabel("Test.");
         status.setForeground(Color.BLACK);
-        c.add(status);
-        c.setBackground(Color.gray);
+        add(status);
+        setBackground(Color.gray);
     }
 
-    public JPanel returnPane() {
-        return c;
-    }
 
     public JLabel returnStatusLabel() {
         return status;
@@ -31,4 +26,6 @@ public class loginstatusView extends JPanel {
     public void setStatusLabelColour(Color c) {
         status.setForeground(c);
     }
+
+
 }

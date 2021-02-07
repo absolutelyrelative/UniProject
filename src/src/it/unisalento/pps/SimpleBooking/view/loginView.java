@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class loginView extends JPanel {
-    public JPanel c;
     //Non è corretto prendere il parent object di un child object in questo modo
     //ma lo è stato fatto temporaneamente
     //JPanel Card = this;
@@ -14,22 +13,19 @@ public class loginView extends JPanel {
     JButton lg_button = new JButton("Log in");
 
     public loginView() {
-        c = new JPanel();
-        c.setLayout(new FlowLayout());
+        setLayout(new FlowLayout());
+        setBackground(new Color(200, 221, 242));
 
         //Components
         lg_username = new JTextField(10);
         lg_password = new JPasswordField(10);
-        c.add(new JLabel("Username: "));
-        c.add(lg_username);
-        c.add(new JLabel("Password: "));
-        c.add(lg_password);
-        c.add(lg_button);
+        add(new JLabel("Username: "));
+        add(lg_username);
+        add(new JLabel("Password: "));
+        add(lg_password);
+        add(lg_button);
 
     }
 
-    //PER GERARCHIA DI SWING
-    public JPanel returnPane() {
-        return c;
-    }
+
 }
