@@ -43,11 +43,11 @@ public class SessionHelper {
         //Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername()); //TODO: IS THIS USEFUL OR REDUNDANT?
         Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
         //Compratore c = UtenteDAO.getInstance().findIfUserIsCompratore(u.getUsername()); //TODO: IS THIS USEFUL OR REDUNDANT?
-        if(a != null){
+        if (a != null) {
             userType = 3;
         }
         //Else, userType is defaulted to 0 - Normal user
-        updateFile(attribute_userType,Integer.toString(userType));
+        updateFile(attribute_userType, Integer.toString(userType));
     }
 
     //TODO: TEST UPDATED USERTYPE
@@ -60,7 +60,7 @@ public class SessionHelper {
     //TODO: TEST WITH UPDATED USERTYPE
     public boolean getSession() {
         int user_id;
-        if (readFile(attribute_isActive).isEmpty() || readFile(attribute_isActive) == null || readFile(attribute_Utente).isEmpty() || readFile(attribute_Utente) == null) {
+        if (readFile(attribute_isActive) == null || readFile(attribute_isActive).isEmpty() || readFile(attribute_Utente).isEmpty() || readFile(attribute_Utente) == null) {
             return false;
         } else {
             this.isActive = Integer.parseInt(readFile(attribute_isActive));
@@ -116,13 +116,16 @@ public class SessionHelper {
         try {
             File myObj = new File(name);
             Scanner myReader = new Scanner(myObj);
-            String data = myReader.nextLine();  //Only one line is necessary to be read, while statement is redundant
-            //System.out.println("\nData read from file @ Session.readFile(): " + data);
-            myReader.close();
-            return data;
+            if (!myObj.exists()) {
+                return null;
+            } else {
+                String data = myReader.nextLine();  //Only one line is necessary to be read, while statement is redundant
+                //System.out.println("\nData read from file @ Session.readFile(): " + data);
+                myReader.close();
+                return data;
+            }
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred." + e.getMessage());
-            e.printStackTrace();
             return null;
         } catch (NoSuchElementException e) { //Fai in modo che ritorna null se non esiste riga
             return null;
