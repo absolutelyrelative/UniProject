@@ -10,6 +10,7 @@ public class adminView {
     JTabbedPane tabbedPane;
     adminstatusView adminstatus = new adminstatusView();
     thirdView tV = new thirdView();
+    addadminView aaV = new addadminView();
 
     public adminView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -19,6 +20,7 @@ public class adminView {
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Third Panel",tV);
+        tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE

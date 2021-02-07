@@ -59,13 +59,13 @@ public class AmministratoreDAO implements IAmministratoreDAO {
         return amministratori;
     }
 
-    //TODO: TEST!!
+    //TODO: WORKS, BUT DOES NOT CHECK IF ANOTHER SAME UTENTE_IDUTENTE EXISTS!!
     //In order to create Amministratore, you must first create a user. (?)
     @Override
     public Result create(Amministratore a) {
         Result r = new Result();
         int IdUtente = a.getUtente_idUtente();
-        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(Utente_idUtente) VALUES('" + IdUtente + ");");
+        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Amministratore(Utente_idUtente) VALUES('" + IdUtente + "');");
         if (operation) {
             r.setSuccess(true);
         } else {
