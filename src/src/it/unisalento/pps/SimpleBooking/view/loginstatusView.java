@@ -18,7 +18,7 @@ public class loginstatusView extends JPanel {
         else{
             status = new JLabel("Guest");
         }*/
-        status = new JLabel("SimpleBooking");
+        status = new JLabel("SimpleBooking Home");
         status.setForeground(Color.BLACK);
         add(status);
         setBackground(Color.gray);

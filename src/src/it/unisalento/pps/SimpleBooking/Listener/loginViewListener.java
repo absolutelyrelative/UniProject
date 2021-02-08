@@ -5,6 +5,7 @@ import it.unisalento.pps.SimpleBooking.DAO.business.UtenteBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.adminView;
+import it.unisalento.pps.SimpleBooking.sellerView;
 import it.unisalento.pps.SimpleBooking.util.Result;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 
@@ -17,11 +18,13 @@ public class loginViewListener implements ActionListener {
     JTextField username;
     JPasswordField password;
     JLabel result;
+    JButton Seller_View;
 
-    public loginViewListener(JTextField username, JPasswordField password,JLabel result) {
+    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View) {
         this.username = username;
         this.password = password;
         this.result = result;
+        this.Seller_View = Seller_View;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -34,6 +37,12 @@ public class loginViewListener implements ActionListener {
                 Utente u = SessionHelper.getInstance().getUser();
                 if(u != null) {
                     result.setText("Log-in effettuato. Benvenuto, " + u.getUsername());
+                    Seller_View.setVisible(true);
+                    Seller_View.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            new sellerView();
+                        }
+                    });
                     Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
                     if(a != null && a.getId() != 0){ //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
                         new adminView();

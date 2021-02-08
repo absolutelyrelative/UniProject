@@ -5,30 +5,27 @@ import it.unisalento.pps.SimpleBooking.view.*;
 import javax.swing.*;
 import java.awt.*;
 
-public class adminView {
+public class sellerView {
     JFrame frame;
     JTabbedPane tabbedPane;
-    adminstatusView adminstatus = new adminstatusView();
-    addadminView aaV = new addadminView();
-    removeadminView raV = new removeadminView();
-    adminTipoBeneView aTBV = new adminTipoBeneView();
+    sellerstatusView ssV = new sellerstatusView();
+    thirdView tV = new thirdView();
 
-    public adminView() {
+    public sellerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("SimpleBooking");
-        frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
-        tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
-        tabbedPane.addTab("Gestione Tipo Bene",aTBV.getContentPane());
+        tabbedPane.addTab("Third Panel",tV);
+
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
-        frame.getContentPane().add(adminstatus.getContentPane(), BorderLayout.SOUTH);
+        frame.getContentPane().add(ssV.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
         frame.setSize(700,500);
@@ -38,5 +35,4 @@ public class adminView {
         frame.setVisible(true);
 
     }
-
 }

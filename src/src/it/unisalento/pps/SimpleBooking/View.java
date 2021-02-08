@@ -11,7 +11,6 @@ public class View {
     loginstatusView loginstatus = new loginstatusView();
     loginView login = new loginView();
     registerView register = new registerView();
-    thirdView tV = new thirdView();
     credentialsresetView crV = new credentialsresetView();
     credentialschangeView ccV = new credentialschangeView();
 
@@ -23,10 +22,9 @@ public class View {
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Log in", login);
-        tabbedPane.addTab("Register", register);
+        tabbedPane.addTab("Sign up", register);
         tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
         tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
-        tabbedPane.addTab("Third Panel",tV);
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
