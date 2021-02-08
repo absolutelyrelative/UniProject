@@ -162,20 +162,24 @@ public class UtenteDAO implements IUtenteDAO {
     public Compratore findIfUserIsCompratore(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idCompratore, Utente_idUtente FROM Compratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
-        if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
-            return null;
-        } else {
-            String[] result = res.get(0);
-            Compratore c = new Compratore();
-            c.setIdCompratore(Integer.parseInt(result[0]));
-            c.setUtente_idUtente(Integer.parseInt(result[1]));
-            c.setIdUtente(Integer.parseInt(result[1]));
-            c.setEmail(u.getEmail());
-            c.setPassword(u.getPassword());
-            c.setUsername(u.getUsername());
+        if (u != null) {
+            ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idCompratore, Utente_idUtente FROM Compratore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
+            if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
+                return null;
+            } else {
+                String[] result = res.get(0);
+                Compratore c = new Compratore();
+                c.setIdCompratore(Integer.parseInt(result[0]));
+                c.setUtente_idUtente(Integer.parseInt(result[1]));
+                c.setIdUtente(Integer.parseInt(result[1]));
+                c.setEmail(u.getEmail());
+                c.setPassword(u.getPassword());
+                c.setUsername(u.getUsername());
 
-            return c;
+                return c;
+            }
+        } else {
+            return null;
         }
     }
 
@@ -183,30 +187,39 @@ public class UtenteDAO implements IUtenteDAO {
     public Venditore findIfUserIsVenditore(String username) {
         Utente u;
         u = this.findByUsername(username); //CHECK IF this.findByUsername IS PROPER USAGE
-        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idVenditore, Utente_idUtente FROM Venditore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
-        if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
-            return null;
-        } else {
-            String[] result = res.get(0);
-            Venditore v = new Venditore();
-            v.setIdVenditore(Integer.parseInt(result[0]));
-            v.setUtente_idUtente(Integer.parseInt(result[1]));
-            v.setIdUtente(Integer.parseInt(result[1]));
-            v.setEmail(u.getEmail());
-            v.setPassword(u.getPassword());
-            v.setUsername(u.getUsername());
+        if (u != null) {
+            ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idVenditore, Utente_idUtente FROM Venditore WHERE Utente_idUtente = '" + String.valueOf(u.getId()) + "' LIMIT 1;");
+            if (res.size() == 0 || res == null || res.isEmpty()) {//TODO: CHECK FOR REDUNDANCY
+                return null;
+            } else {
+                String[] result = res.get(0);
+                Venditore v = new Venditore();
+                v.setIdVenditore(Integer.parseInt(result[0]));
+                v.setUtente_idUtente(Integer.parseInt(result[1]));
+                v.setIdUtente(Integer.parseInt(result[1]));
+                v.setEmail(u.getEmail());
+                v.setPassword(u.getPassword());
+                v.setUsername(u.getUsername());
 
-            return v;
+                return v;
+            }
+        } else {
+            return null;
         }
 
     }
 
+    //TODO: Is returning false right here?
     //[Tested with Log-in routine]
     public boolean validateLogin(String username, String password) {
         Utente u;
         u = this.findByUsername(username);
-        if (u.getPassword() == password || u.getPassword().equals(password)) { //TODO: THIS IS PROBABLY REDUNDANT
-            return true;
+        if (u != null) {
+            if (u.getPassword() == password || u.getPassword().equals(password)) { //TODO: THIS IS PROBABLY REDUNDANT
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
