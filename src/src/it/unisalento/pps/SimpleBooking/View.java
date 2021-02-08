@@ -1,9 +1,6 @@
 package it.unisalento.pps.SimpleBooking;
 
-import it.unisalento.pps.SimpleBooking.view.loginView;
-import it.unisalento.pps.SimpleBooking.view.loginstatusView;
-import it.unisalento.pps.SimpleBooking.view.registerView;
-import it.unisalento.pps.SimpleBooking.view.thirdView;
+import it.unisalento.pps.SimpleBooking.view.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +12,8 @@ public class View {
     loginView login = new loginView();
     registerView register = new registerView();
     thirdView tV = new thirdView();
+    credentialsresetView crV = new credentialsresetView();
+    credentialschangeView ccV = new credentialschangeView();
 
     public View() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -25,6 +24,8 @@ public class View {
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Log in", login);
         tabbedPane.addTab("Register", register);
+        tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
+        tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
         tabbedPane.addTab("Third Panel",tV);
 
 

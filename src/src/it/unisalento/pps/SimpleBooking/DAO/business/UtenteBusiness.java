@@ -48,7 +48,6 @@ public class UtenteBusiness {
         }
     }
 
-    //TODO: TEST!!
     public void logout(){
         SessionHelper.getInstance().closeSession();
     }
@@ -101,7 +100,7 @@ public class UtenteBusiness {
         }
     }
 
-    //TODO: TEST!!
+    //Tested, works in all cases
     public Result changePassword(String username, String oldpassword, String newpassword){
         Result r = new Result();
         Utente u = UtenteDAO.getInstance().findByUsername(username);
@@ -143,7 +142,7 @@ public class UtenteBusiness {
 
     }
 
-    //TODO: TEST!!
+    //Tested, works
     public Result requestPasswordReset(String username){
         Result r = new Result();
         Utente u = UtenteDAO.getInstance().findByUsername(username);

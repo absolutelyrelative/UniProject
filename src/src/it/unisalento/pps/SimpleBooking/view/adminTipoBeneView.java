@@ -8,9 +8,6 @@ import static java.awt.GridBagConstraints.*;
 import java.awt.*;
 
 public class adminTipoBeneView extends JFrame {
-    //Non è corretto prendere il parent object di un child object in questo modo
-    //ma lo è stato fatto temporaneamente
-    //JPanel Card = this;
     JLabel description = new JLabel("Gestione Tipo Bene");
     JTextField add_name = new JTextField(10);
     JButton add_button = new JButton("Aggiungi Tipo Bene");
