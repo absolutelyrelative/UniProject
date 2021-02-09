@@ -225,7 +225,6 @@ public class UtenteDAO implements IUtenteDAO {
         }
     }
 
-    //TODO: TEST!!
     public Result updatePassword(Utente u, String password) {
         Result r = new Result();
         String query = "UPDATE Utente SET password = '" + password + "' WHERE idUtente = '" + String.valueOf(u.getId()) + "';";

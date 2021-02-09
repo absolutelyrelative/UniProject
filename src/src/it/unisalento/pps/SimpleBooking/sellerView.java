@@ -10,6 +10,7 @@ public class sellerView {
     JTabbedPane tabbedPane;
     sellerstatusView ssV = new sellerstatusView();
     thirdView tV = new thirdView();
+    seller_createBeneView scBV = new seller_createBeneView();
 
     public sellerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -19,6 +20,8 @@ public class sellerView {
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Third Panel",tV);
+        tabbedPane.addTab("Crea Bene", scBV.getContentPane());
+
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE

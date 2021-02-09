@@ -9,7 +9,7 @@ public class sellerstatusView extends JFrame {
     public sellerstatusView() {
         setLayout(new FlowLayout());
         status = new JLabel("SimpleBooking Seller");
-        status.setForeground(Color.orange);
+        status.setForeground(Color.CYAN);
         add(status);
         setBackground(Color.gray);
     }

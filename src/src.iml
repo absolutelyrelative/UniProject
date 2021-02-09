@@ -10,5 +10,6 @@
     <orderEntry type="library" name="mysql-connector-java-5.1.49" level="project" />
     <orderEntry type="library" name="activation" level="project" />
     <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="jdatepicker-1.3.4" level="project" />
   </component>
 </module>
