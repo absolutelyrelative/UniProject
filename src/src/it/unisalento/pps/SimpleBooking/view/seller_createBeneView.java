@@ -1,6 +1,8 @@
 package it.unisalento.pps.SimpleBooking.view;
 
 
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
+import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.util.DateLabelFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -9,6 +11,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
 public class seller_createBeneView extends JFrame {
@@ -33,26 +36,29 @@ public class seller_createBeneView extends JFrame {
          //Listeners
          credentialsresetViewListener listener = new credentialsresetViewListener(reset_username);
          reset_button.addActionListener(listener);*/
-    JLabel view_descr2 = new JLabel("Il bene sarà soggetto ad approvazione da amministratori.");
-    JLabel view_descr3 = new JLabel("Il costo mensile e annuale sarà calcolato.");
-    JLabel nome_label = new JLabel("Nome:");
-    JTextField nome_field = new JTextField(10);
-    JLabel description_label = new JLabel("Descrizione:");
-    JTextField description_field = new JTextField(20);
-    JLabel costo_pd_label = new JLabel("Costo per giorno (€):");
-    JFormattedTextField costo_pd_field = new JFormattedTextField(8);
-    JLabel GPS_Lon_label = new JLabel("GPS Longitudine");
-    JFormattedTextField GPS_Lon_field = new JFormattedTextField(10);
-    JLabel GPS_Lat_label = new JLabel("GPS Latitudine:");
-    JFormattedTextField GPS_Lat_field = new JFormattedTextField(10);
-    JLabel address_label = new JLabel("Indirizzo:");
-    JTextField address_field = new JTextField(20);
+    private JLabel view_descr2 = new JLabel("Il bene sarà soggetto ad approvazione da amministratori.");
+    private JLabel view_descr3 = new JLabel("Il costo mensile e annuale sarà calcolato.");
+    private JLabel nome_label = new JLabel("Nome:");
+    private JTextField nome_field = new JTextField(10);
+    private JLabel description_label = new JLabel("Descrizione:");
+    private JTextField description_field = new JTextField(20);
+    private JLabel costo_pd_label = new JLabel("Costo per giorno (€):");
+    private JFormattedTextField costo_pd_field = new JFormattedTextField(8);
+    private JLabel costo_pm_label = new JLabel("Costo per mese (€):");
+    private JFormattedTextField costo_pm_field = new JFormattedTextField(8);
+    private JLabel GPS_Lon_label = new JLabel("GPS Longitudine");
+    private JFormattedTextField GPS_Lon_field = new JFormattedTextField(10);
+    private JLabel GPS_Lat_label = new JLabel("GPS Latitudine:");
+    private JFormattedTextField GPS_Lat_field = new JFormattedTextField(10);
+    private JLabel address_label = new JLabel("Indirizzo:");
+    private JTextField address_field = new JTextField(20);
     //TODO: ADD CUSTOM MENU TO SELECT TIPO BENE
-    JLabel tipo_bene_label = new JLabel("Tipo Bene:");
+    private JLabel tipo_bene_label = new JLabel("Tipo Bene:");
+    private JComboBox tipo_bene_list;
 
-    JLabel data_inizio_label = new JLabel("Data Inizio:");
+    private JLabel data_inizio_label = new JLabel("Data Inizio:");
     private JDatePickerImpl datePicker_inizio;
-    JLabel data_fine_label = new JLabel("Data Fine:");
+    private JLabel data_fine_label = new JLabel("Data Fine:");
     private JDatePickerImpl datePicker_fine;
 
 
@@ -76,6 +82,9 @@ public class seller_createBeneView extends JFrame {
         lower_panel.add(costo_pd_label);
         costo_pd_field.setValue(new Float(100.00));
         lower_panel.add(costo_pd_field);
+        lower_panel.add(costo_pm_label);
+        costo_pm_field.setValue(new Float(400.00));
+        lower_panel.add(costo_pm_field);
         lower_panel.add(GPS_Lon_label);
         GPS_Lon_field.setValue(new Double(1000000000));
         lower_panel.add(GPS_Lon_field);
@@ -86,6 +95,20 @@ public class seller_createBeneView extends JFrame {
         lower_panel.add(address_field);
         lower_panel.add(tipo_bene_label);
 
+        //JCOMBOBOX
+        //Obtain ComboBox string items
+        ArrayList<String> tipi = new ArrayList<String>();
+        ArrayList<Tipo_Bene> tipi_bene = Tipo_BeneDAO.getInstance().findAll();
+        for(Tipo_Bene t : tipi_bene){
+            tipi.add(t.getNome());
+        }
+        String[] final_tipi = new String[ tipi.size() ];
+        tipi.toArray( final_tipi );
+        tipo_bene_list = new JComboBox(final_tipi);
+        lower_panel.add(tipo_bene_list);
+        //
+
+        //CALENDARIO
         //TODO: Cose stranissime per implementare JDatePicker che, per qualche motivo, non ha nessun tipo di documentazione.
         Properties p = new Properties();
         p.put("text.today", "Oggi");
@@ -97,13 +120,14 @@ public class seller_createBeneView extends JFrame {
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         datePicker_inizio = new JDatePickerImpl(datePanel, new DateLabelFormatter());
         datePicker_fine = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        //
 
         lower_panel.add(data_inizio_label);
         lower_panel.add(datePicker_inizio);
         lower_panel.add(data_fine_label);
         lower_panel.add(datePicker_fine);
-        containing_layout.add(upper_panel,BorderLayout.NORTH);
-        containing_layout.add(lower_panel,BorderLayout.CENTER);
+        containing_layout.add(upper_panel, BorderLayout.NORTH);
+        containing_layout.add(lower_panel, BorderLayout.CENTER);
         getContentPane().add(containing_layout);
 
     }
