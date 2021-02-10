@@ -13,7 +13,6 @@ public class View {
     registerView register = new registerView();
     credentialsresetView crV = new credentialsresetView();
     credentialschangeView ccV = new credentialschangeView();
-    seller_createBeneView scBV = new seller_createBeneView();
 
     public View() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -26,7 +25,6 @@ public class View {
         tabbedPane.addTab("Sign up", register);
         tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
         tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
-        tabbedPane.addTab("Crea Bene", scBV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE

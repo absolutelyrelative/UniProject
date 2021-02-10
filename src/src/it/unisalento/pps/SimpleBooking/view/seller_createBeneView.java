@@ -18,27 +18,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 public class seller_createBeneView extends JFrame {
-    /* setLayout(new BorderLayout(10, 10));
-         setForeground(new Color(86, 214, 120));
-         JPanel center = new JPanel();
-         JPanel north = new JPanel();
-         JPanel south = new JPanel();
-         JPanel west = new JPanel();
-         reset_description.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
-
-         north.add(reset_description);
-         center.add(username_description);
-         center.add(reset_username);
-         center.add(reset_button);
-
-
-         getContentPane().add(north, BorderLayout.NORTH);
-         getContentPane().add(center, BorderLayout.CENTER);
-
-
-         //Listeners
-         credentialsresetViewListener listener = new credentialsresetViewListener(reset_username);
-         reset_button.addActionListener(listener);*/
     private JLabel view_descr2 = new JLabel("Il bene sarà soggetto ad approvazione da amministratori.");
     private JLabel view_descr3 = new JLabel("Il costo mensile e annuale sarà calcolato.");
     private JLabel nome_label = new JLabel("Nome:");
@@ -100,11 +79,11 @@ public class seller_createBeneView extends JFrame {
         //Obtain ComboBox string items
         ArrayList<String> tipi = new ArrayList<String>();
         ArrayList<Tipo_Bene> tipi_bene = Tipo_BeneDAO.getInstance().findAll();
-        for(Tipo_Bene t : tipi_bene){
+        for (Tipo_Bene t : tipi_bene) {
             tipi.add(t.getNome());
         }
-        String[] final_tipi = new String[ tipi.size() ];
-        tipi.toArray( final_tipi );
+        String[] final_tipi = new String[tipi.size()];
+        tipi.toArray(final_tipi);
         tipo_bene_list = new JComboBox<String>(final_tipi);
         lower_panel.add(tipo_bene_list);
         //
@@ -141,8 +120,8 @@ public class seller_createBeneView extends JFrame {
 
 
         //Listeners
-        createBeneListener listener = new createBeneListener(nome_field,description_field,costo_pm_field,
-                GPS_Lon_field,GPS_Lat_field,address_field,tipo_bene_list,datePicker_inizio,datePicker_fine);
+        createBeneListener listener = new createBeneListener(nome_field, description_field, costo_pm_field,
+                GPS_Lon_field, GPS_Lat_field, address_field, tipo_bene_list, datePicker_inizio, datePicker_fine);
         confirmation.addActionListener(listener);
     }
 }
