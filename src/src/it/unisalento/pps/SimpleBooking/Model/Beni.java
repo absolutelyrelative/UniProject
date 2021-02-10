@@ -7,8 +7,8 @@ public class Beni implements Serializable {
     private int idBeni;
     private String Nome;
     private String Descrizione;
-    private java.sql.Date Data_Inizio;
-    private java.sql.Date Data_Fine;
+    private Date Data_Inizio;
+    private Date Data_Fine;
     private float Costo_pw;
     private float Costo_pm;
     private float Costo_pd;
@@ -45,19 +45,19 @@ public class Beni implements Serializable {
         this.Descrizione = descrizione;
     }
 
-    public java.sql.Date getData_Inizio() {
+    public Date getData_Inizio() {
         return Data_Inizio;
     }
 
-    public void setData_Inizio(java.sql.Date data_Inizio) {
+    public void setData_Inizio(Date data_Inizio) {
         this.Data_Inizio = data_Inizio;
     }
 
-    public java.sql.Date getData_Fine() {
+    public Date getData_Fine() {
         return Data_Fine;
     }
 
-    public void setData_Fine(java.sql.Date data_Fine) {
+    public void setData_Fine(Date data_Fine) {
         this.Data_Fine = data_Fine;
     }
 

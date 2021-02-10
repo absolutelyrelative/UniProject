@@ -19,8 +19,7 @@ public class Tipo_BeneBusiness {
     }
 
     //TODO: TEST!!
-    public Result getTipoFromName(String name) {
-        Result r = new Result();
+    public Tipo_Bene getTipoFromName(String name) {
         Tipo_Bene tb = new Tipo_Bene();
         ArrayList<Tipo_Bene> all = Tipo_BeneDAO.getInstance().findAll();
         //Inefficiente, ma più pulito
@@ -29,16 +28,10 @@ public class Tipo_BeneBusiness {
                 tb.setNome(t.getNome());
                 tb.setIdTipo(t.getIdTipo());
                 tb.setAmministratore_idAmministratore(t.getAmministratore_idAmministratore());
-
-                r.setSuccess(true);
-                r.setMessage("Tipo Bene trovato.");
-                return r;
+                return tb;
             }
         }
-
-        r.setSuccess(false);
-        r.setMessage("Tipo Bene non trovato.");
-        return r;
-
+        return null;
     }
+
 }

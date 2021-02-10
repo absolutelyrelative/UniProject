@@ -8,6 +8,9 @@ import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class BeniDAO implements IBeniDAO {
 
@@ -79,28 +82,21 @@ public class BeniDAO implements IBeniDAO {
         float Costo_pd = b.getCosto_pd();
         float Costo_pw = b.getCosto_pw();
         float Costo_pm = b.getCosto_pm();
-
-
-        //TODO: PERHAPS THIS CALCULATION BELONGS IN THE GUI VIEW?
-        if (Costo_pd != 0.0f) {
-            Costo_pw = Costo_pd * 7;
-            Costo_pm = Costo_pw * 4.35f; //TODO: TEST, THIS IS AN ESTIMATE
-        }
-        if (Costo_pw != 0.0f) {
-            Costo_pd = Costo_pw / 7;
-            Costo_pm = Costo_pw * 4.35f;
-        }
-        if (Costo_pm != 0.0f) {
-            Costo_pw = Costo_pm / 4.35f;
-            Costo_pd = Costo_pw / 7;
-        }
-
-        //TODO: ADD COHERENCY TEST FOR LENGTH IN GUI VIEW
-        //int idBeni = b.getIdBeni();
         String nome = b.getNome();
         String descrizione = b.getDescrizione();
-        java.sql.Date Data_Inizio = b.getData_Inizio();
-        java.sql.Date Data_Fine = b.getData_Fine();
+        Date Data_Inizio = b.getData_Inizio();
+        Date Data_Fine = b.getData_Fine();
+        Calendar inizio_calendar = new GregorianCalendar();
+        inizio_calendar.setTime(Data_Inizio);
+        int inizio_year = inizio_calendar.get(Calendar.YEAR);
+        int inizio_month = inizio_calendar.get(Calendar.MONTH) + 1;
+        int inizio_day = inizio_calendar.get(Calendar.DAY_OF_MONTH);
+
+        Calendar fine_calendar = new GregorianCalendar();
+        fine_calendar.setTime(Data_Fine);
+        int fine_year = fine_calendar.get(Calendar.YEAR);
+        int fine_month = fine_calendar.get(Calendar.MONTH) + 1;
+        int fine_day = fine_calendar.get(Calendar.DAY_OF_MONTH);
         float GPS_Lat = b.getGPS_Lat();
         float GPS_Lon = b.getGPS_Lon();
         String Addr = b.getAddr();
@@ -112,7 +108,7 @@ public class BeniDAO implements IBeniDAO {
 
         String query = "INSERT INTO Beni(Nome, Descrizione, Data_Inizio, Data_Fine, Costo_pw, Costo_pm, Costo_pd" +
                 ", GPS_Lat, GPS_Lon, Addr, Venditore_idVenditore, Tipo_Bene_idTipo_Bene, Stato_Bene, Pubblicazione, " +
-                "Amministratore_idAmministratore) VALUES('" + nome + "','" + descrizione + "','" + Data_Inizio + "','" + Data_Fine + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
+                "Amministratore_idAmministratore) VALUES('" + nome + "','" + descrizione + "','" + inizio_year + "-" + inizio_month + "-" + inizio_day + "','" + fine_year + "-" + fine_month + "-" + fine_day + "','" + Costo_pw + "','" + Costo_pm + "','" + Costo_pd + "','" + GPS_Lat + "','" + GPS_Lon + "','" + Addr + "'," +
                 "'" + Venditore_idVenditore + "','" + Tipo_Bene_idTipo_Bene + "','" + Stato_Bene + "','" + Pubblicazione + "','" + Amministratore_idAmministratore + "');";
         boolean operation = DbConnection.getInstance().eseguiAggiornamento(query);
         if (operation) {
@@ -140,7 +136,8 @@ public class BeniDAO implements IBeniDAO {
     }
 
 
-    //TODO: TEST
+    //DEPRECATO, UTILIZZA METODO INTERNO, java.sql.Date -> java.util.Date
+    @Deprecated
     @Override
     public ArrayList<Beni> sortByDate(java.sql.Date Inizio, java.sql.Date Fine) {
 
@@ -236,8 +233,21 @@ public class BeniDAO implements IBeniDAO {
         int b_toUpdate = b_old.getIdBeni();
         String nome = b_new.getNome();
         String descrizione = b_new.getDescrizione();
-        java.sql.Date Data_Inizio = b_new.getData_Inizio();
-        java.sql.Date Data_Fine = b_new.getData_Fine();
+        Date Data_Inizio = b_new.getData_Inizio();
+        Date Data_Fine = b_new.getData_Fine();
+
+        Calendar inizio_calendar = new GregorianCalendar();
+        inizio_calendar.setTime(Data_Inizio);
+        int inizio_year = inizio_calendar.get(Calendar.YEAR);
+        int inizio_month = inizio_calendar.get(Calendar.MONTH) + 1;
+        int inizio_day = inizio_calendar.get(Calendar.DAY_OF_MONTH);
+
+        Calendar fine_calendar = new GregorianCalendar();
+        fine_calendar.setTime(Data_Fine);
+        int fine_year = fine_calendar.get(Calendar.YEAR);
+        int fine_month = fine_calendar.get(Calendar.MONTH) + 1;
+        int fine_day = fine_calendar.get(Calendar.DAY_OF_MONTH);
+
         float Costo_pw = b_new.getCosto_pw();
         float Costo_pm = b_new.getCosto_pm();
         float Costo_pd = b_new.getCosto_pd();
@@ -250,7 +260,7 @@ public class BeniDAO implements IBeniDAO {
         int Pubblicazione = b_new.getPubblicazione();
         int Amministratore_idAmministratore = b_new.getAmministratore_idAmministratore();
 
-        String query = "UPDATE Beni SET Nome = '" + nome + "', Descrizione = '" + descrizione + "', Data_Inizio = '" + Data_Inizio + "', Data_Fine = '" + Data_Fine + "', " +
+        String query = "UPDATE Beni SET Nome = '" + nome + "', Descrizione = '" + descrizione + "', Data_Inizio = '" + inizio_year + "-" + inizio_month + "-" + inizio_day + "', Data_Fine = '" + fine_year + "-" + fine_month + "-" + fine_day + "', " +
                 "Costo_pw = '" + Costo_pw + "', Costo_pm = '" + Costo_pm + "', Costo_pd = '" + Costo_pd + "', GPS_Lat = '" + GPS_Lat + "', GPS_Lon = '" + GPS_Lon + "', " +
                 "Addr = '" + Addr + "', Venditore_idVenditore = '" + Venditore_idVenditore + "', Tipo_Bene_idTipo_Bene = '" + Tipo_Bene_idTipo_Bene + "', " +
                 "Stato_Bene = '" + Stato_Bene + "', Pubblicazione = '" + Pubblicazione + "', Amministratore_idAmministratore = '" + Amministratore_idAmministratore + "' " +

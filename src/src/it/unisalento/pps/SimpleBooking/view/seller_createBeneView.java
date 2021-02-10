@@ -2,6 +2,9 @@ package it.unisalento.pps.SimpleBooking.view;
 
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
+import it.unisalento.pps.SimpleBooking.Listener.addadminViewListener;
+import it.unisalento.pps.SimpleBooking.Listener.createBeneListener;
+import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.util.DateLabelFormatter;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -43,23 +46,24 @@ public class seller_createBeneView extends JFrame {
     private JLabel description_label = new JLabel("Descrizione:");
     private JTextField description_field = new JTextField(20);
     private JLabel costo_pd_label = new JLabel("Costo per giorno (€):");
-    private JFormattedTextField costo_pd_field = new JFormattedTextField(8);
+    private JTextField costo_pd_field = new JTextField(4);
     private JLabel costo_pm_label = new JLabel("Costo per mese (€):");
-    private JFormattedTextField costo_pm_field = new JFormattedTextField(8);
+    private JTextField costo_pm_field = new JTextField(8);
     private JLabel GPS_Lon_label = new JLabel("GPS Longitudine");
-    private JFormattedTextField GPS_Lon_field = new JFormattedTextField(10);
+    private JTextField GPS_Lon_field = new JTextField(8);
     private JLabel GPS_Lat_label = new JLabel("GPS Latitudine:");
-    private JFormattedTextField GPS_Lat_field = new JFormattedTextField(10);
+    private JTextField GPS_Lat_field = new JTextField(10);
     private JLabel address_label = new JLabel("Indirizzo:");
     private JTextField address_field = new JTextField(20);
     //TODO: ADD CUSTOM MENU TO SELECT TIPO BENE
     private JLabel tipo_bene_label = new JLabel("Tipo Bene:");
-    private JComboBox tipo_bene_list;
+    private JComboBox<String> tipo_bene_list;
 
     private JLabel data_inizio_label = new JLabel("Data Inizio:");
     private JDatePickerImpl datePicker_inizio;
     private JLabel data_fine_label = new JLabel("Data Fine:");
     private JDatePickerImpl datePicker_fine;
+    private JButton confirmation = new JButton("Invia");
 
 
     public seller_createBeneView() {
@@ -79,17 +83,14 @@ public class seller_createBeneView extends JFrame {
         lower_panel.add(description_label);
         description_field.setPreferredSize(new Dimension(50, 20));
         lower_panel.add(description_field);
-        lower_panel.add(costo_pd_label);
-        costo_pd_field.setValue(new Float(100.00));
-        lower_panel.add(costo_pd_field);
+        //lower_panel.add(costo_pd_label);
+        //costo_pd_field.setValue(new Float(100.00));
+        //lower_panel.add(costo_pd_field);
         lower_panel.add(costo_pm_label);
-        costo_pm_field.setValue(new Float(400.00));
         lower_panel.add(costo_pm_field);
         lower_panel.add(GPS_Lon_label);
-        GPS_Lon_field.setValue(new Double(1000000000));
         lower_panel.add(GPS_Lon_field);
         lower_panel.add(GPS_Lat_label);
-        GPS_Lat_field.setValue(new Double(1000000000));
         lower_panel.add(GPS_Lat_field);
         lower_panel.add(address_label);
         lower_panel.add(address_field);
@@ -104,7 +105,7 @@ public class seller_createBeneView extends JFrame {
         }
         String[] final_tipi = new String[ tipi.size() ];
         tipi.toArray( final_tipi );
-        tipo_bene_list = new JComboBox(final_tipi);
+        tipo_bene_list = new JComboBox<String>(final_tipi);
         lower_panel.add(tipo_bene_list);
         //
 
@@ -114,21 +115,34 @@ public class seller_createBeneView extends JFrame {
         p.put("text.today", "Oggi");
         p.put("text.month", "Mese");
         p.put("text.year", "Anno");
-        UtilDateModel model = new UtilDateModel();
-        model.setDate(1990, 8, 24);
-        model.setSelected(true);
-        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
-        datePicker_inizio = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        datePicker_fine = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        UtilDateModel model1 = new UtilDateModel();
+        model1.setDate(2021, 1, 1);
+        model1.setSelected(true);
+
+        UtilDateModel model2 = new UtilDateModel();
+        model2.setDate(2021, 1, 1);
+        model2.setSelected(true);
+
+        JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p);
+        JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p);
+
+        datePicker_inizio = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
+        datePicker_fine = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
         //
 
         lower_panel.add(data_inizio_label);
         lower_panel.add(datePicker_inizio);
         lower_panel.add(data_fine_label);
         lower_panel.add(datePicker_fine);
+        lower_panel.add(confirmation);
         containing_layout.add(upper_panel, BorderLayout.NORTH);
         containing_layout.add(lower_panel, BorderLayout.CENTER);
         getContentPane().add(containing_layout);
 
+
+        //Listeners
+        createBeneListener listener = new createBeneListener(nome_field,description_field,costo_pm_field,
+                GPS_Lon_field,GPS_Lat_field,address_field,tipo_bene_list,datePicker_inizio,datePicker_fine);
+        confirmation.addActionListener(listener);
     }
 }
