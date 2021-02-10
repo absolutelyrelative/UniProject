@@ -71,6 +71,7 @@ public class createBeneListener implements ActionListener {
             }
      */
 
+    //Tested, seems to work fine.
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Invia")) {
             Result r = new Result();
@@ -90,44 +91,49 @@ public class createBeneListener implements ActionListener {
                     try {
                         Data_Inizio = format.parse(datePicker_inizio.getJFormattedTextField().getText());
                         Data_Fine = format.parse(datePicker_fine.getJFormattedTextField().getText());
-                        b.setData_Inizio(Data_Inizio);
-                        b.setData_Fine(Data_Fine);
-                        //Calculate costs
-                        try {
-                            Float costo_pm = Float.parseFloat(costo_pm_field.getText());
-                            Float GPS1 = Float.parseFloat(GPS_Lat_field.getText());
-                            Float GPS2 = Float.parseFloat(GPS_Lon_field.getText());
-                            Float costo_pw = costo_pm / 4.35f;
-                            Float costo_pd = costo_pw / 7;
-                            b.setCosto_pm(costo_pm);
-                            b.setCosto_pw(costo_pw);
-                            b.setCosto_pd(costo_pd);
-                            b.setGPS_Lat(GPS1);
-                            b.setGPS_Lon(GPS2);
-                            b.setAddr(address_field.getText());
-                            b.setVenditore_idVenditore(v.getIdVenditore());
-                            //TODO: TEST!!
-                            String tipo = String.valueOf(tipo_bene_list.getSelectedItem());
-                            Tipo_Bene tb = Tipo_BeneBusiness.getInstance().getTipoFromName(tipo);
-                            if (tb != null) {
-                                b.setTipo_Bene_idTipo_Bene(tb.getIdTipo());
-                                b.setStato_Bene(0);
-                                b.setPubblicazione(0);
-                                //TODO: PLACEHOLDER, SET TO REAL ID LATER ON
-                                b.setAmministratore_idAmministratore(tb.getAmministratore_idAmministratore());
-                                Result c = new Result();
-                                c = BeniDAO.getInstance().create(b);
-                                if (c.isSuccess() == true) {
-                                    JOptionPane.showMessageDialog(null, "Bene aggiunto. Attendi conferma da un Admin per la pubblicazione.");
+                        if (Data_Inizio.after(Data_Fine)) {
+                            JOptionPane.showMessageDialog(null, "Assicurati che le date siano corrette. Data Inizio non può venire dopo Data Fine.");
+                        } else {
+                            b.setData_Inizio(Data_Inizio);
+                            b.setData_Fine(Data_Fine);
+                            //Calculate costs
+                            try {
+                                Float costo_pm = Float.parseFloat(costo_pm_field.getText());
+                                Float GPS1 = Float.parseFloat(GPS_Lat_field.getText());
+                                Float GPS2 = Float.parseFloat(GPS_Lon_field.getText());
+                                Float costo_pw = costo_pm / 4.35f;
+                                Float costo_pd = costo_pw / 7;
+                                b.setCosto_pm(costo_pm);
+                                b.setCosto_pw(costo_pw);
+                                b.setCosto_pd(costo_pd);
+                                b.setGPS_Lat(GPS1);
+                                b.setGPS_Lon(GPS2);
+                                b.setAddr(address_field.getText());
+                                b.setVenditore_idVenditore(v.getIdVenditore());
+                                //TODO: TEST!!
+                                String tipo = String.valueOf(tipo_bene_list.getSelectedItem());
+                                Tipo_Bene tb = Tipo_BeneBusiness.getInstance().getTipoFromName(tipo);
+                                if (tb != null) {
+                                    b.setTipo_Bene_idTipo_Bene(tb.getIdTipo());
+                                    b.setStato_Bene(0);
+                                    b.setPubblicazione(0);
+                                    //TODO: PLACEHOLDER, SET TO REAL ID LATER ON
+                                    b.setAmministratore_idAmministratore(tb.getAmministratore_idAmministratore());
+                                    Result c = new Result();
+                                    c = BeniDAO.getInstance().create(b);
+                                    if (c.isSuccess() == true) {
+                                        JOptionPane.showMessageDialog(null, "Bene aggiunto. Attendi conferma da un Admin per la pubblicazione.");
+                                    } else {
+                                        JOptionPane.showMessageDialog(null, "Esiste già un bene con quel nome.");
+                                    }
                                 } else {
-                                    JOptionPane.showMessageDialog(null, "SQL Error.");
+                                    JOptionPane.showMessageDialog(null, "Tipo Bene non trovato.");
                                 }
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Tipo Bene non trovato.");
+                            } catch (Exception h) {
+                                JOptionPane.showMessageDialog(null, "Errore durante conversione tipo. Controlla che i dati siano corretti.");
                             }
-                        } catch (Exception h) {
-                            JOptionPane.showMessageDialog(null, "Errore durante conversione tipo. Controlla che i dati siano corretti.");
                         }
+
                     } catch (Exception g) {
                         //TODO: MAKE SURE DATA FINE > DATA INIZIO
                         JOptionPane.showMessageDialog(null, "Errore data. Controlla che sia corretta.");

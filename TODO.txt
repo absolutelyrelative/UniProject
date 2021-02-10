@@ -1,2 +1,3 @@
 TODO List:
 #1 Remove abstraction level between Utente, Venditore, Compratore.
+#2 Add default MySQL data for Utente->Compratore->Venditore->Amministratore & Tipo Bene
