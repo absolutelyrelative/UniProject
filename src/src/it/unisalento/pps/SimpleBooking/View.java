@@ -1,9 +1,15 @@
 package it.unisalento.pps.SimpleBooking;
 
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.ImmagineDAO;
+import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.view.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 
 public class View {
     JFrame frame;
@@ -43,6 +49,13 @@ public class View {
     }
 
     public static void main(String[] args) {
+        /*Immagine t = new Immagine();
+        t.setBeni_idBeni(1);
+        File f = new File("C:\\Users\\Paolo Unisalento\\Desktop\\Untitled.png");
+        ImmagineDAO.getInstance().create(t,f);*/
+        ArrayList<Beni> b = BeniDAO.getInstance().findAll();
+        new buyer_beniView(b);
+
         new View();
         /*Utente u = UtenteDAO.getInstance().findById(2);
         Session.getInstance().saveSession(u);

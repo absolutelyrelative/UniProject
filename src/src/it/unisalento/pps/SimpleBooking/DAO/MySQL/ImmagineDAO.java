@@ -6,6 +6,7 @@ import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 import it.unisalento.pps.SimpleBooking.util.Result;
 
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -76,16 +77,12 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
     //TODO: Test
-    @Override
-    public Result create(Immagine t) {
+    public Result create(Immagine t, File foto) {
         Result r = new Result();
-        //int IdImmagine = t.getIdImmagine();
-        byte[] blob = t.getData();
         int IdBeni = t.getBeni_idBeni();
+        boolean foto_operation = DbConnection.getInstance().addFoto(foto,"INSERT INTO Immagine(Data, Beni_idBeni) VALUES(?,'" + IdBeni + "');");
 
-        boolean operation = DbConnection.getInstance().eseguiAggiornamento("INSERT INTO Immagine(Data, Beni_idBeni) VALUES('" + blob
-                + "','" + IdBeni + "';"); //TODO: Test
-        if (operation) {
+        if (foto_operation) {
             r.setSuccess(true);
         } else {
             r.setSuccess(false);
@@ -93,6 +90,11 @@ public class ImmagineDAO implements IImmagineDAO {
         return r;
     }
 
+    @Override
+    public Result create(Immagine t){
+        //UNUSED
+        return null;
+    }
 
     @Override
     public Result delete(Immagine t) {

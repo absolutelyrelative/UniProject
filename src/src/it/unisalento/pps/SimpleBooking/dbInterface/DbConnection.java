@@ -33,8 +33,8 @@ public class DbConnection {
 
             // Carico il driver JDBC per la connessione con il database MySQL
             Class.forName("com.mysql.jdbc.Driver");
-            db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente+"&useLegacyDatetimeCode=false&serverTimezone=UTC");
-            connesso=true;
+            db = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + nomeDB + "?user=" + nomeUtente + "&password=" + pwdUtente + "&useLegacyDatetimeCode=false&serverTimezone=UTC");
+            connesso = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class DbConnection {
     // ritorna un ArrayList contenente tutte le tuple del risultato
     public ArrayList<String[]> eseguiQuery(String query) {
         ArrayList<String[]> v = null;
-        String [] record;
+        String[] record;
         int colonne = 0;
         try {
             Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
@@ -57,34 +57,42 @@ public class DbConnection {
             ResultSetMetaData rsmd = rs.getMetaData();
             colonne = rsmd.getColumnCount();
 
-            while(rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
+            while (rs.next()) {   // Creo il vettore risultato scorrendo tutto il ResultSet
                 record = new String[colonne];
-                for (int i=0; i<colonne; i++) record[i] = rs.getString(i+1);
-                v.add( (String[]) record.clone() );
+                for (int i = 0; i < colonne; i++) record[i] = rs.getString(i + 1);
+                v.add((String[]) record.clone());
             }
             rs.close();     // Chiudo il ResultSet
             stmt.close();   // Chiudo lo Statement
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return v;
     }
 
-    public void addFoto(File file, String sql) {
-
+    //TODO: MODIFICA
+    public boolean addFoto(File file, String sql) {
+        boolean result = false;
         try {
             FileInputStream inputStream = new FileInputStream(file);
 
             PreparedStatement statement = db.prepareStatement(sql);
             statement.setBlob(1, inputStream);
             statement.executeUpdate();
+            result = true;
             statement.close();   // Chiudo lo Statement
-        } catch(Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
     }
 
 
     public byte[] getFoto(String query) {
         //query = "select F.foto from foto as F where F.idfoto=1;"
-        byte[] blob=null;
+        byte[] blob = null;
         try {
             Statement stmt = db.createStatement();     // Creo lo Statement per l'esecuzione della query
             ResultSet rs = stmt.executeQuery(query);   // Ottengo il ResultSet dell'esecuzione della query
@@ -94,13 +102,15 @@ public class DbConnection {
                 rowcount = rs.getRow();
                 rs.beforeFirst(); // not rs.first() because the rs.next() below will move on, missing the first element
             }
-            if(rowcount==1) {
+            if (rowcount == 1) {
                 rs.next();
                 blob = rs.getBytes(1);
             }
             rs.close();     // Chiudo il ResultSet
             stmt.close();   // Chiudo lo Statement
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return blob;
     }
@@ -109,7 +119,7 @@ public class DbConnection {
     // query: una stringa che rappresenta un'istuzione SQL di tipo UPDATE da eseguire
     // ritorna TRUE se l'esecuzione � adata a buon fine, FALSE se c'� stata un'eccezione
     public boolean eseguiAggiornamento(String query) {
-        int numero ;
+        int numero;
         boolean risultato = false;
         try {
             Statement stmt = db.createStatement();
@@ -127,7 +137,9 @@ public class DbConnection {
         try {
             db.close();    // Chiude la connessione con il Database
             connesso = false;
-        } catch (Exception e) { e.printStackTrace(); }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isConnesso() {

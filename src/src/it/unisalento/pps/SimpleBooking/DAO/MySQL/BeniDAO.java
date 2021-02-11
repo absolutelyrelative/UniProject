@@ -7,6 +7,9 @@ import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.dbInterface.DbConnection;
 import it.unisalento.pps.SimpleBooking.util.Result;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -33,21 +36,25 @@ public class BeniDAO implements IBeniDAO {
             String[] result = res.get(0);
             a = new Beni();
             a.setIdBeni(Integer.parseInt(result[0]));
-            a.setDescrizione(result[1]);
-            a.setData_Inizio(new java.sql.Date(Long.parseLong(result[2]))); //TODO: TEST DATE TYPE
-            a.setData_Fine(new java.sql.Date(Long.parseLong(result[3]))); //TODO: TEST DATE TYPE
-            a.setCosto_pw(Float.parseFloat(result[4]));
-            a.setCosto_pm(Float.parseFloat(result[5]));
-            a.setCosto_pd(Float.parseFloat(result[6]));
-            a.setGPS_Lat(Float.parseFloat(result[7]));
-            a.setGPS_Lon(Float.parseFloat(result[8]));
-            a.setAddr(result[9]);
-            a.setVenditore_idVenditore(Integer.parseInt(result[10]));
-            a.setTipo_Bene_idTipo_Bene(Integer.parseInt(result[11]));
-            a.setStato_Bene(Integer.parseInt(result[12]));
-            a.setPubblicazione(Integer.parseInt(result[13]));
-            a.setAmministratore_idAmministratore(Integer.parseInt(result[14]));
-        } catch (RuntimeException e) {
+            a.setNome(result[1]);
+            a.setDescrizione(result[2]);
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            Date data_inizio = format.parse(result[3]);
+            Date data_fine = format.parse(result[4]);
+            a.setData_Inizio(data_inizio); //TODO: TEST DATE TYPE
+            a.setData_Fine(data_fine); //TODO: TEST DATE TYPE
+            a.setCosto_pw(Float.parseFloat(result[5]));
+            a.setCosto_pm(Float.parseFloat(result[6]));
+            a.setCosto_pd(Float.parseFloat(result[7]));
+            a.setGPS_Lat(Float.parseFloat(result[8]));
+            a.setGPS_Lon(Float.parseFloat(result[9]));
+            a.setAddr(result[10]);
+            a.setVenditore_idVenditore(Integer.parseInt(result[11]));
+            a.setTipo_Bene_idTipo_Bene(Integer.parseInt(result[12]));
+            a.setStato_Bene(Integer.parseInt(result[13]));
+            a.setPubblicazione(Integer.parseInt(result[14]));
+            a.setAmministratore_idAmministratore(Integer.parseInt(result[15]));
+        } catch (RuntimeException | ParseException e) {
             System.out.println(e.toString());
         } finally {
             if (res.size() != 1) {
