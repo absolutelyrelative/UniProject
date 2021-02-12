@@ -24,7 +24,7 @@ public class registerView extends JPanel {
         add(new JLabel("E-Mail: "));
         add(rg_email);
         add(rg_button);
-        add(new JLabel("Inserisci username e e-mail. Ti sarà inviata un'e-mail contenente la tua password, che potrai cambiare o resettare in futuro."));
+        add(new JLabel("Inserisci username e e-mail. La password sarà inviata sulla tua E-Mail."));
 
         registerViewListener listener = new registerViewListener(rg_username, rg_email);
         rg_button.addActionListener(listener);

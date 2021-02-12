@@ -19,12 +19,14 @@ public class loginViewListener implements ActionListener {
     JPasswordField password;
     JLabel result;
     JButton Seller_View;
+    JButton Admin_View;
 
-    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View) {
+    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View, JButton Admin_View) {
         this.username = username;
         this.password = password;
         this.result = result;
         this.Seller_View = Seller_View;
+        this.Admin_View = Admin_View;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -45,7 +47,12 @@ public class loginViewListener implements ActionListener {
                     });
                     Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
                     if(a != null && a.getId() != 0){ //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
-                        new adminView();
+                        Admin_View.setVisible(true);
+                        Admin_View.addActionListener(new ActionListener(){
+                            public void actionPerformed(ActionEvent e){
+                                new adminView();
+                            }
+                        });
                     }
                 }
             } else {

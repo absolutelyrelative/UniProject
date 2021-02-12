@@ -1,10 +1,14 @@
 package it.unisalento.pps.SimpleBooking.DAO.business;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.AmministratoreDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
+import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.util.Result;
+
+import java.util.ArrayList;
 
 public class AmministratoreBusiness {
     private static AmministratoreBusiness instance;
@@ -66,4 +70,18 @@ public class AmministratoreBusiness {
         return r;
     }
 
+    public ArrayList<Beni> beniToApprove() {
+        ArrayList<Beni> beni = new ArrayList<>();
+        ArrayList<Beni> all = BeniDAO.getInstance().findAll();
+
+        //Inefficiente ma pulito
+        for (Beni b : all) {
+            if (b.getStato_Bene() == 0) { //0 - Not Approved, 1 - Approved
+                beni.add(b);
+            }
+        }
+
+        return beni;
+
+    }
 }

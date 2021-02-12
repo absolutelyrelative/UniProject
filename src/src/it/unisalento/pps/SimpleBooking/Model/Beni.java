@@ -17,8 +17,8 @@ public class Beni implements Serializable {
     private String Addr;
     private int Venditore_idVenditore;
     private int Tipo_Bene_idTipo_Bene;
-    private int Stato_Bene;
-    private int Pubblicazione;
+    private int Stato_Bene; //0 - Not Approved, 1 - Approved
+    private int Pubblicazione; //0 - Not Published, 1 - Published
     private int Amministratore_idAmministratore;
 
     public int getIdBeni() {

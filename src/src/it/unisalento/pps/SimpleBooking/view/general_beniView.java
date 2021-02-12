@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class buyer_beniView extends JFrame {
+public class general_beniView extends JFrame {
 
     private JLabel nome_label = new JLabel("Nome:");
     private JTextField nome = new JTextField(10);
@@ -45,9 +45,12 @@ public class buyer_beniView extends JFrame {
     ArrayList<Immagine> immagini;
     private int img_size;
     private int img_counter;
+    private Dimension panel_dimension;
+    private Dimension image_rescale;
 
-    public buyer_beniView(ArrayList<Beni> beni) {
+    public general_beniView(ArrayList<Beni> beni) {
         this.beni = beni;
+        panel_dimension = new Dimension(860, 860);
         //Panels
         JPanel north_panel = new JPanel(new FlowLayout());
         JPanel center_panel = new JPanel(new FlowLayout());
@@ -94,8 +97,8 @@ public class buyer_beniView extends JFrame {
         //Components
         descr.setPreferredSize(new Dimension(100, 100));
 
-        setVisible(true);
-        setSize(new Dimension(860, 860)); //TODO: Vorrei utilizzare pack()
+        //setVisible(true);
+        setSize(panel_dimension); //TODO: Vorrei utilizzare pack()
         container_panel.add(north_panel, BorderLayout.NORTH);
         container_panel.add(center_panel, BorderLayout.CENTER);
         container_panel.add(south_panel, BorderLayout.SOUTH);
@@ -119,26 +122,26 @@ public class buyer_beniView extends JFrame {
 
 
         immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
-        Immagine i = immagini.get(0);
         img_size = immagini.size();
         img_counter = 0; //Per coerenza personale, lo lascio anche se messo in dichiarazione
-        immagine = this.creaImmaginedaByte(i.getData());
 
-        Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-        immagine = new ImageIcon(scaled_img);
-        immagine_label.setIcon(immagine);
-        immagine_label.setPreferredSize(new Dimension(400, 400));
+        if (img_size == 0 || immagini.isEmpty()) {
+            immagine_label.setVisible(false);
+        } else {
+            immagine_label.setVisible(true);
+            Immagine i = immagini.get(0);
+            immagine = this.creaImmaginedaByte(i.getData());
+            Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+            immagine = new ImageIcon(scaled_img);
+            immagine_label.setIcon(immagine);
+            immagine_label.setPreferredSize(new Dimension(400, 400));
+        }
 
         //TODO: CHANGE
         //Questo è un pochino un mix illegale tra MVC & DAO, facciamo finta di nulla per ora ;)
         Tipo_Bene tb = Tipo_BeneDAO.getInstance().findById(b.getTipo_Bene_idTipo_Bene());
         if (tb != null) {
             tipoBene.setText(tb.getNome());
-        }
-        if (img_size == 0) {
-            immagine_label.setVisible(false);
-        } else {
-            immagine_label.setVisible(true);
         }
     }
 
