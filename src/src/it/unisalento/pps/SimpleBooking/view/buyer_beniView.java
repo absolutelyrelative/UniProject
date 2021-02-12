@@ -1,7 +1,10 @@
 package it.unisalento.pps.SimpleBooking.view;
 
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.ImmagineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
+import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 
 import javax.swing.*;
@@ -39,6 +42,9 @@ public class buyer_beniView extends JFrame {
     private int counter;
 
     ArrayList<Beni> beni;
+    ArrayList<Immagine> immagini;
+    private int img_size;
+    private int img_counter;
 
     public buyer_beniView(ArrayList<Beni> beni) {
         this.beni = beni;
@@ -81,13 +87,15 @@ public class buyer_beniView extends JFrame {
 
         b_dx.addActionListener(this::actionPerformed);
         b_sx.addActionListener(this::actionPerformed);
+        img_dx.addActionListener(this::actionPerformed);
+        img_sx.addActionListener(this::actionPerformed);
 
 
         //Components
         descr.setPreferredSize(new Dimension(100, 100));
 
         setVisible(true);
-        setSize(new Dimension(860,860)); //TODO: Vorrei utilizzare pack()
+        setSize(new Dimension(860, 860)); //TODO: Vorrei utilizzare pack()
         container_panel.add(north_panel, BorderLayout.NORTH);
         container_panel.add(center_panel, BorderLayout.CENTER);
         container_panel.add(south_panel, BorderLayout.SOUTH);
@@ -109,14 +117,32 @@ public class buyer_beniView extends JFrame {
         costi.setText(String.valueOf(b.getCosto_pd()) + "pd, " + String.valueOf(b.getCosto_pw()) + "pw, " + String.valueOf(b.getCosto_pm()) + "pm");
         addr.setText(b.getAddr());
 
+
+        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
+        Immagine i = immagini.get(0);
+        img_size = immagini.size();
+        img_counter = 0; //Per coerenza personale, lo lascio anche se messo in dichiarazione
+        immagine = this.creaImmaginedaByte(i.getData());
+
+        Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+        immagine = new ImageIcon(scaled_img);
+        immagine_label.setIcon(immagine);
+        immagine_label.setPreferredSize(new Dimension(400, 400));
+
         //TODO: CHANGE
         //Questo è un pochino un mix illegale tra MVC & DAO, facciamo finta di nulla per ora ;)
         Tipo_Bene tb = Tipo_BeneDAO.getInstance().findById(b.getTipo_Bene_idTipo_Bene());
-        if(tb != null){
+        if (tb != null) {
             tipoBene.setText(tb.getNome());
+        }
+        if (img_size == 0) {
+            immagine_label.setVisible(false);
+        } else {
+            immagine_label.setVisible(true);
         }
     }
 
+    //TODO: ADD CATCH FOR INDEX OUT OF BOUNDS
     public void actionPerformed(ActionEvent e) {
 
         if (e.getSource() == b_dx) {
@@ -131,14 +157,55 @@ public class buyer_beniView extends JFrame {
             }
         }
         if (e.getSource() == b_sx) {
-            if(counter == 0){
+            if (counter == 0) {
                 return;
-            }
-            else{
+            } else {
                 counter--;
                 Beni b = beni.get(counter);
                 populateBeni(b);
             }
         }
+        if (e.getSource() == img_dx) {
+            if (img_size == 0) {
+                immagine_label.setVisible(false);
+            } else {
+                immagine_label.setVisible(true);
+            }
+            if (img_counter < (img_size - 1)) {
+                img_counter++;
+                immagine = this.creaImmaginedaByte(immagini.get(img_counter).getData());
+                Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                immagine = new ImageIcon(scaled_img);
+            } else {
+                img_counter = 0;
+                immagine = this.creaImmaginedaByte(immagini.get(img_counter).getData());
+                Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                immagine = new ImageIcon(scaled_img);
+            }
+            immagine_label.setIcon(immagine);
+        }
+        if (e.getSource() == img_sx) {
+            if (img_size == 0) {
+                immagine_label.setVisible(false);
+            } else {
+                immagine_label.setVisible(true);
+            }
+            if (img_counter == 0) {
+                immagine = this.creaImmaginedaByte(immagini.get(img_counter).getData());
+                Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                immagine = new ImageIcon(scaled_img);
+            } else {
+                img_counter--;
+                immagine = this.creaImmaginedaByte(immagini.get(img_counter).getData());
+                Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+                immagine = new ImageIcon(scaled_img);
+            }
+            immagine_label.setIcon(immagine);
+        }
+    }
+
+    public ImageIcon creaImmaginedaByte(byte[] data) {
+        ImageIcon a = new ImageIcon(data);
+        return a;
     }
 }
