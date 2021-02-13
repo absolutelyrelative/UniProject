@@ -23,6 +23,7 @@ public class View {
     credentialsresetView crV = new credentialsresetView();
     credentialschangeView ccV = new credentialschangeView();
     guest_beniView gbV;
+    commentView cV = new commentView();
 
     public View() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -38,6 +39,7 @@ public class View {
         tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
         tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
         tabbedPane.addTab("Beni pubblicati", gbV.getContentPane());
+        tabbedPane.addTab("Comment",cV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
