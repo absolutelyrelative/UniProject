@@ -1,6 +1,7 @@
 package it.unisalento.pps.SimpleBooking;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
+import it.unisalento.pps.SimpleBooking.DAO.business.AmministratoreBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
@@ -9,6 +10,8 @@ import it.unisalento.pps.SimpleBooking.view.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class sellerView {
@@ -18,6 +21,7 @@ public class sellerView {
     seller_createBeneView scBV = new seller_createBeneView();
     seller_addImagesView saIV = new seller_addImagesView();
     general_beniView gbV;
+    seller_modifyBeneView smBV = new seller_modifyBeneView();
 
     public sellerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -31,6 +35,7 @@ public class sellerView {
         tabbedPane.addTab("Crea Bene", scBV.getContentPane());
         tabbedPane.addTab("Aggiungi Immagini",saIV.getContentPane());
         tabbedPane.addTab("Tuoi beni", gbV.getContentPane());
+        tabbedPane.addTab("Modifica beni",smBV.getContentPane());
 
 
 
@@ -46,6 +51,34 @@ public class sellerView {
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
+
+        //Ricalcola le liste
+        tabbedPane.addMouseListener(new MouseListener()
+        {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+                gbV.recalculate(b);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+        });
 
     }
 }

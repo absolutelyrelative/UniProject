@@ -29,4 +29,16 @@ public class BeniBusiness {
         }
         return null;
     }
+
+    public ArrayList<Beni> findAllPublished() {
+        ArrayList<Beni> result = new ArrayList<>();
+        ArrayList<Beni> all = BeniDAO.getInstance().findAll();
+        //Inefficiente, ma più pulito
+        for (Beni c : all) {
+            if (c.getStato_Bene() == 1 && c.getPubblicazione() == 1) { //Il check su stato bene è ridondante ma non fa male a nessuno
+                result.add(c);
+            }
+        }
+        return result;
+    }
 }

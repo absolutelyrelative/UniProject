@@ -8,6 +8,8 @@ import it.unisalento.pps.SimpleBooking.view.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class adminView {
@@ -17,7 +19,7 @@ public class adminView {
     addadminView aaV = new addadminView();
     removeadminView raV = new removeadminView();
     adminTipoBeneView aTBV = new adminTipoBeneView();
-    general_beniView gbV;
+    admin_beniView abV;
 
     public adminView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -25,13 +27,13 @@ public class adminView {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
         ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
-        gbV = new general_beniView(b);
+        abV = new admin_beniView(b);
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
         tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
         tabbedPane.addTab("Gestione Tipo Bene",aTBV.getContentPane());
-        tabbedPane.addTab("Beni da approvare",gbV.getContentPane());
+        tabbedPane.addTab("Beni da approvare",abV.getContentPane());
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -45,6 +47,34 @@ public class adminView {
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
+
+        //Ricalcola le liste
+        tabbedPane.addMouseListener(new MouseListener()
+        {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
+                abV.recalculate(b);
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+        });
 
     }
 

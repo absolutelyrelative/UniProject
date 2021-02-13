@@ -1,6 +1,9 @@
 package it.unisalento.pps.SimpleBooking.view;
 
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.*;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.VenditoreDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.Model.*;
 import it.unisalento.pps.SimpleBooking.util.MailHelper;
@@ -9,14 +12,12 @@ import it.unisalento.pps.SimpleBooking.util.Result;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class general_beniView extends JFrame {
-
+public class admin_beniView extends JFrame {
     private JLabel nome_label = new JLabel("Nome:");
     private JTextField nome = new JTextField(10);
     private JLabel descr_label = new JLabel("Descrizione:");
@@ -47,13 +48,10 @@ public class general_beniView extends JFrame {
     private Dimension panel_dimension;
     private Dimension image_rescale;
 
-    private JCheckBox approvato = new JCheckBox("Approvato");
-    private JCheckBox pubblicato = new JCheckBox("Pubblicato");
-    private JButton pubblica = new JButton("Pubblica");
-    private JButton non_pubblica = new JButton("Togli pubblicazione");
+    private JButton approva = new JButton("Approva ✓");
     private JButton rimuovi = new JButton("Rimuovi X");
 
-    public general_beniView(ArrayList<Beni> beni) {
+    public admin_beniView(ArrayList<Beni> beni) {
         this.beni = beni;
         panel_dimension = new Dimension(860, 860);
         //Panels
@@ -62,14 +60,11 @@ public class general_beniView extends JFrame {
         JPanel south_panel = new JPanel(new FlowLayout());
         JPanel container_panel = new JPanel(new BorderLayout());
 
-        pubblica.setForeground(Color.GREEN);
-        non_pubblica.setForeground(Color.orange);
-        rimuovi.setForeground(Color.RED);
-
         north_panel.add(b_sx);
         north_panel.add(b_dx);
-        north_panel.add(pubblica);
-        north_panel.add(non_pubblica);
+        approva.setForeground(Color.GREEN);
+        rimuovi.setForeground(Color.RED);
+        north_panel.add(approva);
         north_panel.add(rimuovi);
         center_panel.add(nome_label);
         center_panel.add(nome);
@@ -85,8 +80,6 @@ public class general_beniView extends JFrame {
         center_panel.add(addr);
         center_panel.add(tipoBene_label);
         center_panel.add(tipoBene);
-        center_panel.add(approvato);
-        center_panel.add(pubblicato);
         nome.setEditable(false);
         descr.setEditable(false);
         dataInizio.setEditable(false);
@@ -94,9 +87,6 @@ public class general_beniView extends JFrame {
         costi.setEditable(false);
         addr.setEditable(false);
         tipoBene.setEditable(false);
-        approvato.setEnabled(false);
-        pubblicato.setEnabled(false);
-
 
         immagine_label = new JLabel(immagine);
         immagine_label.setPreferredSize(new Dimension(200, 200));
@@ -109,8 +99,7 @@ public class general_beniView extends JFrame {
         b_sx.addActionListener(this::actionPerformed);
         img_dx.addActionListener(this::actionPerformed);
         img_sx.addActionListener(this::actionPerformed);
-        pubblica.addActionListener(this::actionPerformed);
-        non_pubblica.addActionListener(this::actionPerformed);
+        approva.addActionListener(this::actionPerformed);
         rimuovi.addActionListener(this::actionPerformed);
 
 
@@ -140,17 +129,6 @@ public class general_beniView extends JFrame {
         costi.setText(String.valueOf(b.getCosto_pd()) + "pd, " + String.valueOf(b.getCosto_pw()) + "pw, " + String.valueOf(b.getCosto_pm()) + "pm");
         addr.setText(b.getAddr());
 
-        if (b.getStato_Bene() != 0) {
-            approvato.setSelected(true);
-        } else {
-            approvato.setSelected(false);
-        }
-        if (b.getPubblicazione() != 0) {
-            pubblicato.setSelected(true);
-        } else {
-            pubblicato.setSelected(false);
-        }
-
 
         immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
         img_size = immagini.size();
@@ -179,6 +157,7 @@ public class general_beniView extends JFrame {
     //TODO: ADD CATCH FOR INDEX OUT OF BOUNDS
     public void actionPerformed(ActionEvent e) {
 
+        //Beni Listeners
         if (e.getSource() == b_dx) {
             if (counter < (size - 1)) {
                 counter++;
@@ -203,6 +182,8 @@ public class general_beniView extends JFrame {
                 }
             }
         }
+
+        //IMG Listeners
         if (e.getSource() == img_dx) {
             if (img_size == 0) {
                 immagine_label.setVisible(false);
@@ -240,17 +221,31 @@ public class general_beniView extends JFrame {
             }
             immagine_label.setIcon(immagine);
         }
-        if (e.getSource() == pubblica) {
+
+        //ADMIN Listeners
+        if (e.getSource() == approva) {
+            //Update Beni
             Beni b_toUpdate = beni.get(counter);
-            BeniDAO.getInstance().publishBene(b_toUpdate);
-            JOptionPane.showMessageDialog(null, "Bene pubblicato.");
-            //pubblicato.setSelected(true);
-        }
-        if (e.getSource() == non_pubblica) {
-            Beni b_toUpdate = beni.get(counter);
-            BeniDAO.getInstance().unpublishBene(b_toUpdate);
-            JOptionPane.showMessageDialog(null, "Bene rimosso da lista pubblica.");
-            //pubblicato.setSelected(false);
+            Beni b = b_toUpdate;
+            b.setStato_Bene(1); //0 - Non Approvato, 1 - Approvato
+            BeniDAO.getInstance().updateBene(b_toUpdate, b);
+            beni.remove(counter);
+            counter = 0;
+            size = size - 1;
+            //Send E-Mail
+            Venditore v = VenditoreDAO.getInstance().findById(b.getVenditore_idVenditore());
+            if (v != null) {
+                Utente u = UtenteDAO.getInstance().findById(v.getUtente_idUtente());
+                if (u != null) {
+                    new MailHelper().send(u.getEmail(), "SimpleBooking: Informazioni circa il tuo bene", "Il tuo Bene "
+                            + b.getNome() + " è stato approvato. Puoi ora pubblicarlo.");
+                    JOptionPane.showMessageDialog(null, "Bene approvato.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Errore.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Errore.");
+            }
         }
         if (e.getSource() == rimuovi) {
             Beni b_toRemove = beni.get(counter);
