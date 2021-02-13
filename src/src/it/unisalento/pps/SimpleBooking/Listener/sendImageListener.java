@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.ImmagineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
@@ -48,8 +49,42 @@ public class sendImageListener implements ActionListener {
                             }
                             for (String path : immagini) {
                                 Result k = this.sendImage(path, b.getIdBeni());
+                                if (!k.isSuccess()) {
+                                    JOptionPane.showMessageDialog(null, "Immagine troppo grande o rimossa.");
+                                } else {
+                                    JOptionPane.showMessageDialog(null, model.getSize() + " immagini aggiunte al bene.");
+                                }
+                                model.clear();
+                                immagini.clear();
                             }
-                            JOptionPane.showMessageDialog(null, model.getSize() + " immagini aggiunte al bene.");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Il bene non appartiene a te.");
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Non sei venditore.");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Effettua il Log-in.");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Bene non trovato. Assicurati che il nome sia corretto.");
+            }
+        }
+        if ((e.getActionCommand()).equals("Rimuovi tutte le immagini")) {
+            //Check 1 - Controlla che il bene esista
+            Beni b = BeniBusiness.getInstance().getBeneFromName(bene.getText());
+            if (b != null) {
+                Utente u = SessionHelper.getInstance().getUser();
+                if (u != null) {
+                    Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+                    if (v != null) {
+                        if (v.getIdVenditore() == b.getVenditore_idVenditore()) {
+                            Result r = ImmagineBusiness.getInstance().removeImmaginiFromBene(b);
+                            if (r.isSuccess() == true) {
+                                JOptionPane.showMessageDialog(null, "Immagini rimosse.");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Non tutte le immagini sono state rimosse.");
+                            }
                         } else {
                             JOptionPane.showMessageDialog(null, "Il bene non appartiene a te.");
                         }

@@ -242,8 +242,13 @@ public class general_beniView extends JFrame {
         }
         if (e.getSource() == pubblica) {
             Beni b_toUpdate = beni.get(counter);
-            BeniDAO.getInstance().publishBene(b_toUpdate);
-            JOptionPane.showMessageDialog(null, "Bene pubblicato.");
+            if(b_toUpdate.getStato_Bene() == 1){
+                BeniDAO.getInstance().publishBene(b_toUpdate);
+                JOptionPane.showMessageDialog(null, "Bene pubblicato.");
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Il bene non è approvato.");
+            }
             //pubblicato.setSelected(true);
         }
         if (e.getSource() == non_pubblica) {

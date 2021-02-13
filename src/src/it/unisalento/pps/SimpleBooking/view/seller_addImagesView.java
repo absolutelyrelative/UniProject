@@ -32,6 +32,7 @@ public class seller_addImagesView extends JFrame {
     DefaultListModel model = new DefaultListModel();
     private JScrollPane scroller;
     private Dimension selector_dimension = new Dimension(400, 120);
+    private JButton rimuovi = new JButton("Rimuovi tutte le immagini");
 
     public seller_addImagesView() {
         JPanel upper_panel = new JPanel();
@@ -56,9 +57,13 @@ public class seller_addImagesView extends JFrame {
         scroller = new JScrollPane(lista_immagini);
         scroller.setPreferredSize(selector_dimension);
 
+
+        completa.setForeground(Color.GREEN);
+        rimuovi.setForeground(Color.RED);
         center_panel.add(lista_immagini);
         south_panel.add(seleziona);
         south_panel.add(completa);
+        south_panel.add(rimuovi);
 
         containing_layout.add(upper_panel, BorderLayout.NORTH);
         containing_layout.add(center_panel, BorderLayout.CENTER);
@@ -69,6 +74,7 @@ public class seller_addImagesView extends JFrame {
         seleziona.addActionListener(this::actionPerformed);
         sendImageListener listener = new sendImageListener(bene_name, model);
         completa.addActionListener(listener);
+        rimuovi.addActionListener(listener);
 
 
     }
