@@ -9,6 +9,15 @@ public class Feedback implements Serializable {
     private int Beni_idBeni;
     private int Compratore_idCompratore;
     private int Venditore_idVenditore;
+    private int rating;
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
 
     public int getIdFeedback() {
         return idFeedback;

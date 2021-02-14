@@ -1,8 +1,5 @@
 package it.unisalento.pps.SimpleBooking;
 
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
-import it.unisalento.pps.SimpleBooking.DAO.business.AmministratoreBusiness;
-import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
@@ -20,7 +17,7 @@ public class sellerView {
     sellerstatusView ssV = new sellerstatusView();
     seller_createBeneView scBV = new seller_createBeneView();
     seller_addImagesView saIV = new seller_addImagesView();
-    general_beniView gbV;
+    seller_beniView gbV;
     seller_modifyBeneView smBV = new seller_modifyBeneView();
 
     public sellerView() {
@@ -29,7 +26,7 @@ public class sellerView {
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
         ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
-        gbV = new general_beniView(b);
+        gbV = new seller_beniView(b);
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Crea Bene", scBV.getContentPane());

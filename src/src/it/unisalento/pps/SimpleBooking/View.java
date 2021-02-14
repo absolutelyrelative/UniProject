@@ -2,8 +2,10 @@ package it.unisalento.pps.SimpleBooking;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 import it.unisalento.pps.SimpleBooking.view.*;
 
@@ -23,7 +25,6 @@ public class View {
     credentialsresetView crV = new credentialsresetView();
     credentialschangeView ccV = new credentialschangeView();
     guest_beniView gbV;
-    commentView cV = new commentView();
 
     public View() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -39,7 +40,6 @@ public class View {
         tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
         tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
         tabbedPane.addTab("Beni pubblicati", gbV.getContentPane());
-        tabbedPane.addTab("Comment",cV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
@@ -86,24 +86,12 @@ public class View {
     }
 
     public static void main(String[] args) {
-        /*Immagine t = new Immagine();
-        t.setBeni_idBeni(1);
-        File f = new File("C:\\Users\\Paolo Unisalento\\Desktop\\Untitled.png");
-        ImmagineDAO.getInstance().create(t,f);*/
-        //ArrayList<Beni> b = BeniDAO.getInstance().findAll();
-        //new general_beniView(b);
-
         new View();
-        /*Utente u = UtenteDAO.getInstance().findById(2);
-        Session.getInstance().saveSession(u);
-        System.out.println("isActive: " + Session.getInstance().isActive());
-        System.out.println("email: "+Session.getInstance().getUser().getEmail());
-        System.out.println("id: "+Session.getInstance().getUser().getId());*/
-        //Session.getInstance().closeSession();
-        //System.out.println("isActive: " + SessionHelper.getInstance().isActive());
-        //new MailHelper().send("paolo.danese@studenti.unisalento.it", "oggetto", "msg di test");
-        //Result r = UtenteBusiness.getInstance().login("","");
-        //System.out.println(r.isSuccess() + r.getMessage() + r.getType());
+        /*ArrayList<Comment> list = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(1);
+        for(Comment c : list){
+            System.out.println("Parent: " + c.getParent_feedback().getCommento());
+            System.out.println("Child: " + c.getChild_feedback().getCommento());
+        }*/
     }
 
 }

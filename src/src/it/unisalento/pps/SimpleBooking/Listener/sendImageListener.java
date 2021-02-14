@@ -55,8 +55,9 @@ public class sendImageListener implements ActionListener {
                                     JOptionPane.showMessageDialog(null, model.getSize() + " immagini aggiunte al bene.");
                                 }
                                 model.clear();
-                                immagini.clear();
+
                             }
+                            immagini.clear(); //THIS THREW AN EXCEPTION IN THE FOR LOOP SO I HAD TO MOVE IT.
                         } else {
                             JOptionPane.showMessageDialog(null, "Il bene non appartiene a te.");
                         }

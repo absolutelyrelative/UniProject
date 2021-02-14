@@ -1,21 +1,22 @@
 package it.unisalento.pps.SimpleBooking.view;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.*;
+import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.Model.*;
+import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.MailHelper;
 import it.unisalento.pps.SimpleBooking.util.Result;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class general_beniView extends JFrame {
+public class seller_beniView extends JFrame {
 
     private JLabel nome_label = new JLabel("Nome:");
     private JTextField nome = new JTextField(10);
@@ -52,8 +53,9 @@ public class general_beniView extends JFrame {
     private JButton pubblica = new JButton("Pubblica");
     private JButton non_pubblica = new JButton("Togli pubblicazione");
     private JButton rimuovi = new JButton("Rimuovi X");
+    private JButton commenti = new JButton("Mostra Commenti");
 
-    public general_beniView(ArrayList<Beni> beni) {
+    public seller_beniView(ArrayList<Beni> beni) {
         this.beni = beni;
         panel_dimension = new Dimension(860, 860);
         //Panels
@@ -104,6 +106,7 @@ public class general_beniView extends JFrame {
 
         south_panel.add(img_sx);
         south_panel.add(img_dx);
+        south_panel.add(commenti);
 
         b_dx.addActionListener(this::actionPerformed);
         b_sx.addActionListener(this::actionPerformed);
@@ -112,6 +115,7 @@ public class general_beniView extends JFrame {
         pubblica.addActionListener(this::actionPerformed);
         non_pubblica.addActionListener(this::actionPerformed);
         rimuovi.addActionListener(this::actionPerformed);
+        commenti.addActionListener(this::actionPerformed);
 
 
         //Components
@@ -279,6 +283,16 @@ public class general_beniView extends JFrame {
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Errore.");
+            }
+        }
+        if (e.getSource() == commenti){
+            if(!beni.isEmpty()) {
+                Beni b = beni.get(counter);
+                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
+                new seller_commentView(sorted);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
     }

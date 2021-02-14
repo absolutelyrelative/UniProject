@@ -1,13 +1,10 @@
 package it.unisalento.pps.SimpleBooking.view;
 
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.VenditoreDAO;
+import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.Model.*;
-import it.unisalento.pps.SimpleBooking.util.MailHelper;
-import it.unisalento.pps.SimpleBooking.util.Result;
+import it.unisalento.pps.SimpleBooking.util.Comment;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +44,7 @@ public class guest_beniView extends JFrame{
     private int img_counter;
     private Dimension panel_dimension;
     private Dimension image_rescale;
-
+    private JButton commenti = new JButton("Mostra Commenti");
     //TODO: ADD FILTERS
 
 
@@ -90,11 +87,13 @@ public class guest_beniView extends JFrame{
 
         south_panel.add(img_sx);
         south_panel.add(img_dx);
+        south_panel.add(commenti);
 
         b_dx.addActionListener(this::actionPerformed);
         b_sx.addActionListener(this::actionPerformed);
         img_dx.addActionListener(this::actionPerformed);
         img_sx.addActionListener(this::actionPerformed);
+        commenti.addActionListener(this::actionPerformed);
 
 
         //Components
@@ -214,6 +213,17 @@ public class guest_beniView extends JFrame{
                 immagine = new ImageIcon(scaled_img);
             }
             immagine_label.setIcon(immagine);
+        }
+
+        if (e.getSource() == commenti){
+            if(!beni.isEmpty()) {
+                Beni b = beni.get(counter);
+                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
+                new guest_commentView(sorted);
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
+            }
         }
 
     }
