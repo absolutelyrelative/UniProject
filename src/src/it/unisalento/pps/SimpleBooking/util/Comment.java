@@ -56,9 +56,9 @@ public class Comment {
     }
 
     public DefaultMutableTreeNode getCombined() {
-        if (child_node.getUserObject() != null) { //Altrimenti l'albero mostra un child vuoto
+        //if (child_node.getUserObject() != null) { //Altrimenti l'albero mostra un child vuoto
             parent_node.add(child_node);
-        }
+       // }
         return parent_node;
     }
 
