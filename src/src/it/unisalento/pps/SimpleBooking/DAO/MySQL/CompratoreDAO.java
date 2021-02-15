@@ -88,4 +88,5 @@ public class CompratoreDAO implements ICompratoreDAO {
         }
         return r;
     }
+
 }

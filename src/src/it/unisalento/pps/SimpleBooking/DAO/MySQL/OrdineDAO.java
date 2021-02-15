@@ -165,11 +165,23 @@ public class OrdineDAO implements IOrdineDAO {
         ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
         if (res.isEmpty() || res.size() == 0 || res == null) {
             return null;
-        }
-        else{
+        } else {
             String[] row = res.get(0);
             Ordine a = findById(Integer.parseInt(row[0]));
             return a;
         }
+    }
+
+    public ArrayList<Ordine> getOrdiniFromCompratore(int compratore_id) {
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idOrdine FROM Ordine WHERE Compratore_idCompratore = '" + compratore_id + "';");
+        ArrayList<Ordine> ordini = new ArrayList<>();
+
+        for (String[] row : res) {
+            Ordine a = findById(Integer.parseInt(row[0]));
+            ordini.add(a);
+        }
+
+        return ordini;
+
     }
 }

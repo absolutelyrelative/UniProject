@@ -1,9 +1,8 @@
 package it.unisalento.pps.SimpleBooking.DAO.business;
 
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.VenditoreDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.*;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 
@@ -53,6 +52,17 @@ public class BeniBusiness {
 
         return u;
 
+    }
+
+    public ArrayList<Beni> findOrderedBeni(int compratore_id) {
+        ArrayList<Ordine> ordini = OrdineDAO.getInstance().getOrdiniFromCompratore(compratore_id);
+        ArrayList<Beni> filtered = new ArrayList<>();
+
+        for (Ordine o : ordini) {
+            Beni b = BeniDAO.getInstance().findById(o.getBeni_idBeni());
+            filtered.add(b);
+        }
+        return filtered;
     }
 
 }

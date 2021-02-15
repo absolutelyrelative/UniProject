@@ -1,13 +1,13 @@
 package it.unisalento.pps.SimpleBooking.Listener;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.CompratoreDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.OrdineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.Tipo_BeneBusiness;
-import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
-import it.unisalento.pps.SimpleBooking.Model.Utente;
-import it.unisalento.pps.SimpleBooking.Model.Venditore;
+import it.unisalento.pps.SimpleBooking.Model.*;
+import it.unisalento.pps.SimpleBooking.util.MailHelper;
 import it.unisalento.pps.SimpleBooking.util.Result;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 import org.jdatepicker.impl.JDatePickerImpl;
@@ -84,6 +84,25 @@ public class modifyBeneListener implements ActionListener {
                                         BeniDAO.getInstance().updateBene(b,b_new);
                                         JOptionPane.showMessageDialog(null, "Bene modificato correttamente.");
                                         //TODO: INFORM BUYERS OF THIS BENE IF THEY EXIST
+                                        Ordine o = OrdineDAO.getInstance().getOrdineFromBeni(b_new.getIdBeni());
+                                        if(o != null){
+                                            Compratore c = CompratoreDAO.getInstance().findById(o.getCompratore_idCompratore());
+                                            if(c != null){
+                                                Utente u_c = UtenteDAO.getInstance().findById(c.getId());
+                                                if(u_c != null){
+                                                    new MailHelper().send(u_c.getEmail(), "SimpleBooking: Ordine CAMBIATO", "Ciao. Il bene " + b_new.getNome() + " è stato CAMBIATO. Controlla e/o cancella l'ordine se necessario.");
+                                                }
+                                                else{
+                                                    //Non dovrebbe accadere. TODO: ADD CHECKS
+                                                }
+                                            }
+                                            else{
+                                                //Non dovrebbe accadere. TODO: ADD CHECKS
+                                            }
+                                        }
+                                        else{ //No order exists, no need to do anything
+                                            return;
+                                        }
                                     }
                                 }
                                 catch(Exception h){

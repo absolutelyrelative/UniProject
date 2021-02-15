@@ -85,7 +85,7 @@ public class OrdineBusiness {
         if (u != null) {
             String email = u.getEmail();
             Beni b = BeniDAO.getInstance().findById(beni_id);
-            new MailHelper().send(email, "SimpleBooking: Ordine effettuato", "Ciao.<br> Il tuo bene " + b.getNome() + " è stato ordinato. Riceverai presto i dettagli.");
+            new MailHelper().send(email, "SimpleBooking: Ordine effettuato", "Ciao. Il tuo bene " + b.getNome() + " è stato ordinato. Riceverai presto i dettagli.");
             r.setSuccess(true);
             r.setMessage("E-Mail inviata.");
             return r;

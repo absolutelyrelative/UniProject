@@ -282,4 +282,5 @@ public class BeniDAO implements IBeniDAO {
     public ArrayList<Beni> sortByApprover(Amministratore a) {
         return null;
     }
+
 }
