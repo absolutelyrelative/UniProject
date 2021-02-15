@@ -9,6 +9,7 @@ import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.util.*;
 
 import javax.mail.Session;
+import java.util.ArrayList;
 
 public class UtenteBusiness {
 

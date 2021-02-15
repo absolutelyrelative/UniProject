@@ -1,5 +1,6 @@
 package it.unisalento.pps.SimpleBooking;
 
+import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
@@ -14,33 +15,26 @@ import java.util.ArrayList;
 public class buyerView {
     JFrame frame;
     JTabbedPane tabbedPane;
-    sellerstatusView ssV = new sellerstatusView();
-    seller_createBeneView scBV = new seller_createBeneView();
-    seller_addImagesView saIV = new seller_addImagesView();
-    seller_beniView gbV;
-    seller_modifyBeneView smBV = new seller_modifyBeneView();
+    buyer_statusView bsV = new buyer_statusView();
+    buyer_beniView bbV;
 
     public buyerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
         frame = new JFrame("SimpleBooking BUYER");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
-        ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
-        gbV = new seller_beniView(b);
+        ArrayList<Beni> b = BeniBusiness.getInstance().findAllPublished();
+        bbV = new buyer_beniView(b);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Crea Bene", scBV.getContentPane());
-        tabbedPane.addTab("Aggiungi Immagini",saIV.getContentPane());
-        tabbedPane.addTab("Tuoi beni", gbV.getContentPane());
-        tabbedPane.addTab("Modifica beni",smBV.getContentPane());
-
+        tabbedPane.addTab("Prenota Beni", bbV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
-        frame.getContentPane().add(ssV.getContentPane(), BorderLayout.SOUTH);
+        frame.getContentPane().add(bsV.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
         frame.setSize(800,800);
@@ -56,7 +50,7 @@ public class buyerView {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
-                gbV.recalculate(b);
+                bbV.recalculate(b);
             }
 
             @Override

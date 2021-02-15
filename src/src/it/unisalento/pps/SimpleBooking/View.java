@@ -1,6 +1,7 @@
 package it.unisalento.pps.SimpleBooking;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
+import it.unisalento.pps.SimpleBooking.DAO.MySQL.OrdineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
@@ -87,11 +88,6 @@ public class View {
 
     public static void main(String[] args) {
         new View();
-        /*ArrayList<Comment> list = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(1);
-        for(Comment c : list){
-            System.out.println("Parent: " + c.getParent_feedback().getCommento());
-            System.out.println("Child: " + c.getChild_feedback().getCommento());
-        }*/
     }
 
 }

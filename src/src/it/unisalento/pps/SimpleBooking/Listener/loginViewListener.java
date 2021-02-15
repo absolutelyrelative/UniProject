@@ -5,6 +5,7 @@ import it.unisalento.pps.SimpleBooking.DAO.business.UtenteBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.adminView;
+import it.unisalento.pps.SimpleBooking.buyerView;
 import it.unisalento.pps.SimpleBooking.sellerView;
 import it.unisalento.pps.SimpleBooking.util.Result;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
@@ -20,13 +21,15 @@ public class loginViewListener implements ActionListener {
     JLabel result;
     JButton Seller_View;
     JButton Admin_View;
+    JButton Buyer_View;
 
-    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View, JButton Admin_View) {
+    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View, JButton Admin_View, JButton Buyer_View) {
         this.username = username;
         this.password = password;
         this.result = result;
         this.Seller_View = Seller_View;
         this.Admin_View = Admin_View;
+        this.Buyer_View = Buyer_View;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -43,6 +46,12 @@ public class loginViewListener implements ActionListener {
                     Seller_View.addActionListener(new ActionListener(){
                         public void actionPerformed(ActionEvent e){
                             new sellerView();
+                        }
+                    });
+                    Buyer_View.setVisible(true);
+                    Buyer_View.addActionListener(new ActionListener(){
+                        public void actionPerformed(ActionEvent e){
+                            new buyerView();
                         }
                     });
                     Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());

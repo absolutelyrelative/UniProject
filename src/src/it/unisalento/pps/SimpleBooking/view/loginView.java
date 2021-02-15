@@ -14,8 +14,9 @@ public class loginView extends JPanel {
     JPasswordField lg_password;
     JButton lg_button = new JButton("Log in");
     JLabel result;
-    JButton Seller_View = new JButton("Mostra schermata venditori");
-    JButton Admin_View = new JButton("Mostra schermata admin");
+    JButton Seller_View = new JButton("Schermata Venditori");
+    JButton Admin_View = new JButton("Schermata Admin");
+    JButton Buyer_View = new JButton("Schermata Compratori");
 
     public loginView() {
         setLayout(new FlowLayout());
@@ -35,10 +36,12 @@ public class loginView extends JPanel {
         add(Seller_View);
         Admin_View.setVisible(false);
         add(Admin_View);
+        Buyer_View.setVisible(false);
+        add(Buyer_View);
 
 
         //Listeners
-        loginViewListener listener = new loginViewListener(lg_username,lg_password,result,Seller_View,Admin_View);
+        loginViewListener listener = new loginViewListener(lg_username, lg_password, result, Seller_View, Admin_View, Buyer_View);
         lg_button.addActionListener(listener);
     }
 
