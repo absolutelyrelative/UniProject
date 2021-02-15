@@ -137,4 +137,39 @@ public class FeedbackDAO implements IFeedbackDAO {
 
     }
 
+    //TODO: TEST!!
+    //PER REQUISITI, AL RISPOSTA E' UNICA
+    public Feedback getReplytoReply(Feedback f){
+        //CHILDREN FEEDBACK HAVE Feedback_idFeedback SET TO PARENT'S idFeedback
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idFeedback, Commento, Feedback_idFeedback, Beni_idBeni, Compratore_idCompratore, Venditore_idVenditore, Rating FROM Feedback WHERE Feedback_idFeedback = '" + f.getIdFeedback() + "' LIMIT 1;");
+        Feedback r = null;
+
+        try {
+            String[] result = res.get(0);
+            r = new Feedback();
+            r.setIdFeedback(Integer.parseInt(result[0]));
+            r.setCommento(result[1]); //TODO: TEST STRING TYPE COHERENCY
+            if ((result[2]) == null) { //PARENT
+                r.setBeni_idBeni(Integer.parseInt(result[3]));
+                r.setCompratore_idCompratore(Integer.parseInt(result[4]));
+                r.setVenditore_idVenditore(Integer.parseInt(result[5]));
+                r.setRating(Integer.parseInt(result[6]));
+            } else { //CHILD
+                r.setFeedback_idFeedback(Integer.parseInt(result[2]));
+                r.setBeni_idBeni(Integer.parseInt(result[3]));
+                r.setCompratore_idCompratore(Integer.parseInt(result[4]));
+                r.setVenditore_idVenditore(Integer.parseInt(result[5]));
+                r.setRating(Integer.parseInt(result[6]));
+            }
+        } catch (RuntimeException e) {
+            System.out.println(e.toString());
+        } finally {
+            if (res.size() != 1) {
+                System.out.println("Out of bounds.\n");
+            }
+        }
+
+        return r;
+    }
+
 }

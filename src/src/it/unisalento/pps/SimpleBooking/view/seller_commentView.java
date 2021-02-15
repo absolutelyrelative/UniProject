@@ -1,6 +1,8 @@
 package it.unisalento.pps.SimpleBooking.view;
 
+import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.util.Comment;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionEvent;
@@ -10,8 +12,9 @@ import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 
-public class seller_commentView extends JFrame{
+public class seller_commentView extends JFrame {
     private JTree albero;
     private JScrollPane scrollpane;
     private JTextArea risposta;
@@ -57,7 +60,7 @@ public class seller_commentView extends JFrame{
         JPanel container_panel = new JPanel(new BorderLayout());
 
         //Components
-        risposta = new JTextArea(4,50);
+        risposta = new JTextArea(4, 50);
         center_panel.add(scrollpane);
         south_panel.add(answer_label);
         south_panel.add(risposta);
@@ -70,8 +73,8 @@ public class seller_commentView extends JFrame{
         container_panel.add(south_panel, BorderLayout.SOUTH);
         getContentPane().add(container_panel);
 
-       // albero.addTreeSelectionListener(this::treeActionPerformed);
-       // albero.addTreeWillExpandListener(treeWillExpandListener);
+        // albero.addTreeSelectionListener(this::treeActionPerformed);
+        // albero.addTreeWillExpandListener(treeWillExpandListener);
         answer_button.addActionListener(this::actionPerformed);
 
     }
@@ -79,40 +82,83 @@ public class seller_commentView extends JFrame{
     private void actionPerformed(ActionEvent e) {
 
         //Beni Listeners
-        if (e.getSource() == answer_button){
-            int risposta = JOptionPane.showConfirmDialog(null,"Inviare la risposta?","",JOptionPane.YES_NO_OPTION);
-            if(risposta == JOptionPane.OK_OPTION){ //ok
+        if (e.getSource() == answer_button) {
+            int risposta = JOptionPane.showConfirmDialog(null, "Inviare la risposta?", "", JOptionPane.YES_NO_OPTION);
+            if (risposta == JOptionPane.OK_OPTION) { //ok
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode) albero.getLastSelectedPathComponent();
-                if(node != null){
+                if (node != null) {
                     //DOSTUFF
+                    if (node.getParent() == root) {
+                        //Il nodo è PARENT
+                        try {
+                            if (node.getFirstChild() != null) {
+                                //PARENT WITH CHILD - FEEDBACK WITH A REPLY
+                                int override = JOptionPane.showConfirmDialog(null,"Esiste già una risposta. Modificarla?", "",JOptionPane.YES_NO_OPTION);
+                                if(override == JOptionPane.OK_OPTION){
+                                    Result c = FeedbackBusiness.getInstance().deleteReplyToFeedback(node);
+                                    if(c.isSuccess()){
+                                        Result r = FeedbackBusiness.getInstance().replyToFeedback(node,this.risposta.getText());
+                                        if(r.isSuccess()){
+                                            JOptionPane.showMessageDialog(null, "Risposta inviata.");
+                                        }
+                                        else{
+                                            JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
+                                        }
+                                    }
+                                    else{
+                                        JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
+                                    }
+                                }
+                                else{
+                                    return;
+                                }
+                            }
+                        } catch (NoSuchElementException k) {
+                            //PARENT WITHOUT CHILD - FEEDBACK WITH NO REPLIES
+                            Result r = FeedbackBusiness.getInstance().replyToFeedback(node, this.risposta.getText());
+                            if(r.isSuccess()){
+                                JOptionPane.showMessageDialog(null, "Risposta inviata.");
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
+                            }
+                        }
+
+                    }
+                    if (node.getParent() != root) { //Riscrivo in questo modo per coerenza personale anche se ridondante
+                        //REPLY SELECTED
+                    }
                 }
-            }
-            else{
+            } else {
                 return;
             }
         }
     }
 
-    private void treeActionPerformed(TreeSelectionEvent e){
+    //Ho scelto di utilizzare il metodo migliore di sopra
+    @Deprecated
+    private void treeActionPerformed(TreeSelectionEvent e) {
         //Preso da https://docs.oracle.com/javase/tutorial/uiswing/components/tree.html#select
 
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) albero.getLastSelectedPathComponent();
-        if(node == null){
+        if (node == null) {
             return;
         }
         Object nodeInfo = node.getUserObject();
-        if (node.isLeaf()){
+        if (node.isLeaf()) {
             //Il nodo è child
             JOptionPane.showMessageDialog(null, "leaf");
-        }
-        else{
+        } else {
             //Il nodo è parent
-            String risposta = JOptionPane.showInputDialog(null, "Scrivi la risposta:","Rispondi al commento", JOptionPane.INFORMATION_MESSAGE);
+            String risposta = JOptionPane.showInputDialog(null, "Scrivi la risposta:", "Rispondi al commento", JOptionPane.INFORMATION_MESSAGE);
             if (risposta == null) { //Anche se si preme 'Cancel' si attiva
                 System.out.println("The user canceled");
-            }
-            else{
-
+            } else {
+                if (node.getFirstChild() != null) {
+                    System.out.println("Has leaf");
+                } else {
+                    System.out.println("Does not have leaf");
+                }
             }
             albero.setSelectionPath(null); //Resetta la selezione
         }

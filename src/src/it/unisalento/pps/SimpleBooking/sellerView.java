@@ -22,7 +22,7 @@ public class sellerView {
 
     public sellerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        frame = new JFrame("SimpleBooking");
+        frame = new JFrame("SimpleBooking SELLER");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
         ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());

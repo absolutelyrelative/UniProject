@@ -1,6 +1,5 @@
 package it.unisalento.pps.SimpleBooking;
 
-import it.unisalento.pps.SimpleBooking.DAO.business.AmministratoreBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
@@ -12,37 +11,39 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-public class adminView {
+public class buyerView {
     JFrame frame;
     JTabbedPane tabbedPane;
-    adminstatusView adminstatus = new adminstatusView();
-    addadminView aaV = new addadminView();
-    removeadminView raV = new removeadminView();
-    adminTipoBeneView aTBV = new adminTipoBeneView();
-    admin_beniView abV;
+    sellerstatusView ssV = new sellerstatusView();
+    seller_createBeneView scBV = new seller_createBeneView();
+    seller_addImagesView saIV = new seller_addImagesView();
+    seller_beniView gbV;
+    seller_modifyBeneView smBV = new seller_modifyBeneView();
 
-    public adminView() {
+    public buyerView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
-        frame = new JFrame("SimpleBooking ADMIN");
+        frame = new JFrame("SimpleBooking BUYER");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
-        ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
-        abV = new admin_beniView(b);
+        ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+        gbV = new seller_beniView(b);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
-        tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
-        tabbedPane.addTab("Gestione Tipo Bene",aTBV.getContentPane());
-        tabbedPane.addTab("Beni da approvare",abV.getContentPane());
+        tabbedPane.addTab("Crea Bene", scBV.getContentPane());
+        tabbedPane.addTab("Aggiungi Immagini",saIV.getContentPane());
+        tabbedPane.addTab("Tuoi beni", gbV.getContentPane());
+        tabbedPane.addTab("Modifica beni",smBV.getContentPane());
+
+
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         //AGGIUNGI ALTRI PANE IN FRAME->CONTENTPANE
-        frame.getContentPane().add(adminstatus.getContentPane(), BorderLayout.SOUTH);
+        frame.getContentPane().add(ssV.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(700,500);
+        frame.setSize(800,800);
         frame.validate();
         frame.doLayout();
         //frame.pack();
@@ -54,8 +55,8 @@ public class adminView {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
-                abV.recalculate(b);
+                ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+                gbV.recalculate(b);
             }
 
             @Override
@@ -77,5 +78,4 @@ public class adminView {
         });
 
     }
-
 }
