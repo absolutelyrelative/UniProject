@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.OrdineBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.PagamentoBusiness;
 import it.unisalento.pps.SimpleBooking.Model.*;
 import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.DateLabelFormatter;
@@ -302,6 +303,7 @@ public class buyer_beniView extends JFrame {
                             if(h.isSuccess()){
                                 JOptionPane.showMessageDialog(null, "Ordine aggiunto. Puoi proseguire al pagamento.");
                                 OrdineBusiness.getInstance().sendAlert(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
+                                PagamentoBusiness.getInstance().generatePagamento(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
                             }
                             else{
                                 JOptionPane.showMessageDialog(null, "Non è stato possibile creare l'ordine. Ricarica la lista dei beni.");

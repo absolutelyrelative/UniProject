@@ -159,4 +159,17 @@ public class OrdineDAO implements IOrdineDAO {
             return true;
         }
     }
+
+    public Ordine getOrdineFromBeni(int beni_id) {
+        String query = "SELECT idOrdine FROM Ordine WHERE Beni_idBeni = '" + beni_id + "'";
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery(query);
+        if (res.isEmpty() || res.size() == 0 || res == null) {
+            return null;
+        }
+        else{
+            String[] row = res.get(0);
+            Ordine a = findById(Integer.parseInt(row[0]));
+            return a;
+        }
+    }
 }

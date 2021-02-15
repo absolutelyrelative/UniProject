@@ -34,7 +34,7 @@ public class OrdineBusiness {
 
         //Calcolo giorni per calcolo costo
         long differenza = fine.getTime() - inizio.getTime();
-        long giorni = TimeUnit.DAYS.convert(differenza, TimeUnit.MILLISECONDS);
+        long giorni = TimeUnit.DAYS.convert(differenza, TimeUnit.MILLISECONDS) + 1; //Minimum of 1 days is paid
         if (giorni <= Long.MAX_VALUE && giorni >= Long.MIN_VALUE) {   //Per evitare overflow o incoerenze
             //Calcolo costo
             float costo = (float) giorni * b.getCosto_pd();
