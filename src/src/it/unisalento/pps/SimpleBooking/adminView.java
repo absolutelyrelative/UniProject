@@ -20,6 +20,7 @@ public class adminView {
     removeadminView raV = new removeadminView();
     adminTipoBeneView aTBV = new adminTipoBeneView();
     admin_beniView abV;
+    seller_removeOrder srO = new seller_removeOrder();
 
     public adminView() {
         JFrame.setDefaultLookAndFeelDecorated(true);
@@ -34,6 +35,7 @@ public class adminView {
         tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
         tabbedPane.addTab("Gestione Tipo Bene",aTBV.getContentPane());
         tabbedPane.addTab("Beni da approvare",abV.getContentPane());
+        tabbedPane.addTab("Rimuovi Ordini", srO.getContentPane());
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);

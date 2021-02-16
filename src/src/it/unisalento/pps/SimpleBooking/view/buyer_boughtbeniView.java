@@ -5,10 +5,7 @@ import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.OrdineBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.PagamentoBusiness;
-import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.Model.Immagine;
-import it.unisalento.pps.SimpleBooking.Model.Ordine;
-import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
+import it.unisalento.pps.SimpleBooking.Model.*;
 import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.DateLabelFormatter;
 import it.unisalento.pps.SimpleBooking.util.Result;
@@ -56,15 +53,9 @@ public class buyer_boughtbeniView extends JFrame {
     private Dimension panel_dimension;
     private Dimension image_rescale;
 
-    private JButton pay = new JButton("Paga");
-    private JLabel card_number = new JLabel("Numero carta:");
-    private JTextField card_field = new JTextField(15);
-    private JLabel cvv = new JLabel("CVV:");
-    private JTextField cvv_field = new JTextField(4);
-    private JLabel pin = new JLabel("PIN:");
-    private JTextField pin_field = new JTextField(5);
     private JButton commenti = new JButton("Mostra Commenti");
     private JCheckBox pagato = new JCheckBox("Pagato");
+    private JButton paga = new JButton("Paga");
 
     public buyer_boughtbeniView(ArrayList<Beni> beni) {
         //CALENDARIO
@@ -104,6 +95,8 @@ public class buyer_boughtbeniView extends JFrame {
         center_panel.add(addr);
         center_panel.add(tipoBene_label);
         center_panel.add(tipoBene);
+        center_panel.add(paga);
+        center_panel.add(pagato);
         //center_panel.add(approvato);
         //center_panel.add(pubblicato);
         nome.setEditable(false);
@@ -113,6 +106,7 @@ public class buyer_boughtbeniView extends JFrame {
         costi.setEditable(false);
         addr.setEditable(false);
         tipoBene.setEditable(false);
+        pagato.setEnabled(false);
 
 
         immagine_label = new JLabel(immagine);
@@ -128,6 +122,7 @@ public class buyer_boughtbeniView extends JFrame {
         img_dx.addActionListener(this::actionPerformed);
         img_sx.addActionListener(this::actionPerformed);
         commenti.addActionListener(this::actionPerformed);
+        paga.addActionListener(this::actionPerformed);
 
 
         //Components
@@ -152,9 +147,18 @@ public class buyer_boughtbeniView extends JFrame {
         descr.setText(b.getDescrizione());
         Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b.getIdBeni());
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        dataInizio.setText(format.format(o.getData_Inizio()));
-        dataFine.setText(format.format(o.getData_Fine()));
-        costi.setText(String.valueOf(o.getImporto_Tot()));
+        if (o != null) {
+            Pagamento p = PagamentoBusiness.getInstance().getPagamentoFromOrder(o);
+            dataInizio.setText(format.format(o.getData_Inizio()));
+            dataFine.setText(format.format(o.getData_Fine()));
+            costi.setText(String.valueOf(o.getImporto_Tot()));
+            if (p.getStato() == 1) {
+                pagato.setSelected(true);
+            } else {
+                pagato.setSelected(false);
+            }
+        }
+
         addr.setText(b.getAddr());
 
         immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
@@ -253,6 +257,22 @@ public class buyer_boughtbeniView extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
+        }
+        if (e.getSource() == paga){
+            Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(beni.get(counter).getIdBeni());
+            if(o != null){
+                Pagamento p = PagamentoBusiness.getInstance().getPagamentoFromOrder(o);
+                if(p != null){
+                    new buyer_paymentView(beni.get(counter),p);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Errore: Pagamento non trovato.");
+                }
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Errore: Ordine non trovato.");
+            }
+
         }
     }
 

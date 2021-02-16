@@ -87,7 +87,7 @@ public class PagamentoDAO implements IPagamentoDAO {
 
 
     //TODO: TEST
-    //TODO: TEST CASCADE DELETE OF ORDINE -> PAGAMENTO
+    //TEST CASCADE DELETE OF ORDINE -> PAGAMENTO (Works!)
     @Override
     public Result delete(Pagamento t) {
         Result r = new Result();
@@ -117,5 +117,36 @@ public class PagamentoDAO implements IPagamentoDAO {
         DbConnection.getInstance().eseguiAggiornamento(query);
     } //0 = Not Paid, 1 = Paid
 
+
+    public Pagamento getPagamentoFromOrderId(int order_id) {
+        ArrayList<String[]> res = DbConnection.getInstance().eseguiQuery("SELECT idPagamento FROM Pagamento WHERE Ordine_idOrdine = '" + order_id + "' LIMIT 1;");
+
+        Pagamento a = null;
+
+        if (res.isEmpty() || res.size() == 0 || res == null) {
+            return null;
+        } else {
+            String[] row = res.get(0);
+            a = findById(Integer.parseInt(row[0]));
+        }
+
+        return a;
+    }
+
+    //Probabilmente viola qualche legge sulla privacy ma vabé
+    public Result pay(Pagamento p, String Card, String CVV, String Pin) {
+        Result r = new Result();
+        String query = "UPDATE Pagamento SET Stato = '1', Numero_Carta = '" + Card + "', CVV = '" + CVV + "', PIN = '" + Pin + "' WHERE idPagamento = '" + p.getIdPagamento() + "';";
+        if(DbConnection.getInstance().eseguiAggiornamento(query) == true){
+            r.setSuccess(true);
+            r.setMessage("Query pagamento eseguita.");
+            return r;
+        }
+        else{
+            r.setSuccess(false);
+            r.setMessage("Problema con query pagamento.");
+            return r;
+        }
+    }
 
 }
