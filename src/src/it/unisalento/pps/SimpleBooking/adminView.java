@@ -44,7 +44,7 @@ public class adminView {
         frame.getContentPane().add(adminstatus.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(700,500);
+        frame.setSize(800,800);
         frame.validate();
         frame.doLayout();
         //frame.pack();

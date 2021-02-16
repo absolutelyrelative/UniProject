@@ -253,3 +253,12 @@ ENGINE = InnoDB;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+INSERT INTO Utente(email, password, username)
+VALUES('simplebooking.paolo@gmail.com','1721920','SBT');
+INSERT INTO Amministratore(Utente_idUtente)
+VALUES('1');
+INSERT INTO Compratore(Utente_idUtente)
+VALUES('1');
+INSERT INTO Venditore(Utente_idUtente)
+VALUES('1');

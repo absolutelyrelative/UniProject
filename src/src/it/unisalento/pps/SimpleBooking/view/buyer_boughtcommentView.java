@@ -96,22 +96,24 @@ public class buyer_boughtcommentView extends JFrame {
         if (e.getSource() == answer_button) {
             int risposta = JOptionPane.showConfirmDialog(null, "Inviare il commento?", "", JOptionPane.YES_NO_OPTION);
             if (risposta == JOptionPane.OK_OPTION) { //ok
-                if(Integer.parseInt(rating.getText()) > 5 || Integer.parseInt(rating.getText()) < 0 || rating.getText().isEmpty() || rating.getText() == null){
-                    JOptionPane.showMessageDialog(null, "Errore: Inserisci un rating valido.");
+                try {
+                    if (Integer.parseInt(rating.getText()) > 5 || Integer.parseInt(rating.getText()) < 0 || rating.getText().isEmpty() || rating.getText() == null) {
+                        JOptionPane.showMessageDialog(null, "Errore: Inserisci un rating valido.");
+                    } else {
+                        if (this.risposta.getText().length() > 150) {
+                            JOptionPane.showMessageDialog(null, "Errore: Commento troppo lungo.");
+                        } else {
+                            Result c = FeedbackBusiness.getInstance().createFeedback(Integer.parseInt(rating.getText()), this.b, this.risposta.getText());
+                            if (c.isSuccess()) {
+                                JOptionPane.showMessageDialog(null, "Commento inviato.");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Si è verificato un'errore. Si prega di riprovare.");
+                            }
+                        }
+                    }
                 }
-                else{
-                    if(this.risposta.getText().length()>150){
-                        JOptionPane.showMessageDialog(null, "Errore: Commento troppo lungo.");
-                    }
-                    else{
-                        Result c = FeedbackBusiness.getInstance().createFeedback(Integer.parseInt(rating.getText()), this.b, this.risposta.getText());
-                        if(c.isSuccess()){
-                            JOptionPane.showMessageDialog(null, "Commento inviato.");
-                        }
-                        else{
-                            JOptionPane.showMessageDialog(null, "Si è verificato un'errore. Si prega di riprovare.");
-                        }
-                    }
+                catch(NumberFormatException f){
+                    JOptionPane.showMessageDialog(null, "Errore: Inserisci un rating valido.");
                 }
             }
         }

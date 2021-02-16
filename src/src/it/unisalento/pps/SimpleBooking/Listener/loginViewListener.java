@@ -63,6 +63,9 @@ public class loginViewListener implements ActionListener {
                             }
                         });
                     }
+                    else{
+                        Admin_View.setVisible(false);
+                    }
                 }
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Controlla le credenziali.");

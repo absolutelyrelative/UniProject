@@ -84,7 +84,7 @@ public class UtenteBusiness {
                     //Create 'Compratore' & 'Venditore' upon registration. TODO: Remove abstraction level between Utente, Venditore, Compratore.
                     Result cv = this.createCompratoreVenditore(username);
                     if (cv.isSuccess() == true) {
-                        new MailHelper().send(email, "SimpleBooking: La tua nuova password", "Ciao.<br >La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
+                        new MailHelper().send(email, "SimpleBooking: La tua nuova password", "Ciao. La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
                         r.setSuccess(true);
                         r.setMessage("Utente added succesfully.");
                         return r;
@@ -179,7 +179,7 @@ public class UtenteBusiness {
             Result insertion = new Result();
             insertion = UtenteDAO.getInstance().updatePassword(u, realpassword);
             if (insertion.isSuccess() == true) { //No error occurred, send e-mail with password.
-                new MailHelper().send(u.getEmail(), "SimpleBooking: Richiesta di reset della password", "Ciao.<br >La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
+                new MailHelper().send(u.getEmail(), "SimpleBooking: Richiesta di reset della password", "Ciao. La tua nuova password è: " + password); //USER WILL RECEIVE PLAINTEXT PASSWORD
                 r.setSuccess(true);
                 r.setMessage("Password reset succesfully.");
                 return r;
