@@ -253,7 +253,7 @@ public class buyer_boughtbeniView extends JFrame {
             if (!beni.isEmpty()) {
                 Beni b = beni.get(counter);
                 ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
-                new seller_commentView(sorted);
+                new buyer_boughtcommentView(sorted,b);
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }

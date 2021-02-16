@@ -36,7 +36,7 @@ public class View {
         gbV = new guest_beniView(b);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Log in", login);
+        tabbedPane.addTab("Log in", login.getContentPane());
         tabbedPane.addTab("Sign up", register);
         tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
         tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());

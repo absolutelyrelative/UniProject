@@ -2,6 +2,8 @@ package it.unisalento.pps.SimpleBooking.DAO.business;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.FeedbackDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
+import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.Model.Compratore;
 import it.unisalento.pps.SimpleBooking.Model.Feedback;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.util.Comment;
@@ -22,6 +24,23 @@ public class FeedbackBusiness {
     }
 
     private FeedbackBusiness() {
+    }
+
+    public Result createFeedback(int rating, Beni b, String message){
+        Result r = new Result();
+        Compratore c = UtenteDAO.getInstance().findIfUserIsCompratore(SessionHelper.getInstance().getUser().getUsername());
+        if(c != null){
+            Feedback f = new Feedback();
+            f.setBeni_idBeni(b.getIdBeni());
+            f.setCompratore_idCompratore(c.getIdCompratore());
+            f.setCommento(message);
+            f.setRating(rating);
+            return FeedbackDAO.getInstance().createRoot(f);
+        }
+        else{
+            r.setSuccess(false);
+            return r;
+        }
     }
 
     private ArrayList<Feedback> getFeedbackfromBeniId(int id) {
@@ -53,7 +72,7 @@ public class FeedbackBusiness {
                         c.setParent_node(String.valueOf("(" + f.getIdFeedback() + ") " + "[No Rating] " + f.getCommento()));
                     }
                     else{
-                        c.setParent_node(String.valueOf("(" + f.getIdFeedback() + ") " + "[Rating: " + f.getRating()) + "/5] " + f.getCommento());
+                        c.setParent_node(String.valueOf("(" + f.getIdFeedback() + ") " + "[Rating: " + String.valueOf(f.getRating()) + "/5] " + f.getCommento()));
                     }
 
                     formatted.add(c);
