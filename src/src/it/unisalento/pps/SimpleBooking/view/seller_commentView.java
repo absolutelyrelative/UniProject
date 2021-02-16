@@ -93,33 +93,29 @@ public class seller_commentView extends JFrame {
                         try {
                             if (node.getFirstChild() != null) {
                                 //PARENT WITH CHILD - FEEDBACK WITH A REPLY
-                                int override = JOptionPane.showConfirmDialog(null,"Esiste già una risposta. Modificarla?", "",JOptionPane.YES_NO_OPTION);
-                                if(override == JOptionPane.OK_OPTION){
+                                int override = JOptionPane.showConfirmDialog(null, "Esiste già una risposta. Modificarla?", "", JOptionPane.YES_NO_OPTION);
+                                if (override == JOptionPane.OK_OPTION) {
                                     Result c = FeedbackBusiness.getInstance().deleteReplyToFeedback(node);
-                                    if(c.isSuccess()){
-                                        Result r = FeedbackBusiness.getInstance().replyToFeedback(node,this.risposta.getText());
-                                        if(r.isSuccess()){
+                                    if (c.isSuccess()) {
+                                        Result r = FeedbackBusiness.getInstance().replyToFeedback(node, this.risposta.getText());
+                                        if (r.isSuccess()) {
                                             JOptionPane.showMessageDialog(null, "Risposta inviata.");
-                                        }
-                                        else{
+                                        } else {
                                             JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
                                         }
-                                    }
-                                    else{
+                                    } else {
                                         JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
                                     }
-                                }
-                                else{
+                                } else {
                                     return;
                                 }
                             }
                         } catch (NoSuchElementException k) {
                             //PARENT WITHOUT CHILD - FEEDBACK WITH NO REPLIES
                             Result r = FeedbackBusiness.getInstance().replyToFeedback(node, this.risposta.getText());
-                            if(r.isSuccess()){
+                            if (r.isSuccess()) {
                                 JOptionPane.showMessageDialog(null, "Risposta inviata.");
-                            }
-                            else{
+                            } else {
                                 JOptionPane.showMessageDialog(null, "Si è verificato un errore. Riapri la pagina dei commenti.");
                             }
                         }
@@ -163,30 +159,5 @@ public class seller_commentView extends JFrame {
             albero.setSelectionPath(null); //Resetta la selezione
         }
     }
-
-    TreeWillExpandListener treeWillExpandListener = new TreeWillExpandListener() {
-        public void treeWillCollapse(TreeExpansionEvent treeExpansionEvent)
-                throws ExpandVetoException {
-
-            TreePath path = treeExpansionEvent.getPath();
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-            //Print the name of the node if toString() was implemented
-            String data = node.getUserObject().toString();
-            System.out.println("WillCollapse: " + data);
-
-        }
-
-        public void treeWillExpand(TreeExpansionEvent treeExpansionEvent) throws ExpandVetoException {
-
-            TreePath path = treeExpansionEvent.getPath();
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-            //print the name of the node if toString was implemented
-            String data = node.getUserObject().toString();
-            System.out.println("WillExpand: " + data);
-
-        }
-    };
 
 }

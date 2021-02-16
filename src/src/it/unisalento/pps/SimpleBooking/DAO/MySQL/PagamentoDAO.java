@@ -137,12 +137,11 @@ public class PagamentoDAO implements IPagamentoDAO {
     public Result pay(Pagamento p, String Card, String CVV, String Pin) {
         Result r = new Result();
         String query = "UPDATE Pagamento SET Stato = '1', Numero_Carta = '" + Card + "', CVV = '" + CVV + "', PIN = '" + Pin + "' WHERE idPagamento = '" + p.getIdPagamento() + "';";
-        if(DbConnection.getInstance().eseguiAggiornamento(query) == true){
+        if (DbConnection.getInstance().eseguiAggiornamento(query) == true) {
             r.setSuccess(true);
             r.setMessage("Query pagamento eseguita.");
             return r;
-        }
-        else{
+        } else {
             r.setSuccess(false);
             r.setMessage("Problema con query pagamento.");
             return r;

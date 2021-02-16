@@ -23,7 +23,7 @@ public class loginViewListener implements ActionListener {
     JButton Admin_View;
     JButton Buyer_View;
 
-    public loginViewListener(JTextField username, JPasswordField password,JLabel result, JButton Seller_View, JButton Admin_View, JButton Buyer_View) {
+    public loginViewListener(JTextField username, JPasswordField password, JLabel result, JButton Seller_View, JButton Admin_View, JButton Buyer_View) {
         this.username = username;
         this.password = password;
         this.result = result;
@@ -40,30 +40,29 @@ public class loginViewListener implements ActionListener {
             if (r.isSuccess() == true) {
                 JOptionPane.showMessageDialog(null, "Log-in effettuato.");
                 Utente u = SessionHelper.getInstance().getUser();
-                if(u != null) {
+                if (u != null) {
                     result.setText("Log-in effettuato. Benvenuto, " + u.getUsername());
                     Seller_View.setVisible(true);
-                    Seller_View.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
+                    Seller_View.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
                             new sellerView();
                         }
                     });
                     Buyer_View.setVisible(true);
-                    Buyer_View.addActionListener(new ActionListener(){
-                        public void actionPerformed(ActionEvent e){
+                    Buyer_View.addActionListener(new ActionListener() {
+                        public void actionPerformed(ActionEvent e) {
                             new buyerView();
                         }
                     });
                     Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
-                    if(a != null && a.getId() != 0){ //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
+                    if (a != null && a.getId() != 0) { //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
                         Admin_View.setVisible(true);
-                        Admin_View.addActionListener(new ActionListener(){
-                            public void actionPerformed(ActionEvent e){
+                        Admin_View.addActionListener(new ActionListener() {
+                            public void actionPerformed(ActionEvent e) {
                                 new adminView();
                             }
                         });
-                    }
-                    else{
+                    } else {
                         Admin_View.setVisible(false);
                     }
                 }

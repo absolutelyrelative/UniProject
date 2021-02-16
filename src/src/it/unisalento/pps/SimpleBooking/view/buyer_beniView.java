@@ -265,53 +265,49 @@ public class buyer_beniView extends JFrame {
             }
             immagine_label.setIcon(immagine);
         }
-        if (e.getSource() == commenti){
-            if(!beni.isEmpty()) {
+        if (e.getSource() == commenti) {
+            if (!beni.isEmpty()) {
                 Beni b = beni.get(counter);
                 ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
                 new guest_commentView(sorted);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
-        if (e.getSource() == book){
+        if (e.getSource() == book) {
             //Crea un Line Item
             //Formatta data
             //MySQL Date Syntax should be YYYY-MM-DD
             Date Data_Inizio = new Date();
             Date Data_Fine = new Date();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            try{
+            try {
                 Data_Inizio = format.parse(datePicker_inizio.getJFormattedTextField().getText());
                 Data_Fine = format.parse(datePicker_fine.getJFormattedTextField().getText());
                 if (Data_Inizio.after(Data_Fine)) {
                     JOptionPane.showMessageDialog(null, "Assicurati che le date siano corrette. Data Inizio non può venire dopo Data Fine.");
-                } else{
+                } else {
                     //Controllo coerenza data con il bene
                     Beni b = beni.get(counter);
-                    if(Data_Inizio.before(b.getData_Inizio()) || Data_Inizio.after(b.getData_Fine()) || Data_Fine.after(b.getData_Fine()) || Data_Fine.before(b.getData_Inizio())){
+                    if (Data_Inizio.before(b.getData_Inizio()) || Data_Inizio.after(b.getData_Fine()) || Data_Fine.after(b.getData_Fine()) || Data_Fine.before(b.getData_Inizio())) {
                         JOptionPane.showMessageDialog(null, "Il Bene non è disponibile in queste date.");
-                    }
-                    else{
+                    } else {
                         boolean ordered = OrdineBusiness.getInstance().isOrdered(b.getIdBeni());
-                        if(ordered == true){
+                        if (ordered == true) {
                             JOptionPane.showMessageDialog(null, "Il Bene è già stato ordinato. Controlla tra poco o selezionane un altro!");
-                        }
-                        else{
-                            Result h = OrdineBusiness.getInstance().createOrdine(Data_Inizio,Data_Fine,b);
-                            if(h.isSuccess()){
+                        } else {
+                            Result h = OrdineBusiness.getInstance().createOrdine(Data_Inizio, Data_Fine, b);
+                            if (h.isSuccess()) {
                                 JOptionPane.showMessageDialog(null, "Ordine aggiunto. Puoi proseguire al pagamento.");
                                 OrdineBusiness.getInstance().sendAlert(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
                                 PagamentoBusiness.getInstance().generatePagamento(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
-                            }
-                            else{
+                            } else {
                                 JOptionPane.showMessageDialog(null, "Non è stato possibile creare l'ordine. Ricarica la lista dei beni.");
                             }
                         }
                     }
                 }
-            }catch (Exception h) {
+            } catch (Exception h) {
                 JOptionPane.showMessageDialog(null, "Errore durante conversione tipo. Controlla che i dati siano corretti.");
             }
         }
@@ -324,10 +320,9 @@ public class buyer_beniView extends JFrame {
 
     public void recalculate(ArrayList<Beni> beni) {
         this.beni = beni;
-        if(!beni.isEmpty()){
+        if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
-        }
-        else{
+        } else {
             Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
             b.setData_Inizio(new Date());
             b.setData_Fine(new Date());

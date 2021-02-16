@@ -1,9 +1,10 @@
 package it.unisalento.pps.SimpleBooking.Exceptions;
 
-public class MySQLUnitaryException extends Exception{
+@Deprecated
+public class MySQLUnitaryException extends Exception {
     private static String msg = "[Unitary Record Expected. Received more than one.]";
 
-    public MySQLUnitaryException(){
+    public MySQLUnitaryException() {
         super(msg);
         System.out.println(msg);
     }

@@ -111,65 +111,10 @@ public class buyer_boughtcommentView extends JFrame {
                             }
                         }
                     }
-                }
-                catch(NumberFormatException f){
+                } catch (NumberFormatException f) {
                     JOptionPane.showMessageDialog(null, "Errore: Inserisci un rating valido.");
                 }
             }
         }
     }
-
-    //Ho scelto di utilizzare il metodo migliore di sopra
-    @Deprecated
-    private void treeActionPerformed(TreeSelectionEvent e) {
-        //Preso da https://docs.oracle.com/javase/tutorial/uiswing/components/tree.html#select
-
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) albero.getLastSelectedPathComponent();
-        if (node == null) {
-            return;
-        }
-        Object nodeInfo = node.getUserObject();
-        if (node.isLeaf()) {
-            //Il nodo è child
-            JOptionPane.showMessageDialog(null, "leaf");
-        } else {
-            //Il nodo è parent
-            String risposta = JOptionPane.showInputDialog(null, "Scrivi la risposta:", "Rispondi al commento", JOptionPane.INFORMATION_MESSAGE);
-            if (risposta == null) { //Anche se si preme 'Cancel' si attiva
-                System.out.println("The user canceled");
-            } else {
-                if (node.getFirstChild() != null) {
-                    System.out.println("Has leaf");
-                } else {
-                    System.out.println("Does not have leaf");
-                }
-            }
-            albero.setSelectionPath(null); //Resetta la selezione
-        }
-    }
-
-    TreeWillExpandListener treeWillExpandListener = new TreeWillExpandListener() {
-        public void treeWillCollapse(TreeExpansionEvent treeExpansionEvent)
-                throws ExpandVetoException {
-
-            TreePath path = treeExpansionEvent.getPath();
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-            //Print the name of the node if toString() was implemented
-            String data = node.getUserObject().toString();
-            System.out.println("WillCollapse: " + data);
-
-        }
-
-        public void treeWillExpand(TreeExpansionEvent treeExpansionEvent) throws ExpandVetoException {
-
-            TreePath path = treeExpansionEvent.getPath();
-            DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-            //print the name of the node if toString was implemented
-            String data = node.getUserObject().toString();
-            System.out.println("WillExpand: " + data);
-
-        }
-    };
 }

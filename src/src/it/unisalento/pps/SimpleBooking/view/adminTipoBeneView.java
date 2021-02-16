@@ -4,7 +4,9 @@ import it.unisalento.pps.SimpleBooking.Listener.TipoBeneListener;
 import it.unisalento.pps.SimpleBooking.Listener.addadminViewListener;
 
 import javax.swing.*;
+
 import static java.awt.GridBagConstraints.*;
+
 import java.awt.*;
 
 public class adminTipoBeneView extends JFrame {
@@ -21,7 +23,7 @@ public class adminTipoBeneView extends JFrame {
         setForeground(new Color(86, 214, 120));
         JPanel center = new JPanel();
         JPanel north = new JPanel();
-        description.setFont(new Font(Font.SANS_SERIF,  Font.BOLD, 20));
+        description.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
 
         north.add(description);
         center.add(add);
@@ -33,12 +35,12 @@ public class adminTipoBeneView extends JFrame {
         center.add(rmv_button);
 
 
-        getContentPane().add(north,BorderLayout.NORTH);
-        getContentPane().add(center,BorderLayout.CENTER);
+        getContentPane().add(north, BorderLayout.NORTH);
+        getContentPane().add(center, BorderLayout.CENTER);
 
 
         //Listeners
-        TipoBeneListener listener = new TipoBeneListener(add_name,rmv_name);
+        TipoBeneListener listener = new TipoBeneListener(add_name, rmv_name);
         add_button.addActionListener(listener);
         rmv_button.addActionListener(listener);
 

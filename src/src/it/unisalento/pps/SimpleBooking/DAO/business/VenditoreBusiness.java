@@ -20,15 +20,14 @@ public class VenditoreBusiness {
     private VenditoreBusiness() {
     }
 
-    public ArrayList<Beni> findOwnBeni(String username){
+    public ArrayList<Beni> findOwnBeni(String username) {
         ArrayList<Beni> beni = new ArrayList<>();
         Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(username);
 
-        if(v != null){
+        if (v != null) {
             beni = BeniDAO.getInstance().sortByCreator(v);
             return beni;
-        }
-        else{   //Redundant, but more easily readable this way.
+        } else {   //Redundant, but more easily readable this way.
             return beni;
         }
 

@@ -31,10 +31,10 @@ public class adminView {
         abV = new admin_beniView(b);
 
         //COMPONENTI DI JTabbedPane
-        tabbedPane.addTab("Aggiungi Admin",aaV.getContentPane());
-        tabbedPane.addTab("Rimuovi Admin",raV.getContentPane());
-        tabbedPane.addTab("Gestione Tipo Bene",aTBV.getContentPane());
-        tabbedPane.addTab("Beni da approvare",abV.getContentPane());
+        tabbedPane.addTab("Aggiungi Admin", aaV.getContentPane());
+        tabbedPane.addTab("Rimuovi Admin", raV.getContentPane());
+        tabbedPane.addTab("Gestione Tipo Bene", aTBV.getContentPane());
+        tabbedPane.addTab("Beni da approvare", abV.getContentPane());
         tabbedPane.addTab("Rimuovi Ordini", srO.getContentPane());
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
@@ -44,15 +44,14 @@ public class adminView {
         frame.getContentPane().add(adminstatus.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.validate();
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
 
         //Ricalcola le liste
-        tabbedPane.addMouseListener(new MouseListener()
-        {
+        tabbedPane.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {

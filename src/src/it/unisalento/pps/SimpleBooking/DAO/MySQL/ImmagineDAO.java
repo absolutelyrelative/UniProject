@@ -80,7 +80,7 @@ public class ImmagineDAO implements IImmagineDAO {
     public Result create(Immagine t, File foto) {
         Result r = new Result();
         int IdBeni = t.getBeni_idBeni();
-        boolean foto_operation = DbConnection.getInstance().addFoto(foto,"INSERT INTO Immagine(Data, Beni_idBeni) VALUES(?,'" + IdBeni + "');");
+        boolean foto_operation = DbConnection.getInstance().addFoto(foto, "INSERT INTO Immagine(Data, Beni_idBeni) VALUES(?,'" + IdBeni + "');");
 
         if (foto_operation) {
             r.setSuccess(true);
@@ -91,7 +91,7 @@ public class ImmagineDAO implements IImmagineDAO {
     }
 
     @Override
-    public Result create(Immagine t){
+    public Result create(Immagine t) {
         //UNUSED
         return null;
     }

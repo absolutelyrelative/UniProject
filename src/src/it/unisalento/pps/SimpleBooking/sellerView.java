@@ -30,10 +30,9 @@ public class sellerView {
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Crea Bene", scBV.getContentPane());
-        tabbedPane.addTab("Aggiungi Immagini",saIV.getContentPane());
+        tabbedPane.addTab("Aggiungi Immagini", saIV.getContentPane());
         tabbedPane.addTab("Tuoi beni", gbV.getContentPane());
-        tabbedPane.addTab("Modifica beni",smBV.getContentPane());
-
+        tabbedPane.addTab("Modifica beni", smBV.getContentPane());
 
 
         //AGGIUNGI TABBEDPANE->PANE IN FRAME->CONTENTPANE
@@ -43,15 +42,14 @@ public class sellerView {
         frame.getContentPane().add(ssV.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.validate();
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
 
         //Ricalcola le liste
-        tabbedPane.addMouseListener(new MouseListener()
-        {
+        tabbedPane.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {

@@ -246,11 +246,10 @@ public class seller_beniView extends JFrame {
         }
         if (e.getSource() == pubblica) {
             Beni b_toUpdate = beni.get(counter);
-            if(b_toUpdate.getStato_Bene() == 1){
+            if (b_toUpdate.getStato_Bene() == 1) {
                 BeniDAO.getInstance().publishBene(b_toUpdate);
                 JOptionPane.showMessageDialog(null, "Bene pubblicato.");
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Il bene non è approvato.");
             }
             //pubblicato.setSelected(true);
@@ -285,13 +284,12 @@ public class seller_beniView extends JFrame {
                 JOptionPane.showMessageDialog(null, "Errore.");
             }
         }
-        if (e.getSource() == commenti){
-            if(!beni.isEmpty()) {
+        if (e.getSource() == commenti) {
+            if (!beni.isEmpty()) {
                 Beni b = beni.get(counter);
                 ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
                 new seller_commentView(sorted);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
@@ -302,12 +300,12 @@ public class seller_beniView extends JFrame {
         return a;
     }
 
+    //Ripopola lista beni
     public void recalculate(ArrayList<Beni> beni) {
         this.beni = beni;
-        if(!beni.isEmpty()){
+        if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
-        }
-        else{
+        } else {
             Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
             b.setData_Inizio(new Date());
             b.setData_Fine(new Date());

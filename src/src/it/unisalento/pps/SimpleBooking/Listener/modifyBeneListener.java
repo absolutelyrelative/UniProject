@@ -54,13 +54,12 @@ public class modifyBeneListener implements ActionListener {
                 Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
                 if (v != null) {
                     Beni b = BeniBusiness.getInstance().getBeneFromName(nome_field.getText());
-                    if(b != null){
-                        if(b.getVenditore_idVenditore() == v.getIdVenditore()){
+                    if (b != null) {
+                        if (b.getVenditore_idVenditore() == v.getIdVenditore()) {
                             Beni b_new = b;
-                            if(description_field.getText().length() > 255){
+                            if (description_field.getText().length() > 255) {
                                 JOptionPane.showMessageDialog(null, "Errore: Descrizione troppo lunga.");
-                            }
-                            else{
+                            } else {
                                 b_new.setDescrizione(description_field.getText());
                                 try {
                                     Float costo_pm = Float.parseFloat(costo_pm_field.getText());
@@ -81,45 +80,38 @@ public class modifyBeneListener implements ActionListener {
                                     } else {
                                         b_new.setData_Inizio(Data_Inizio);
                                         b_new.setData_Fine(Data_Fine);
-                                        BeniDAO.getInstance().updateBene(b,b_new);
+                                        BeniDAO.getInstance().updateBene(b, b_new);
                                         JOptionPane.showMessageDialog(null, "Bene modificato correttamente.");
                                         //TODO: INFORM BUYERS OF THIS BENE IF THEY EXIST
                                         Ordine o = OrdineDAO.getInstance().getOrdineFromBeni(b_new.getIdBeni());
-                                        if(o != null){
+                                        if (o != null) {
                                             Compratore c = CompratoreDAO.getInstance().findById(o.getCompratore_idCompratore());
-                                            if(c != null){
+                                            if (c != null) {
                                                 Utente u_c = UtenteDAO.getInstance().findById(c.getId());
-                                                if(u_c != null){
+                                                if (u_c != null) {
                                                     new MailHelper().send(u_c.getEmail(), "SimpleBooking: Ordine CAMBIATO", "Ciao. Il bene " + b_new.getNome() + " è stato CAMBIATO. Controlla e/o cancella l'ordine se necessario.");
-                                                }
-                                                else{
+                                                } else {
                                                     //Non dovrebbe accadere. TODO: ADD CHECKS
                                                 }
-                                            }
-                                            else{
+                                            } else {
                                                 //Non dovrebbe accadere. TODO: ADD CHECKS
                                             }
-                                        }
-                                        else{ //No order exists, no need to do anything
+                                        } else { //No order exists, no need to do anything
                                             return;
                                         }
                                     }
-                                }
-                                catch(Exception h){
+                                } catch (Exception h) {
                                     JOptionPane.showMessageDialog(null, "Errore durante conversione tipo. Controlla che i dati siano corretti.");
                                 }
                             }
 
-                        }
-                        else{
+                        } else {
                             JOptionPane.showMessageDialog(null, "Errore: Il bene non appartiene a te.");
                         }
-                    }
-                    else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Errore: Bene non trovato. Controlla il nome.");
                     }
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Errore: Venditore non trovato.");
                 }
             }

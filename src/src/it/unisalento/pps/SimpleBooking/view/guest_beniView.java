@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class guest_beniView extends JFrame{
+public class guest_beniView extends JFrame {
     private JLabel nome_label = new JLabel("Nome:");
     private JTextField nome = new JTextField(10);
     private JLabel descr_label = new JLabel("Descrizione:");
@@ -158,7 +158,7 @@ public class guest_beniView extends JFrame{
                 populateBeni(b);
             } else {
                 counter = 0;
-                if(!beni.isEmpty()){
+                if (!beni.isEmpty()) {
                     Beni b = beni.get(counter);
                     populateBeni(b);
                 }
@@ -169,7 +169,7 @@ public class guest_beniView extends JFrame{
                 return;
             } else {
                 counter--;
-                if(!beni.isEmpty()){
+                if (!beni.isEmpty()) {
                     Beni b = beni.get(counter);
                     populateBeni(b);
                 }
@@ -215,13 +215,12 @@ public class guest_beniView extends JFrame{
             immagine_label.setIcon(immagine);
         }
 
-        if (e.getSource() == commenti){
-            if(!beni.isEmpty()) {
+        if (e.getSource() == commenti) {
+            if (!beni.isEmpty()) {
                 Beni b = beni.get(counter);
                 ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
                 new guest_commentView(sorted);
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
@@ -235,10 +234,9 @@ public class guest_beniView extends JFrame{
 
     public void recalculate(ArrayList<Beni> beni) {
         this.beni = beni;
-        if(!beni.isEmpty()){
+        if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
-        }
-        else{
+        } else {
             Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
             b.setData_Inizio(new Date());
             b.setData_Fine(new Date());

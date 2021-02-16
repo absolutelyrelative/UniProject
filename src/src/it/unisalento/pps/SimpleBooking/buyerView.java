@@ -46,15 +46,14 @@ public class buyerView {
         frame.getContentPane().add(bsV.getContentPane(), BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.validate();
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
 
         //Ricalcola le liste
-        tabbedPane.addMouseListener(new MouseListener()
-        {
+        tabbedPane.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {

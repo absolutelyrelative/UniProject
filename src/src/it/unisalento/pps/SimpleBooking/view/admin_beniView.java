@@ -280,10 +280,9 @@ public class admin_beniView extends JFrame {
 
     public void recalculate(ArrayList<Beni> beni) {
         this.beni = beni;
-        if(!beni.isEmpty()){
+        if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
-        }
-        else{
+        } else {
             Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
             b.setData_Inizio(new Date());
             b.setData_Fine(new Date());

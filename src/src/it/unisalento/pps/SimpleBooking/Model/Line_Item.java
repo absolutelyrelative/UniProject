@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.Model;
 import java.io.Serializable;
 import java.util.Date;
 
+@Deprecated
 public class Line_Item implements Serializable {
     private int idLine;
     private int Ordine_idOrdine;

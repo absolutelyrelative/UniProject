@@ -48,39 +48,35 @@ public class PagamentoBusiness {
 
     public Result pay(Pagamento p, String Card, String CVV, String Pin) {
         Result r = PagamentoDAO.getInstance().pay(p, Card, CVV, Pin);
-        if(r.isSuccess()){
+        if (r.isSuccess()) {
             Ordine o = OrdineDAO.getInstance().findById(p.getOrdine_idOrdine());
-            if(o != null){
+            if (o != null) {
                 Beni b = BeniDAO.getInstance().findById(o.getBeni_idBeni());
-                if(b != null){
+                if (b != null) {
                     BeniDAO.getInstance().unpublishBene(b);
                     Utente u = BeniBusiness.getInstance().getOwnerofBeni(b.getIdBeni());
-                    if(u != null){
+                    if (u != null) {
                         new MailHelper().send(u.getEmail(), "SimpleBooking: Pagamento effettuato", "Ciao. Il tuo bene " + b.getNome() + " è stato PAGATO. Il tuo bene è stato tolto dalla pagina pubblica. Puoi crearne uno nuovo se vi risultano date disponibili.");
                         r.setMessage("Pagamento effettuato.");
                         r.setSuccess(true);
                         return r;
-                    }
-                    else{
+                    } else {
                         r.setMessage("Utente non trovato.");
                         r.setSuccess(false);
                         return r;
                     }
-                }
-                else{
+                } else {
                     r.setMessage("Bene non trovato.");
                     r.setSuccess(false);
                     return r;
                 }
-            }
-            else{
+            } else {
                 r.setMessage("Ordine non trovato.");
                 r.setSuccess(false);
                 return r;
             }
 
-        }
-        else{
+        } else {
             r.setMessage("Errore durante fase di pagamento.");
             r.setSuccess(false);
             return r;

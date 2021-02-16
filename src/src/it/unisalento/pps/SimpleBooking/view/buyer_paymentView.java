@@ -84,7 +84,7 @@ public class buyer_paymentView extends JFrame {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pay) {
-            if(p.getStato() != 1){
+            if (p.getStato() != 1) {
                 Result r = PagamentoBusiness.getInstance().pay(this.p, card_field.getText(), cvv_field.getText(), pin_field.getText());
                 if (r.isSuccess()) {
                     JOptionPane.showMessageDialog(null, "Pagamento effettuato correttamente.");
@@ -92,8 +92,7 @@ public class buyer_paymentView extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Errore durante la procedura di pagamento.");
                 }
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Il bene è già stato pagato.");
             }
         }

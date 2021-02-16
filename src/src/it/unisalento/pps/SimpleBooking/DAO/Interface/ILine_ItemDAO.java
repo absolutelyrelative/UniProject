@@ -7,5 +7,6 @@ import java.util.ArrayList;
 
 public interface ILine_ItemDAO extends IBaseDAO<Line_Item> {
     float getCumulativeCost(Line_Item LI);
+
     ArrayList<Line_Item> getRelatedItems(Ordine o);
 }

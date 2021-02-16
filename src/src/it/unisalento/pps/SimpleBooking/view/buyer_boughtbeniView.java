@@ -253,23 +253,21 @@ public class buyer_boughtbeniView extends JFrame {
             if (!beni.isEmpty()) {
                 Beni b = beni.get(counter);
                 ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
-                new buyer_boughtcommentView(sorted,b);
+                new buyer_boughtcommentView(sorted, b);
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
-        if (e.getSource() == paga){
+        if (e.getSource() == paga) {
             Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(beni.get(counter).getIdBeni());
-            if(o != null){
+            if (o != null) {
                 Pagamento p = PagamentoBusiness.getInstance().getPagamentoFromOrder(o);
-                if(p != null){
-                    new buyer_paymentView(beni.get(counter),p);
-                }
-                else{
+                if (p != null) {
+                    new buyer_paymentView(beni.get(counter), p);
+                } else {
                     JOptionPane.showMessageDialog(null, "Errore: Pagamento non trovato.");
                 }
-            }
-            else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Errore: Ordine non trovato.");
             }
 

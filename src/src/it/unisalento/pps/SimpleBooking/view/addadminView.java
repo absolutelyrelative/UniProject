@@ -25,8 +25,8 @@ public class addadminView extends JFrame {
         center.add(username);
         center.add(button);
 
-        getContentPane().add(north,BorderLayout.NORTH);
-        getContentPane().add(center,BorderLayout.CENTER);
+        getContentPane().add(north, BorderLayout.NORTH);
+        getContentPane().add(center, BorderLayout.CENTER);
 
         //add(add);
         //add(username);

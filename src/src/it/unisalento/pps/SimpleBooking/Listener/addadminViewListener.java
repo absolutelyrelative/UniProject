@@ -20,7 +20,7 @@ public class addadminViewListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Aggiungi Admin")) {
             Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(username.getText());
-            if(a==null) {
+            if (a == null) {
                 Result r;
                 r = AmministratoreBusiness.getInstance().createAmministratore(username.getText());
                 if (r.isSuccess() == true) {
@@ -28,9 +28,8 @@ public class addadminViewListener implements ActionListener {
                 } else {
                     JOptionPane.showMessageDialog(null, "Impossibile aggiungere amministratore. Controlla che non lo sia già, e che l'username sia corretto.");
                 }
-            }
-            else{
-                JOptionPane.showMessageDialog(null,"Impossibile aggiungere amministratore poiché l'user specificato lo è già.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Impossibile aggiungere amministratore poiché l'user specificato lo è già.");
             }
         }
         if ((e.getActionCommand()).equals("Rimuovi Admin")) {

@@ -38,8 +38,8 @@ public class View {
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Log in", login.getContentPane());
         tabbedPane.addTab("Sign up", register);
-        tabbedPane.addTab("Reset Credenziali",crV.getContentPane());
-        tabbedPane.addTab("Cambio Credenziali",ccV.getContentPane());
+        tabbedPane.addTab("Reset Credenziali", crV.getContentPane());
+        tabbedPane.addTab("Cambio Credenziali", ccV.getContentPane());
         tabbedPane.addTab("Beni pubblicati", gbV.getContentPane());
 
 
@@ -50,15 +50,14 @@ public class View {
         frame.getContentPane().add(loginstatus, BorderLayout.SOUTH);
 
         frame.setResizable(false);
-        frame.setSize(800,800);
+        frame.setSize(800, 800);
         frame.validate();
         frame.doLayout();
         //frame.pack();
         frame.setVisible(true);
 
         //Ricalcola le liste
-        tabbedPane.addMouseListener(new MouseListener()
-        {
+        tabbedPane.addMouseListener(new MouseListener() {
 
             @Override
             public void mouseClicked(MouseEvent e) {
