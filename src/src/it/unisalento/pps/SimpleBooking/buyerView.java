@@ -4,6 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
+import it.unisalento.pps.SimpleBooking.Model.Compratore;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
 import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 import it.unisalento.pps.SimpleBooking.view.*;
@@ -29,8 +30,8 @@ public class buyerView {
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
         ArrayList<Beni> b = BeniBusiness.getInstance().findAllPublished();
         bbV = new buyer_beniView(b);
-        Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(SessionHelper.getInstance().getUser().getUsername());
-        ArrayList<Beni> b_c = BeniBusiness.getInstance().findOrderedBeni(v.getId());
+        Compratore c = UtenteDAO.getInstance().findIfUserIsCompratore(SessionHelper.getInstance().getUser().getUsername());
+        ArrayList<Beni> b_c = BeniBusiness.getInstance().findOrderedBeni(c.getId());
         bbbV = new buyer_boughtbeniView(b_c);
 
         //COMPONENTI DI JTabbedPane
@@ -57,9 +58,9 @@ public class buyerView {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+                ArrayList<Beni> b = BeniBusiness.getInstance().findAllPublished();
                 bbV.recalculate(b);
-                ArrayList<Beni> b_c = BeniBusiness.getInstance().findOrderedBeni(v.getId());
+                ArrayList<Beni> b_c = BeniBusiness.getInstance().findOrderedBeni(c.getId());
                 bbbV.recalculate(b_c);
             }
 

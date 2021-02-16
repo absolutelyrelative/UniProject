@@ -53,8 +53,8 @@ public class buyer_beniView extends JFrame {
     private Dimension panel_dimension;
     private Dimension image_rescale;
 
-    private JCheckBox approvato = new JCheckBox("Approvato");
-    private JCheckBox pubblicato = new JCheckBox("Pubblicato");
+    private JCheckBox approvato = new JCheckBox("Approvato"); //Inutilizzato. TODO: Remove
+    private JCheckBox pubblicato = new JCheckBox("Pubblicato"); //Inutilizzato. TODO: Remove
     private JButton book = new JButton("Prenota");
     private JButton commenti = new JButton("Mostra Commenti");
     private JLabel from = new JLabel("da");

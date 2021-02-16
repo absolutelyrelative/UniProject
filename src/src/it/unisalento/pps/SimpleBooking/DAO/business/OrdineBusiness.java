@@ -78,6 +78,10 @@ public class OrdineBusiness {
 
     }
 
+    public Ordine getOrderFromBeniID(int beni_id){
+        return OrdineDAO.getInstance().getOrdineFromBeni(beni_id);
+    }
+
     //Send alert to Beni's owner if an order is placed
     public Result sendAlert(int beni_id) {
         Result r = new Result();

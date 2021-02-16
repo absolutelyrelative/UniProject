@@ -7,6 +7,7 @@ import it.unisalento.pps.SimpleBooking.DAO.business.OrdineBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.PagamentoBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
+import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.DateLabelFormatter;
@@ -63,6 +64,7 @@ public class buyer_boughtbeniView extends JFrame {
     private JLabel pin = new JLabel("PIN:");
     private JTextField pin_field = new JTextField(5);
     private JButton commenti = new JButton("Mostra Commenti");
+    private JCheckBox pagato = new JCheckBox("Pagato");
 
     public buyer_boughtbeniView(ArrayList<Beni> beni) {
         //CALENDARIO
@@ -148,10 +150,11 @@ public class buyer_boughtbeniView extends JFrame {
     public void populateBeni(Beni b) {
         nome.setText(b.getNome());
         descr.setText(b.getDescrizione());
+        Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b.getIdBeni());
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        dataInizio.setText(format.format(b.getData_Inizio()));
-        dataFine.setText(format.format(b.getData_Fine()));
-        costi.setText(String.valueOf(b.getCosto_pd()) + "pd, " + String.valueOf(b.getCosto_pw()) + "pw, " + String.valueOf(b.getCosto_pm()) + "pm");
+        dataInizio.setText(format.format(o.getData_Inizio()));
+        dataFine.setText(format.format(o.getData_Fine()));
+        costi.setText(String.valueOf(o.getImporto_Tot()));
         addr.setText(b.getAddr());
 
         immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
