@@ -84,4 +84,11 @@ public class AmministratoreBusiness {
         return beni;
 
     }
+
+
+    //Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(username.getText());
+
+    public Amministratore findIfUserIsAdmin(String username){
+        return UtenteDAO.getInstance().findIfUserIsAdmin(username);
+    }
 }

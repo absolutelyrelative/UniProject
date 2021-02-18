@@ -19,7 +19,7 @@ public class addadminViewListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Aggiungi Admin")) {
-            Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(username.getText());
+            Amministratore a = AmministratoreBusiness.getInstance().findIfUserIsAdmin(username.getText());
             if (a == null) {
                 Result r;
                 r = AmministratoreBusiness.getInstance().createAmministratore(username.getText());

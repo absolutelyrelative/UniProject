@@ -2,7 +2,9 @@ package it.unisalento.pps.SimpleBooking.Listener;
 
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
+import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.Tipo_BeneBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
@@ -78,7 +80,7 @@ public class createBeneListener implements ActionListener {
             Utente u = SessionHelper.getInstance().getUser();
             if (u != null) {
                 //GET VENDITORE AND CONSTRUCT BENE
-                Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+                Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
 
                 if (v != null) {
                     Beni b = new Beni();
@@ -123,7 +125,7 @@ public class createBeneListener implements ActionListener {
                                         //TODO: PLACEHOLDER, SET TO REAL ID LATER ON
                                         b.setAmministratore_idAmministratore(tb.getAmministratore_idAmministratore());
                                         Result c = new Result();
-                                        c = BeniDAO.getInstance().create(b);
+                                        c = BeniBusiness.getInstance().createBene(b);
                                         if (c.isSuccess() == true) {
                                             JOptionPane.showMessageDialog(null, "Bene aggiunto. Attendi conferma da un Admin per la pubblicazione.");
                                         } else {

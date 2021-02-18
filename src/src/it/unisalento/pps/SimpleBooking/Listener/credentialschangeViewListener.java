@@ -26,7 +26,7 @@ public class credentialschangeViewListener implements ActionListener {
             Result r = new Result();
             String old_password = String.valueOf(old_pw.getPassword()); //JPasswordField.getText() è deprecato
             String new_password = String.valueOf(new_pw.getPassword()); //JPasswordField.getText() è deprecato
-            Utente u = UtenteDAO.getInstance().findByUsername(username.getText());
+            Utente u = UtenteBusiness.getInstance().findByUsername(username.getText());
             if (u != null) {
                 r = UtenteBusiness.getInstance().changePassword(username.getText(), old_password, new_password);
                 if (old_password.isEmpty() || old_password == null || old_password == "" || new_password.isEmpty() || new_password == null || new_password == "") {

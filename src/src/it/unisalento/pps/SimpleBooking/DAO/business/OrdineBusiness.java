@@ -78,6 +78,7 @@ public class OrdineBusiness {
 
     }
 
+    //Ordine o = OrdineDAO.getInstance().getOrdineFromBeni(b_new.getIdBeni());
     public Ordine getOrderFromBeniID(int beni_id) {
         return OrdineDAO.getInstance().getOrdineFromBeni(beni_id);
     }

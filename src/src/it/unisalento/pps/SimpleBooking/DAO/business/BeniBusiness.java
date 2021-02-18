@@ -5,6 +5,7 @@ import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Ordine;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
 import it.unisalento.pps.SimpleBooking.Model.Venditore;
+import it.unisalento.pps.SimpleBooking.util.Result;
 
 import java.util.ArrayList;
 
@@ -63,6 +64,16 @@ public class BeniBusiness {
             filtered.add(b);
         }
         return filtered;
+    }
+
+    //c = BeniDAO.getInstance().create(b);
+    public Result createBene(Beni b){
+        return BeniDAO.getInstance().create(b);
+    }
+
+    //BeniDAO.getInstance().updateBene(b, b_new);
+    public void updateBene(Beni b, Beni b_new){
+        BeniDAO.getInstance().updateBene(b, b_new);
     }
 
 }

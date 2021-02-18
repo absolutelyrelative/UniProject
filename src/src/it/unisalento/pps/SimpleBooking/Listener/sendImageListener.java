@@ -5,6 +5,7 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.ImmagineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.Model.Immagine;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
@@ -40,7 +41,7 @@ public class sendImageListener implements ActionListener {
             if (b != null) {
                 Utente u = SessionHelper.getInstance().getUser();
                 if (u != null) {
-                    Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+                    Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
                     if (v != null) {
                         if (v.getIdVenditore() == b.getVenditore_idVenditore()) {
                             immagini = new ArrayList<String>();
@@ -77,7 +78,7 @@ public class sendImageListener implements ActionListener {
             if (b != null) {
                 Utente u = SessionHelper.getInstance().getUser();
                 if (u != null) {
-                    Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+                    Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
                     if (v != null) {
                         if (v.getIdVenditore() == b.getVenditore_idVenditore()) {
                             Result r = ImmagineBusiness.getInstance().removeImmaginiFromBene(b);

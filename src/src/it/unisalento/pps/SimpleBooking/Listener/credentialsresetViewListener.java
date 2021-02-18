@@ -22,7 +22,7 @@ public class credentialsresetViewListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Reset Password")) {
             Result r = new Result();
-            Utente u = UtenteDAO.getInstance().findByUsername(username.getText());
+            Utente u = UtenteBusiness.getInstance().findByUsername(username.getText());
             if (u != null) {
                 r = UtenteBusiness.getInstance().requestPasswordReset(u.getUsername());
                 if (r.isSuccess() == true) {

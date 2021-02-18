@@ -4,7 +4,9 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.VenditoreDAO;
+import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
 import it.unisalento.pps.SimpleBooking.DAO.business.ImmagineBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.*;
 import it.unisalento.pps.SimpleBooking.util.MailHelper;
 import it.unisalento.pps.SimpleBooking.util.Result;
@@ -228,7 +230,7 @@ public class admin_beniView extends JFrame {
             Beni b_toUpdate = beni.get(counter);
             Beni b = b_toUpdate;
             b.setStato_Bene(1); //0 - Non Approvato, 1 - Approvato
-            BeniDAO.getInstance().updateBene(b_toUpdate, b);
+            BeniBusiness.getInstance().updateBene(b_toUpdate, b);
             beni.remove(counter);
             counter = 0;
             size = size - 1;

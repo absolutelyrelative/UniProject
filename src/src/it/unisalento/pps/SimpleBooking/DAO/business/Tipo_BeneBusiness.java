@@ -34,4 +34,20 @@ public class Tipo_BeneBusiness {
         return null;
     }
 
+    //r = Tipo_BeneDAO.getInstance().create(tb); //Tipo_Bene ha Primary Key(id, Nome), non ci dovrebbero essere conflitti.
+    public Result createTB(Tipo_Bene tb){
+        return Tipo_BeneDAO.getInstance().create(tb);
+    }
+
+    //ArrayList<Tipo_Bene> lista_tb = Tipo_BeneDAO.getInstance().findAll();
+    public ArrayList<Tipo_Bene> retrieveAll(){
+        ArrayList<Tipo_Bene> lista_tb = new ArrayList<>();
+        lista_tb = Tipo_BeneDAO.getInstance().findAll();
+        return lista_tb;
+    }
+
+    //r = Tipo_BeneDAO.getInstance().delete(tb_td);
+    public Result delete(Tipo_Bene tb){
+        return Tipo_BeneDAO.getInstance().delete(tb);
+    }
 }

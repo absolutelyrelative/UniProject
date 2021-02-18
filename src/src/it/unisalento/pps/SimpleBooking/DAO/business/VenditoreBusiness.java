@@ -32,4 +32,11 @@ public class VenditoreBusiness {
         }
 
     }
+
+
+    //Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+
+    public Venditore findifUserIsVenditore(String name){
+        return UtenteDAO.getInstance().findIfUserIsVenditore(name);
+    }
 }

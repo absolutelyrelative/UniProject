@@ -233,4 +233,13 @@ public class UtenteBusiness {
 
     }
 
+    //Utente u = UtenteDAO.getInstance().findByUsername(username.getText());
+    public Utente findByUsername(String username){
+        return UtenteDAO.getInstance().findByUsername(username);
+    }
+
+    public Utente findById(int id){
+        return UtenteDAO.getInstance().findById(id);
+    }
+
 }

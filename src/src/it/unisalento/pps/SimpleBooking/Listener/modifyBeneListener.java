@@ -4,8 +4,7 @@ import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.CompratoreDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.OrdineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
-import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
-import it.unisalento.pps.SimpleBooking.DAO.business.Tipo_BeneBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.*;
 import it.unisalento.pps.SimpleBooking.Model.*;
 import it.unisalento.pps.SimpleBooking.util.MailHelper;
 import it.unisalento.pps.SimpleBooking.util.Result;
@@ -51,7 +50,7 @@ public class modifyBeneListener implements ActionListener {
             Result r = new Result();
             Utente u = SessionHelper.getInstance().getUser();
             if (u != null) {
-                Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername());
+                Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
                 if (v != null) {
                     Beni b = BeniBusiness.getInstance().getBeneFromName(nome_field.getText());
                     if (b != null) {
@@ -80,14 +79,14 @@ public class modifyBeneListener implements ActionListener {
                                     } else {
                                         b_new.setData_Inizio(Data_Inizio);
                                         b_new.setData_Fine(Data_Fine);
-                                        BeniDAO.getInstance().updateBene(b, b_new);
+                                        BeniBusiness.getInstance().updateBene(b, b_new);
                                         JOptionPane.showMessageDialog(null, "Bene modificato correttamente.");
                                         //TODO: INFORM BUYERS OF THIS BENE IF THEY EXIST
-                                        Ordine o = OrdineDAO.getInstance().getOrdineFromBeni(b_new.getIdBeni());
+                                        Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b_new.getIdBeni());
                                         if (o != null) {
-                                            Compratore c = CompratoreDAO.getInstance().findById(o.getCompratore_idCompratore());
+                                            Compratore c = CompratoreBusiness.getInstance().findById(o.getCompratore_idCompratore());
                                             if (c != null) {
-                                                Utente u_c = UtenteDAO.getInstance().findById(c.getId());
+                                                Utente u_c = UtenteBusiness.getInstance().findById(c.getId());
                                                 if (u_c != null) {
                                                     new MailHelper().send(u_c.getEmail(), "SimpleBooking: Ordine CAMBIATO", "Ciao. Il bene " + b_new.getNome() + " è stato CAMBIATO. Controlla e/o cancella l'ordine se necessario.");
                                                 } else {

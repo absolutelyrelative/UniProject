@@ -3,6 +3,7 @@ package it.unisalento.pps.SimpleBooking.Listener;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.Tipo_BeneDAO;
 import it.unisalento.pps.SimpleBooking.DAO.MySQL.UtenteDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.AmministratoreBusiness;
+import it.unisalento.pps.SimpleBooking.DAO.business.Tipo_BeneBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Amministratore;
 import it.unisalento.pps.SimpleBooking.Model.Tipo_Bene;
 import it.unisalento.pps.SimpleBooking.Model.Utente;
@@ -29,12 +30,12 @@ public class TipoBeneListener implements ActionListener {
             Utente u = SessionHelper.getInstance().getUser();
 
             if (u != null) {
-                Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
+                Amministratore a = AmministratoreBusiness.getInstance().findIfUserIsAdmin(u.getUsername());
                 if (a != null) {
                     Tipo_Bene tb = new Tipo_Bene();
                     tb.setNome(add.getText());
                     tb.setAmministratore_idAmministratore(a.getIdAmministratore());
-                    r = Tipo_BeneDAO.getInstance().create(tb); //Tipo_Bene ha Primary Key(id, Nome), non ci dovrebbero essere conflitti.
+                    r = Tipo_BeneBusiness.getInstance().createTB(tb);//Tipo_Bene ha Primary Key(id, Nome), non ci dovrebbero essere conflitti.
                     if (r.isSuccess() == true) {
                         JOptionPane.showMessageDialog(null, "Tipo Bene aggiunto.");
                     } else {
@@ -49,7 +50,7 @@ public class TipoBeneListener implements ActionListener {
         }
         if ((e.getActionCommand()).equals("Rimuovi Tipo Bene")) {
             Result r = new Result();
-            ArrayList<Tipo_Bene> lista_tb = Tipo_BeneDAO.getInstance().findAll();
+            ArrayList<Tipo_Bene> lista_tb = Tipo_BeneBusiness.getInstance().retrieveAll();
             Tipo_Bene tb_td = new Tipo_Bene();
 
             boolean found = false;
@@ -57,7 +58,7 @@ public class TipoBeneListener implements ActionListener {
                 if (tb.getNome().equals(rmv.getText())) {
                     found = true;
                     tb_td = tb;
-                    r = Tipo_BeneDAO.getInstance().delete(tb_td);
+                    r = Tipo_BeneBusiness.getInstance().delete(tb_td);
                     if (r.isSuccess() == true) {
                         JOptionPane.showMessageDialog(null, "Tipo Bene rimosso."); //TODO: Immetti ON CASCADE delete?
                         return;
