@@ -14,10 +14,10 @@ public class registerView extends JPanel {
     JButton rg_button = new JButton("Register");
 
     public registerView() {
-        FlowLayout f = new FlowLayout(FlowLayout.CENTER);
-        f.setHgap(10);
-        f.setVgap(10);
-        setLayout(f);
+        FlowLayout flowLayout = new FlowLayout(FlowLayout.CENTER);
+        flowLayout.setHgap(10);
+        flowLayout.setVgap(10);
+        setLayout(flowLayout);
         setBackground(new Color(200, 221, 242));
         add(new JLabel("Username: "));
         add(rg_username);

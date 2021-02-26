@@ -76,16 +76,16 @@ public class createBeneListener implements ActionListener {
     //Tested, seems to work fine.
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Invia")) {
-            Result r = new Result();
-            Utente u = SessionHelper.getInstance().getUser();
-            if (u != null) {
+            Result result = new Result();
+            Utente user = SessionHelper.getInstance().getUser();
+            if (user != null) {
                 //GET VENDITORE AND CONSTRUCT BENE
-                Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
+                Venditore findifUserIsVenditore = VenditoreBusiness.getInstance().findifUserIsVenditore(user.getUsername());
 
-                if (v != null) {
-                    Beni b = new Beni();
-                    b.setNome(nome_field.getText());
-                    b.setDescrizione(description_field.getText());
+                if (findifUserIsVenditore != null) {
+                    Beni beni = new Beni();
+                    beni.setNome(nome_field.getText());
+                    beni.setDescrizione(description_field.getText());
                     if (description_field.getText().length() > 255) {
                         JOptionPane.showMessageDialog(null, "Errore: Descrizione troppo lunga.");
                     } else {
@@ -99,8 +99,8 @@ public class createBeneListener implements ActionListener {
                             if (Data_Inizio.after(Data_Fine)) {
                                 JOptionPane.showMessageDialog(null, "Assicurati che le date siano corrette. Data Inizio non può venire dopo Data Fine.");
                             } else {
-                                b.setData_Inizio(Data_Inizio);
-                                b.setData_Fine(Data_Fine);
+                                beni.setData_Inizio(Data_Inizio);
+                                beni.setData_Fine(Data_Fine);
                                 //Calculate costs
                                 try {
                                     Float costo_pm = Float.parseFloat(costo_pm_field.getText());
@@ -108,25 +108,25 @@ public class createBeneListener implements ActionListener {
                                     Float GPS2 = Float.parseFloat(GPS_Lon_field.getText());
                                     Float costo_pw = costo_pm / 4.35f;
                                     Float costo_pd = costo_pw / 7;
-                                    b.setCosto_pm(costo_pm);
-                                    b.setCosto_pw(costo_pw);
-                                    b.setCosto_pd(costo_pd);
-                                    b.setGPS_Lat(GPS1);
-                                    b.setGPS_Lon(GPS2);
-                                    b.setAddr(address_field.getText());
-                                    b.setVenditore_idVenditore(v.getIdVenditore());
+                                    beni.setCosto_pm(costo_pm);
+                                    beni.setCosto_pw(costo_pw);
+                                    beni.setCosto_pd(costo_pd);
+                                    beni.setGPS_Lat(GPS1);
+                                    beni.setGPS_Lon(GPS2);
+                                    beni.setAddr(address_field.getText());
+                                    beni.setVenditore_idVenditore(findifUserIsVenditore.getIdVenditore());
                                     //TODO: TEST!!
                                     String tipo = String.valueOf(tipo_bene_list.getSelectedItem());
-                                    Tipo_Bene tb = Tipo_BeneBusiness.getInstance().getTipoFromName(tipo);
-                                    if (tb != null) {
-                                        b.setTipo_Bene_idTipo_Bene(tb.getIdTipo());
-                                        b.setStato_Bene(0);
-                                        b.setPubblicazione(0);
+                                    Tipo_Bene tipoFromName = Tipo_BeneBusiness.getInstance().getTipoFromName(tipo);
+                                    if (tipoFromName != null) {
+                                        beni.setTipo_Bene_idTipo_Bene(tipoFromName.getIdTipo());
+                                        beni.setStato_Bene(0);
+                                        beni.setPubblicazione(0);
                                         //TODO: PLACEHOLDER, SET TO REAL ID LATER ON
-                                        b.setAmministratore_idAmministratore(tb.getAmministratore_idAmministratore());
-                                        Result c = new Result();
-                                        c = BeniBusiness.getInstance().createBene(b);
-                                        if (c.isSuccess() == true) {
+                                        beni.setAmministratore_idAmministratore(tipoFromName.getAmministratore_idAmministratore());
+                                        Result result1 = new Result();
+                                        result1 = BeniBusiness.getInstance().createBene(beni);
+                                        if (result1.isSuccess()) {
                                             JOptionPane.showMessageDialog(null, "Bene aggiunto. Attendi conferma da un Admin per la pubblicazione.");
                                         } else {
                                             JOptionPane.showMessageDialog(null, "Esiste già un bene con quel nome.");

@@ -47,27 +47,26 @@ public class modifyBeneListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Modifica")) {
-            Result r = new Result();
-            Utente u = SessionHelper.getInstance().getUser();
-            if (u != null) {
-                Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
-                if (v != null) {
-                    Beni b = BeniBusiness.getInstance().getBeneFromName(nome_field.getText());
-                    if (b != null) {
-                        if (b.getVenditore_idVenditore() == v.getIdVenditore()) {
-                            Beni b_new = b;
+            Result result = new Result();
+            Utente utente = SessionHelper.getInstance().getUser();
+            if (utente != null) {
+                Venditore venditore = VenditoreBusiness.getInstance().findifUserIsVenditore(utente.getUsername());
+                if (venditore != null) {
+                    Beni beneFromName = BeniBusiness.getInstance().getBeneFromName(nome_field.getText());
+                    if (beneFromName != null) {
+                        if (beneFromName.getVenditore_idVenditore() == venditore.getIdVenditore()) {
                             if (description_field.getText().length() > 255) {
                                 JOptionPane.showMessageDialog(null, "Errore: Descrizione troppo lunga.");
                             } else {
-                                b_new.setDescrizione(description_field.getText());
+                                beneFromName.setDescrizione(description_field.getText());
                                 try {
                                     Float costo_pm = Float.parseFloat(costo_pm_field.getText());
                                     Float costo_pw = costo_pm / 4.35f;
                                     Float costo_pd = costo_pw / 7;
-                                    b_new.setCosto_pm(costo_pm);
-                                    b_new.setCosto_pw(costo_pw);
-                                    b_new.setCosto_pd(costo_pd);
-                                    b_new.setAddr(address_field.getText());
+                                    beneFromName.setCosto_pm(costo_pm);
+                                    beneFromName.setCosto_pw(costo_pw);
+                                    beneFromName.setCosto_pd(costo_pd);
+                                    beneFromName.setAddr(address_field.getText());
                                     //MySQL Date Syntax should be YYYY-MM-DD
                                     Date Data_Inizio = new Date();
                                     Date Data_Fine = new Date();
@@ -77,18 +76,18 @@ public class modifyBeneListener implements ActionListener {
                                     if (Data_Inizio.after(Data_Fine)) {
                                         JOptionPane.showMessageDialog(null, "Assicurati che le date siano corrette. Data Inizio non può venire dopo Data Fine.");
                                     } else {
-                                        b_new.setData_Inizio(Data_Inizio);
-                                        b_new.setData_Fine(Data_Fine);
-                                        BeniBusiness.getInstance().updateBene(b, b_new);
+                                        beneFromName.setData_Inizio(Data_Inizio);
+                                        beneFromName.setData_Fine(Data_Fine);
+                                        BeniBusiness.getInstance().updateBene(beneFromName, beneFromName);
                                         JOptionPane.showMessageDialog(null, "Bene modificato correttamente.");
                                         //TODO: INFORM BUYERS OF THIS BENE IF THEY EXIST
-                                        Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b_new.getIdBeni());
-                                        if (o != null) {
-                                            Compratore c = CompratoreBusiness.getInstance().findById(o.getCompratore_idCompratore());
-                                            if (c != null) {
-                                                Utente u_c = UtenteBusiness.getInstance().findById(c.getId());
-                                                if (u_c != null) {
-                                                    new MailHelper().send(u_c.getEmail(), "SimpleBooking: Ordine CAMBIATO", "Ciao. Il bene " + b_new.getNome() + " è stato CAMBIATO. Controlla e/o cancella l'ordine se necessario.");
+                                        Ordine orderFromBeniID = OrdineBusiness.getInstance().getOrderFromBeniID(beneFromName.getIdBeni());
+                                        if (orderFromBeniID != null) {
+                                            Compratore compratore = CompratoreBusiness.getInstance().findById(orderFromBeniID.getCompratore_idCompratore());
+                                            if (compratore != null) {
+                                                Utente utenteCompratore = UtenteBusiness.getInstance().findById(compratore.getId());
+                                                if (utenteCompratore != null) {
+                                                    new MailHelper().send(utenteCompratore.getEmail(), "SimpleBooking: Ordine CAMBIATO", "Ciao. Il bene " + beneFromName.getNome() + " è stato CAMBIATO. Controlla e/o cancella l'ordine se necessario.");
                                                 } else {
                                                     //Non dovrebbe accadere. TODO: ADD CHECKS
                                                 }

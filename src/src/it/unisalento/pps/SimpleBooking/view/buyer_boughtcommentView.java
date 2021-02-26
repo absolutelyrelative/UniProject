@@ -4,23 +4,15 @@ import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
 import it.unisalento.pps.SimpleBooking.util.Comment;
 import it.unisalento.pps.SimpleBooking.util.Result;
-import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 
 import javax.swing.*;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeWillExpandListener;
-import javax.swing.text.MaskFormatter;
 import javax.swing.tree.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 public class buyer_boughtcommentView extends JFrame {
-    private Beni b;
+    private Beni beni;
     private JTree albero;
     private JScrollPane scrollpane;
     private JTextArea risposta;
@@ -33,8 +25,8 @@ public class buyer_boughtcommentView extends JFrame {
     DefaultMutableTreeNode root;
 
 
-    public buyer_boughtcommentView(ArrayList<Comment> commenti, Beni b) {
-        this.b = b;
+    public buyer_boughtcommentView(ArrayList<Comment> commenti, Beni beni) {
+        this.beni = beni;
         //Init frame
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setResizable(false);
@@ -46,8 +38,8 @@ public class buyer_boughtcommentView extends JFrame {
         //Parse comments
         this.commenti_Parsed = commenti;
         root = new DefaultMutableTreeNode("root");
-        for (Comment c : commenti_Parsed) {
-            root.add(c.getCombined());
+        for (Comment comment : commenti_Parsed) {
+            root.add(comment.getCombined());
         }
         albero = new JTree(root);
         scrollpane = new JScrollPane(albero);
@@ -103,8 +95,8 @@ public class buyer_boughtcommentView extends JFrame {
                         if (this.risposta.getText().length() > 150) {
                             JOptionPane.showMessageDialog(null, "Errore: Commento troppo lungo.");
                         } else {
-                            Result c = FeedbackBusiness.getInstance().createFeedback(Integer.parseInt(rating.getText()), this.b, this.risposta.getText());
-                            if (c.isSuccess()) {
+                            Result result = FeedbackBusiness.getInstance().createFeedback(Integer.parseInt(rating.getText()), this.beni, this.risposta.getText());
+                            if (result.isSuccess()) {
                                 JOptionPane.showMessageDialog(null, "Commento inviato.");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Si è verificato un'errore. Si prega di riprovare.");

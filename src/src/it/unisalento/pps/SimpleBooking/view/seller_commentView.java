@@ -37,8 +37,8 @@ public class seller_commentView extends JFrame {
         //Parse comments
         this.commenti_Parsed = commenti;
         root = new DefaultMutableTreeNode("root");
-        for (Comment c : commenti_Parsed) {
-            root.add(c.getCombined());
+        for (Comment comment : commenti_Parsed) {
+            root.add(comment.getCombined());
         }
         albero = new JTree(root);
         scrollpane = new JScrollPane(albero);

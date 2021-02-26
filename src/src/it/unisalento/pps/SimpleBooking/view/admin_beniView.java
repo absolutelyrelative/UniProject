@@ -122,17 +122,17 @@ public class admin_beniView extends JFrame {
         }
     }
 
-    public void populateBeni(Beni b) {
-        nome.setText(b.getNome());
-        descr.setText(b.getDescrizione());
+    public void populateBeni(Beni beni) {
+        nome.setText(beni.getNome());
+        descr.setText(beni.getDescrizione());
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        dataInizio.setText(format.format(b.getData_Inizio()));
-        dataFine.setText(format.format(b.getData_Fine()));
-        costi.setText(String.valueOf(b.getCosto_pd()) + "pd, " + String.valueOf(b.getCosto_pw()) + "pw, " + String.valueOf(b.getCosto_pm()) + "pm");
-        addr.setText(b.getAddr());
+        dataInizio.setText(format.format(beni.getData_Inizio()));
+        dataFine.setText(format.format(beni.getData_Fine()));
+        costi.setText(String.valueOf(beni.getCosto_pd()) + "pd, " + String.valueOf(beni.getCosto_pw()) + "pw, " + String.valueOf(beni.getCosto_pm()) + "pm");
+        addr.setText(beni.getAddr());
 
 
-        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
+        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(beni);
         img_size = immagini.size();
         img_counter = 0; //Per coerenza personale, lo lascio anche se messo in dichiarazione
 
@@ -140,19 +140,19 @@ public class admin_beniView extends JFrame {
             immagine_label.setVisible(false);
         } else {
             immagine_label.setVisible(true);
-            Immagine i = immagini.get(0);
-            immagine = this.creaImmaginedaByte(i.getData());
-            Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-            immagine = new ImageIcon(scaled_img);
-            immagine_label.setIcon(immagine);
+            Immagine immagine = immagini.get(0);
+            this.immagine = this.creaImmaginedaByte(immagine.getData());
+            Image scaled_img = this.immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+            this.immagine = new ImageIcon(scaled_img);
+            immagine_label.setIcon(this.immagine);
             immagine_label.setPreferredSize(new Dimension(400, 400));
         }
 
         //TODO: CHANGE
         //Questo è un pochino un mix illegale tra MVC & DAO, facciamo finta di nulla per ora ;)
-        Tipo_Bene tb = Tipo_BeneDAO.getInstance().findById(b.getTipo_Bene_idTipo_Bene());
-        if (tb != null) {
-            tipoBene.setText(tb.getNome());
+        Tipo_Bene tipo_bene = Tipo_BeneDAO.getInstance().findById(beni.getTipo_Bene_idTipo_Bene());
+        if (tipo_bene != null) {
+            tipoBene.setText(tipo_bene.getNome());
         }
     }
 
@@ -163,13 +163,13 @@ public class admin_beniView extends JFrame {
         if (e.getSource() == b_dx) {
             if (counter < (size - 1)) {
                 counter++;
-                Beni b = beni.get(counter);
-                populateBeni(b);
+                Beni beni = this.beni.get(counter);
+                populateBeni(beni);
             } else {
                 counter = 0;
                 if (!beni.isEmpty()) {
-                    Beni b = beni.get(counter);
-                    populateBeni(b);
+                    Beni beni = this.beni.get(counter);
+                    populateBeni(beni);
                 }
             }
         }
@@ -179,8 +179,8 @@ public class admin_beniView extends JFrame {
             } else {
                 counter--;
                 if (!beni.isEmpty()) {
-                    Beni b = beni.get(counter);
-                    populateBeni(b);
+                    Beni beni = this.beni.get(counter);
+                    populateBeni(beni);
                 }
             }
         }
@@ -227,20 +227,20 @@ public class admin_beniView extends JFrame {
         //ADMIN Listeners
         if (e.getSource() == approva) {
             //Update Beni
-            Beni b_toUpdate = beni.get(counter);
-            Beni b = b_toUpdate;
-            b.setStato_Bene(1); //0 - Non Approvato, 1 - Approvato
-            BeniBusiness.getInstance().updateBene(b_toUpdate, b);
-            beni.remove(counter);
+            Beni beni_toUpdate = beni.get(counter);
+            Beni beni = beni_toUpdate;
+            beni.setStato_Bene(1); //0 - Non Approvato, 1 - Approvato
+            BeniBusiness.getInstance().updateBene(beni_toUpdate, beni);
+            this.beni.remove(counter);
             counter = 0;
             size = size - 1;
             //Send E-Mail
-            Venditore v = VenditoreDAO.getInstance().findById(b.getVenditore_idVenditore());
+            Venditore v = VenditoreDAO.getInstance().findById(beni.getVenditore_idVenditore());
             if (v != null) {
                 Utente u = UtenteDAO.getInstance().findById(v.getUtente_idUtente());
                 if (u != null) {
                     new MailHelper().send(u.getEmail(), "SimpleBooking: Informazioni circa il tuo bene", "Il tuo Bene "
-                            + b.getNome() + " è stato approvato. Puoi ora pubblicarlo.");
+                            + beni.getNome() + " è stato approvato. Puoi ora pubblicarlo.");
                     JOptionPane.showMessageDialog(null, "Bene approvato.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Errore.");
@@ -250,18 +250,18 @@ public class admin_beniView extends JFrame {
             }
         }
         if (e.getSource() == rimuovi) {
-            Beni b_toRemove = beni.get(counter);
-            Result r = BeniDAO.getInstance().delete(b_toRemove);
+            Beni beniToRemove = beni.get(counter);
+            Result r = BeniDAO.getInstance().delete(beniToRemove);
             beni.remove(counter);
             counter = 0;
             size = size - 1;
             if (r.isSuccess() == true) {
-                Venditore v = VenditoreDAO.getInstance().findById(b_toRemove.getVenditore_idVenditore());
-                if (v != null) {
-                    Utente u = UtenteDAO.getInstance().findById(v.getUtente_idUtente());
-                    if (u != null) {
-                        new MailHelper().send(u.getEmail(), "SimpleBooking: Informazioni circa il tuo bene", "Il tuo Bene "
-                                + b_toRemove.getNome() + " è stato rimosso.");
+                Venditore venditore = VenditoreDAO.getInstance().findById(beniToRemove.getVenditore_idVenditore());
+                if (venditore != null) {
+                    Utente utente = UtenteDAO.getInstance().findById(venditore.getUtente_idUtente());
+                    if (utente != null) {
+                        new MailHelper().send(utente.getEmail(), "SimpleBooking: Informazioni circa il tuo bene", "Il tuo Bene "
+                                + beniToRemove.getNome() + " è stato rimosso.");
                         JOptionPane.showMessageDialog(null, "Bene rimosso.");
                     } else {
                         JOptionPane.showMessageDialog(null, "Errore.");
@@ -276,8 +276,8 @@ public class admin_beniView extends JFrame {
     }
 
     public ImageIcon creaImmaginedaByte(byte[] data) {
-        ImageIcon a = new ImageIcon(data);
-        return a;
+        ImageIcon imageIcon = new ImageIcon(data);
+        return imageIcon;
     }
 
     public void recalculate(ArrayList<Beni> beni) {
@@ -285,10 +285,10 @@ public class admin_beniView extends JFrame {
         if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
         } else {
-            Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
-            b.setData_Inizio(new Date());
-            b.setData_Fine(new Date());
-            populateBeni(b);
+            Beni beni1 = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
+            beni1.setData_Inizio(new Date());
+            beni1.setData_Fine(new Date());
+            populateBeni(beni1);
         }
         size = beni.size();
         counter = 0; //Già fatto da dichiarazione ma per coerenza rimane qui

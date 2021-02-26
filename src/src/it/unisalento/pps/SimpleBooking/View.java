@@ -1,18 +1,11 @@
 package it.unisalento.pps.SimpleBooking;
 
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.BeniDAO;
-import it.unisalento.pps.SimpleBooking.DAO.MySQL.OrdineDAO;
 import it.unisalento.pps.SimpleBooking.DAO.business.BeniBusiness;
-import it.unisalento.pps.SimpleBooking.DAO.business.FeedbackBusiness;
-import it.unisalento.pps.SimpleBooking.DAO.business.VenditoreBusiness;
 import it.unisalento.pps.SimpleBooking.Model.Beni;
-import it.unisalento.pps.SimpleBooking.util.Comment;
-import it.unisalento.pps.SimpleBooking.util.SessionHelper;
 import it.unisalento.pps.SimpleBooking.view.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -32,8 +25,8 @@ public class View {
         frame = new JFrame("SimpleBooking");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
-        ArrayList<Beni> b = BeniBusiness.getInstance().findAllPublished();
-        gbV = new guest_beniView(b);
+        ArrayList<Beni> benis = BeniBusiness.getInstance().findAllPublished();
+        gbV = new guest_beniView(benis);
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Log in", login.getContentPane());
@@ -61,8 +54,8 @@ public class View {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<Beni> b = BeniBusiness.getInstance().findAllPublished();
-                gbV.recalculate(b);
+                ArrayList<Beni> allPublished = BeniBusiness.getInstance().findAllPublished();
+                gbV.recalculate(allPublished);
             }
 
             @Override

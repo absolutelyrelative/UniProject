@@ -46,12 +46,12 @@ public class seller_removeOrder extends JFrame {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == rimuovi) {
-            Beni b = BeniBusiness.getInstance().getBeneFromName(beni_field.getText());
-            if (b != null) {
-                Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b.getIdBeni());
-                if (o != null) {
-                    Result r = OrdineDAO.getInstance().delete(o);
-                    if (r.isSuccess()) {
+            Beni beneFromName = BeniBusiness.getInstance().getBeneFromName(beni_field.getText());
+            if (beneFromName != null) {
+                Ordine orderFromBeniID = OrdineBusiness.getInstance().getOrderFromBeniID(beneFromName.getIdBeni());
+                if (orderFromBeniID != null) {
+                    Result result = OrdineDAO.getInstance().delete(orderFromBeniID);
+                    if (result.isSuccess()) {
                         JOptionPane.showMessageDialog(null, "Ordine & Pagamenti eliminati");
                     } else {
                         JOptionPane.showMessageDialog(null, "Impossibile rimuovere Ordine.");

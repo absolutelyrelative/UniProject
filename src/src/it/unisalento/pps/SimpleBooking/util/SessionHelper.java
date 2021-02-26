@@ -41,9 +41,9 @@ public class SessionHelper {
         updateFile(attribute_isActive, Integer.toString(1));
         createFile(attribute_userType);
         //Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(u.getUsername()); //TODO: IS THIS USEFUL OR REDUNDANT?
-        Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
+        Amministratore ifUserIsAdmin = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
         //Compratore c = UtenteDAO.getInstance().findIfUserIsCompratore(u.getUsername()); //TODO: IS THIS USEFUL OR REDUNDANT?
-        if (a != null) {
+        if (ifUserIsAdmin != null) {
             userType = 3;
         }
         //Else, userType is defaulted to 0 - Normal user
@@ -73,8 +73,8 @@ public class SessionHelper {
 
     public boolean createFile(String name) { //0 - failure, 1 - success
         try {
-            File myObj = new File(name);
-            if (myObj.createNewFile()) {
+            File file = new File(name);
+            if (file.createNewFile()) {
                 System.out.println("File created: ");
             } else {
                 System.out.println("File already exists.");
@@ -89,9 +89,9 @@ public class SessionHelper {
 
     public boolean updateFile(String name, String argument) {//0 - failure, 1 - success
         try {
-            FileWriter myWriter = new FileWriter(name);
-            myWriter.write(argument);
-            myWriter.close();
+            FileWriter fileWriter = new FileWriter(name);
+            fileWriter.write(argument);
+            fileWriter.close();
             System.out.println("Successfully wrote to the file.");
             return true;
         } catch (IOException e) {
@@ -102,8 +102,8 @@ public class SessionHelper {
     }
 
     public boolean deleteFile(String name) {//0 - failure, 1 - success
-        File myObj = new File(name);
-        if (myObj.delete()) {
+        File file = new File(name);
+        if (file.delete()) {
             System.out.println("Deleted the file: ");
             return true;
         } else {
@@ -114,9 +114,9 @@ public class SessionHelper {
 
     public String readFile(String name) {//Returns read string, null if error occurred
         try {
-            File myObj = new File(name);
-            Scanner myReader = new Scanner(myObj);
-            if (!myObj.exists()) {
+            File file = new File(name);
+            Scanner myReader = new Scanner(file);
+            if (!file.exists()) {
                 return null;
             } else {
                 String data = myReader.nextLine();  //Only one line is necessary to be read, while statement is redundant

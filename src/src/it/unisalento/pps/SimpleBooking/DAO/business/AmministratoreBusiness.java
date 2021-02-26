@@ -21,53 +21,53 @@ public class AmministratoreBusiness {
 
     //Gli amministratori possono creare altri amministratori
     public Result createAmministratore(String username) {
-        Result r = new Result();
-        Utente u = UtenteDAO.getInstance().findByUsername(username);
+        Result result = new Result();
+        Utente utente = UtenteDAO.getInstance().findByUsername(username);
 
-        if (u == null) {
-            r.setSuccess(false);
-            r.setMessage("Couldn't find user.");
+        if (utente == null) {
+            result.setSuccess(false);
+            result.setMessage("Couldn't find user.");
         } else {
-            Amministratore a = new Amministratore();
-            a.setUtente_idUtente(u.getId());
-            Result operation = AmministratoreDAO.getInstance().create(a);
-            if (operation.isSuccess() == true) {
-                r.setSuccess(true);
-                r.setMessage("Administrator created. The new administrator has to Log-in again for it to take effect.");
+            Amministratore amministratore = new Amministratore();
+            amministratore.setUtente_idUtente(utente.getId());
+            Result operation = AmministratoreDAO.getInstance().create(amministratore);
+            if (operation.isSuccess()) {
+                result.setSuccess(true);
+                result.setMessage("Administrator created. The new administrator has to Log-in again for it to take effect.");
             } else {
-                r.setSuccess(false);
-                r.setMessage("Something went wrong upon Administrator creation.");
+                result.setSuccess(false);
+                result.setMessage("Something went wrong upon Administrator creation.");
             }
         }
 
-        return r;
+        return result;
     }
 
     public Result deleteAmministratore(String username) {
-        Result r = new Result();
-        Utente u = UtenteDAO.getInstance().findByUsername(username); //This is probably redundant
+        Result result = new Result();
+        Utente utente = UtenteDAO.getInstance().findByUsername(username); //This is probably redundant
 
-        if (u == null) {
-            r.setSuccess(false);
-            r.setMessage("Couldn't find user.");
+        if (utente == null) {
+            result.setSuccess(false);
+            result.setMessage("Couldn't find user.");
         } else {
-            Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(username);
-            if (a == null) {
-                r.setSuccess(false);
-                r.setMessage("Couldn't find amministratore.");
+            Amministratore userIsAdmin = UtenteDAO.getInstance().findIfUserIsAdmin(username);
+            if (userIsAdmin == null) {
+                result.setSuccess(false);
+                result.setMessage("Couldn't find amministratore.");
             } else {
-                Result operation = AmministratoreDAO.getInstance().delete(a);
-                if (operation.isSuccess() == true) {
-                    r.setSuccess(true);
-                    r.setMessage("Administrator successfully deleted.");
+                Result operation = AmministratoreDAO.getInstance().delete(userIsAdmin);
+                if (operation.isSuccess()) {
+                    result.setSuccess(true);
+                    result.setMessage("Administrator successfully deleted.");
                 } else {
-                    r.setSuccess(false);
-                    r.setMessage("Couldn't delete Administrator.");
+                    result.setSuccess(false);
+                    result.setMessage("Couldn't delete Administrator.");
                 }
             }
         }
 
-        return r;
+        return result;
     }
 
     public ArrayList<Beni> beniToApprove() {
@@ -75,9 +75,9 @@ public class AmministratoreBusiness {
         ArrayList<Beni> all = BeniDAO.getInstance().findAll();
 
         //Inefficiente ma pulito
-        for (Beni b : all) {
-            if (b.getStato_Bene() == 0) { //0 - Not Approved, 1 - Approved
-                beni.add(b);
+        for (Beni bene : all) {
+            if (bene.getStato_Bene() == 0) { //0 - Not Approved, 1 - Approved
+                beni.add(bene);
             }
         }
 

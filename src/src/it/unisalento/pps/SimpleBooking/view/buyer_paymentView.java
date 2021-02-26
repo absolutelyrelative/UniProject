@@ -13,8 +13,8 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 
 public class buyer_paymentView extends JFrame {
-    private Beni b;
-    private Pagamento p;
+    private Beni beni;
+    private Pagamento pagamento;
 
     private JLabel pay_label = new JLabel("Effettua il pagamento e aspetta il resoconto.");
     private JLabel importo_label = new JLabel("Importo (€): ");
@@ -29,9 +29,9 @@ public class buyer_paymentView extends JFrame {
     private JLabel esito = new JLabel();
     private String costo;
 
-    public buyer_paymentView(Beni b, Pagamento p) {
-        this.b = b;
-        this.p = p;
+    public buyer_paymentView(Beni beni, Pagamento pagamento) {
+        this.beni = beni;
+        this.pagamento = pagamento;
 
         JPanel north_panel = new JPanel(new FlowLayout());
         JPanel center_panel = new JPanel(new FlowLayout());
@@ -44,7 +44,7 @@ public class buyer_paymentView extends JFrame {
             MaskFormatter card_Format = new MaskFormatter("####-####-####-####");
             MaskFormatter cvv_Format = new MaskFormatter("###");
             MaskFormatter pin_Format = new MaskFormatter("####");
-            costo = costo_Format.format(p.getImporto());
+            costo = costo_Format.format(pagamento.getImporto());
             importo.setText(costo);
             card_Format.install(card_field);
             cvv_Format.install(cvv_field);
@@ -84,11 +84,11 @@ public class buyer_paymentView extends JFrame {
 
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == pay) {
-            if (p.getStato() != 1) {
-                Result r = PagamentoBusiness.getInstance().pay(this.p, card_field.getText(), cvv_field.getText(), pin_field.getText());
-                if (r.isSuccess()) {
+            if (pagamento.getStato() != 1) {
+                Result result = PagamentoBusiness.getInstance().pay(this.pagamento, card_field.getText(), cvv_field.getText(), pin_field.getText());
+                if (result.isSuccess()) {
                     JOptionPane.showMessageDialog(null, "Pagamento effettuato correttamente.");
-                    p.setStato(1);
+                    pagamento.setStato(1);
                 } else {
                     JOptionPane.showMessageDialog(null, "Errore durante la procedura di pagamento.");
                 }

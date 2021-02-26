@@ -22,13 +22,13 @@ public class BeniBusiness {
     }
 
     public Beni getBeneFromName(String name) {
-        Beni b = new Beni();
+        Beni beni = new Beni();
         ArrayList<Beni> all = BeniDAO.getInstance().findAll();
         //Inefficiente, ma più pulito
-        for (Beni c : all) {
-            if (c.getNome().equals(name)) {
-                b = c;
-                return b;
+        for (Beni bene : all) {
+            if (bene.getNome().equals(name)) {
+                beni = bene;
+                return beni;
             }
         }
         return null;
@@ -38,20 +38,20 @@ public class BeniBusiness {
         ArrayList<Beni> result = new ArrayList<>();
         ArrayList<Beni> all = BeniDAO.getInstance().findAll();
         //Inefficiente, ma più pulito
-        for (Beni c : all) {
-            if (c.getStato_Bene() == 1 && c.getPubblicazione() == 1) { //Il check su stato bene è ridondante ma non fa male a nessuno
-                result.add(c);
+        for (Beni bene : all) {
+            if (bene.getStato_Bene() == 1 && bene.getPubblicazione() == 1) { //Il check su stato bene è ridondante ma non fa male a nessuno
+                result.add(bene);
             }
         }
         return result;
     }
 
     public Utente getOwnerofBeni(int beni_id) {
-        Beni b = BeniDAO.getInstance().findById(beni_id);
-        Venditore v = VenditoreDAO.getInstance().findById(b.getVenditore_idVenditore());
-        Utente u = UtenteDAO.getInstance().findById(v.getUtente_idUtente());
+        Beni beni = BeniDAO.getInstance().findById(beni_id);
+        Venditore venditore = VenditoreDAO.getInstance().findById(beni.getVenditore_idVenditore());
+        Utente utente = UtenteDAO.getInstance().findById(venditore.getUtente_idUtente());
 
-        return u;
+        return utente;
 
     }
 
@@ -59,21 +59,21 @@ public class BeniBusiness {
         ArrayList<Ordine> ordini = OrdineDAO.getInstance().getOrdiniFromCompratore(compratore_id);
         ArrayList<Beni> filtered = new ArrayList<>();
 
-        for (Ordine o : ordini) {
-            Beni b = BeniDAO.getInstance().findById(o.getBeni_idBeni());
-            filtered.add(b);
+        for (Ordine ordine : ordini) {
+            Beni beni = BeniDAO.getInstance().findById(ordine.getBeni_idBeni());
+            filtered.add(beni);
         }
         return filtered;
     }
 
     //c = BeniDAO.getInstance().create(b);
-    public Result createBene(Beni b){
-        return BeniDAO.getInstance().create(b);
+    public Result createBene(Beni beni){
+        return BeniDAO.getInstance().create(beni);
     }
 
     //BeniDAO.getInstance().updateBene(b, b_new);
-    public void updateBene(Beni b, Beni b_new){
-        BeniDAO.getInstance().updateBene(b, b_new);
+    public void updateBene(Beni beniOld, Beni beniNew){
+        BeniDAO.getInstance().updateBene(beniOld, beniNew);
     }
 
 }

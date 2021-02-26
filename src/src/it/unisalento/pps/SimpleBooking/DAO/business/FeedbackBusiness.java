@@ -27,19 +27,19 @@ public class FeedbackBusiness {
     }
 
     public Result createFeedback(int rating, Beni b, String message){
-        Result r = new Result();
-        Compratore c = UtenteDAO.getInstance().findIfUserIsCompratore(SessionHelper.getInstance().getUser().getUsername());
-        if(c != null){
-            Feedback f = new Feedback();
-            f.setBeni_idBeni(b.getIdBeni());
-            f.setCompratore_idCompratore(c.getIdCompratore());
-            f.setCommento(message);
-            f.setRating(rating);
-            return FeedbackDAO.getInstance().createRoot(f);
+        Result result = new Result();
+        Compratore userIsCompratore = UtenteDAO.getInstance().findIfUserIsCompratore(SessionHelper.getInstance().getUser().getUsername());
+        if(userIsCompratore != null){
+            Feedback feedback = new Feedback();
+            feedback.setBeni_idBeni(b.getIdBeni());
+            feedback.setCompratore_idCompratore(userIsCompratore.getIdCompratore());
+            feedback.setCommento(message);
+            feedback.setRating(rating);
+            return FeedbackDAO.getInstance().createRoot(feedback);
         }
         else{
-            r.setSuccess(false);
-            return r;
+            result.setSuccess(false);
+            return result;
         }
     }
 
@@ -47,9 +47,9 @@ public class FeedbackBusiness {
         ArrayList<Feedback> all = FeedbackDAO.getInstance().findAll();
         ArrayList<Feedback> sorted = new ArrayList<>();
 
-        for (Feedback f : all) {
-            if (f.getBeni_idBeni() == id) {
-                sorted.add(f);
+        for (Feedback feedback : all) {
+            if (feedback.getBeni_idBeni() == id) {
+                sorted.add(feedback);
             }
         }
         return sorted;
@@ -61,46 +61,46 @@ public class FeedbackBusiness {
         ArrayList<Integer> toDelete = new ArrayList<>();
 
         if (!sorted.isEmpty()) {  //It shouldn't be necessary to check if sorted == null, given we initialised it in the function above.
-            for (Feedback f : sorted) {
-                Comment c = new Comment();
+            for (Feedback feedback : sorted) {
+                Comment comment = new Comment();
 
                 //Get all parents
-                if (f.getFeedback_idFeedback() == 0) {
+                if (feedback.getFeedback_idFeedback() == 0) {
                     //Case 1 - Feedback is parent
-                    c.setParent_feedback(f);
-                    if(f.getRating() == 0xFF){
-                        c.setParent_node(String.valueOf("(" + f.getIdFeedback() + ") " + "[No Rating] " + f.getCommento()));
+                    comment.setParent_feedback(feedback);
+                    if(feedback.getRating() == 0xFF){
+                        comment.setParent_node(String.valueOf("(" + feedback.getIdFeedback() + ") " + "[No Rating] " + feedback.getCommento()));
                     }
                     else{
-                        c.setParent_node(String.valueOf("(" + f.getIdFeedback() + ") " + "[Rating: " + String.valueOf(f.getRating()) + "/5] " + f.getCommento()));
+                        comment.setParent_node(String.valueOf("(" + feedback.getIdFeedback() + ") " + "[Rating: " + String.valueOf(feedback.getRating()) + "/5] " + feedback.getCommento()));
                     }
 
-                    formatted.add(c);
-                    toDelete.add(sorted.indexOf(f));
+                    formatted.add(comment);
+                    toDelete.add(sorted.indexOf(feedback));
                 }
             }
         }
 
-        for (Integer i : toDelete) {
-            sorted.remove(i);
+        for (Integer integer : toDelete) {
+            sorted.remove(integer);
         }
         toDelete.clear();
 
         //Sorted now contains a list of children comment, and formatted contains a list of parent comments
         if (!formatted.isEmpty()) {
-            for (Feedback f : sorted) {
-                for (Comment c : formatted) {
-                    if (f.getFeedback_idFeedback() == c.getParent_feedback().getIdFeedback()) {
+            for (Feedback feedback : sorted) {
+                for (Comment comment : formatted) {
+                    if (feedback.getFeedback_idFeedback() == comment.getParent_feedback().getIdFeedback()) {
                         //Child comment!
-                        c.setChild_feedback(f);
-                        c.setChild_node("(" + f.getIdFeedback() + ") " + f.getCommento());
-                        toDelete.add(sorted.indexOf(f));
+                        comment.setChild_feedback(feedback);
+                        comment.setChild_node("(" + feedback.getIdFeedback() + ") " + feedback.getCommento());
+                        toDelete.add(sorted.indexOf(feedback));
                     }
                 }
             }
         }
-        for (Integer i : toDelete) {
-            sorted.remove(i);
+        for (Integer integer : toDelete) {
+            sorted.remove(integer);
         }
         toDelete.clear();
 
@@ -108,7 +108,7 @@ public class FeedbackBusiness {
     }
 
     public Result deleteReplyToFeedback(DefaultMutableTreeNode node){
-        Result r = new Result();
+        Result result = new Result();
         String original_comment = (String) node.getUserObject();
         String sorted = original_comment.replaceAll(".*\\(|\\).*", "");
         int id_toReplyTo = Integer.parseInt(sorted);
@@ -116,68 +116,68 @@ public class FeedbackBusiness {
         if(original != null){
             Feedback old_reply = FeedbackDAO.getInstance().getReplytoReply(original);
             if(old_reply != null){
-                Result c = FeedbackDAO.getInstance().delete(old_reply);
-                if(c.isSuccess()){
-                    r.setSuccess(true);
-                    r.setMessage("Risposta a feedback eliminata.");
-                    return r;
+                Result deleteResult = FeedbackDAO.getInstance().delete(old_reply);
+                if(deleteResult.isSuccess()){
+                    result.setSuccess(true);
+                    result.setMessage("Risposta a feedback eliminata.");
+                    return result;
                 }
                 else{
-                    r.setSuccess(false);
-                    r.setMessage("Errore durante esecuzione query.");
-                    return r;
+                    result.setSuccess(false);
+                    result.setMessage("Errore durante esecuzione query.");
+                    return result;
                 }
             }
             else{
-                r.setSuccess(false);
-                r.setMessage("Risposta a feedback non trovata.");
-                return r;
+                result.setSuccess(false);
+                result.setMessage("Risposta a feedback non trovata.");
+                return result;
             }
         }
         else{
-            r.setSuccess(false);
-            r.setMessage("Feedback non trovato.");
-            return r;
+            result.setSuccess(false);
+            result.setMessage("Feedback non trovato.");
+            return result;
         }
     }
 
-    public Result replyToFeedback(DefaultMutableTreeNode node, String s){
-        Result r = new Result();
+    public Result replyToFeedback(DefaultMutableTreeNode node, String commentString){
+        Result result = new Result();
         String original_comment = (String) node.getUserObject();
         String sorted = original_comment.replaceAll(".*\\(|\\).*", "");
         int id_toReplyTo = Integer.parseInt(sorted);
-        if(s.length() > comment_maxLength){
-            r.setSuccess(false);
-            r.setMessage("Commento troppo lungo.");
-            return r;
+        if(commentString.length() > comment_maxLength){
+            result.setSuccess(false);
+            result.setMessage("Commento troppo lungo.");
+            return result;
         }
         else{
             Feedback original = FeedbackDAO.getInstance().findById(id_toReplyTo);
             if(original != null){
-                Feedback f = new Feedback();
-                f.setRating(0xFF); //Default value for no-rating in DB, TODO: REMOVE? ABOVE METHOD ALREADY DOES NOT SHOW RATINGS
-                f.setFeedback_idFeedback(id_toReplyTo);
-                f.setCommento(s);
-                f.setBeni_idBeni(original.getBeni_idBeni());
-                Venditore v = UtenteDAO.getInstance().findIfUserIsVenditore(SessionHelper.getInstance().getUser().getUsername());
-                if(v != null){
-                    f.setVenditore_idVenditore(v.getIdVenditore());
-                    f.setCompratore_idCompratore(original.getCompratore_idCompratore());
-                    FeedbackDAO.getInstance().create(f);
-                    r.setSuccess(true);
-                    r.setMessage("Feedback inviato.");
-                    return r;
+                Feedback feedback = new Feedback();
+                feedback.setRating(0xFF); //Default value for no-rating in DB, TODO: REMOVE? ABOVE METHOD ALREADY DOES NOT SHOW RATINGS
+                feedback.setFeedback_idFeedback(id_toReplyTo);
+                feedback.setCommento(commentString);
+                feedback.setBeni_idBeni(original.getBeni_idBeni());
+                Venditore userIsVenditore = UtenteDAO.getInstance().findIfUserIsVenditore(SessionHelper.getInstance().getUser().getUsername());
+                if(userIsVenditore != null){
+                    feedback.setVenditore_idVenditore(userIsVenditore.getIdVenditore());
+                    feedback.setCompratore_idCompratore(original.getCompratore_idCompratore());
+                    FeedbackDAO.getInstance().create(feedback);
+                    result.setSuccess(true);
+                    result.setMessage("Feedback inviato.");
+                    return result;
                 }
                 else{
-                    r.setSuccess(false);
-                    r.setMessage("Venditore non trovato.");
-                    return r;
+                    result.setSuccess(false);
+                    result.setMessage("Venditore non trovato.");
+                    return result;
                 }
             }
             else{
-                r.setSuccess(false);
-                r.setMessage("Feedback non trovato.");
-                return r;
+                result.setSuccess(false);
+                result.setMessage("Feedback non trovato.");
+                return result;
             }
         }
 

@@ -19,11 +19,11 @@ public class addadminViewListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Aggiungi Admin")) {
-            Amministratore a = AmministratoreBusiness.getInstance().findIfUserIsAdmin(username.getText());
-            if (a == null) {
-                Result r;
-                r = AmministratoreBusiness.getInstance().createAmministratore(username.getText());
-                if (r.isSuccess() == true) {
+            Amministratore ifUserIsAdmin = AmministratoreBusiness.getInstance().findIfUserIsAdmin(username.getText());
+            if (ifUserIsAdmin == null) {
+                Result result;
+                result = AmministratoreBusiness.getInstance().createAmministratore(username.getText());
+                if (result.isSuccess() == true) {
                     JOptionPane.showMessageDialog(null, "Amministratore aggiunto.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Impossibile aggiungere amministratore. Controlla che non lo sia già, e che l'username sia corretto.");
@@ -33,9 +33,9 @@ public class addadminViewListener implements ActionListener {
             }
         }
         if ((e.getActionCommand()).equals("Rimuovi Admin")) {
-            Result r;
-            r = AmministratoreBusiness.getInstance().deleteAmministratore(username.getText());
-            if (r.isSuccess() == true) {
+            Result result;
+            result = AmministratoreBusiness.getInstance().deleteAmministratore(username.getText());
+            if (result.isSuccess()) {
                 JOptionPane.showMessageDialog(null, "Amministratore rimosso.");
             } else {
                 JOptionPane.showMessageDialog(null, "Impossibile rimuovere amministratore. Controlla che non lo sia già, e che l'username sia corretto.");

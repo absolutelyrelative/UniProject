@@ -26,9 +26,9 @@ public class registerViewListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Register")) {
-            Result r;
-            r = UtenteBusiness.getInstance().register(username.getText(), email.getText());
-            if (r.isSuccess() == true) {
+            Result result;
+            result = UtenteBusiness.getInstance().register(username.getText(), email.getText());
+            if (result.isSuccess()) {
                 JOptionPane.showMessageDialog(null, "Registrazione effettuata. E-Mail con password spedita.");
             } else {
                 JOptionPane.showMessageDialog(null, "Esiste già un utente con queste credenziali. Puoi richiedere il reset della password se necessario.");

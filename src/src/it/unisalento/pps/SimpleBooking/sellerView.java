@@ -25,8 +25,8 @@ public class sellerView {
         frame = new JFrame("SimpleBooking SELLER");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
-        ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
-        gbV = new seller_beniView(b);
+        ArrayList<Beni> benis = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+        gbV = new seller_beniView(benis);
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Crea Bene", scBV.getContentPane());
@@ -53,8 +53,8 @@ public class sellerView {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<Beni> b = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
-                gbV.recalculate(b);
+                ArrayList<Beni> ownBeni = VenditoreBusiness.getInstance().findOwnBeni(SessionHelper.getInstance().getUser().getUsername());
+                gbV.recalculate(ownBeni);
             }
 
             @Override

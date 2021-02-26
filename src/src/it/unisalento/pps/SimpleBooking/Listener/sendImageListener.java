@@ -37,20 +37,20 @@ public class sendImageListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Invia immagini")) {
             //Check 1 - Controlla che il bene esista
-            Beni b = BeniBusiness.getInstance().getBeneFromName(bene.getText());
-            if (b != null) {
-                Utente u = SessionHelper.getInstance().getUser();
-                if (u != null) {
-                    Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
-                    if (v != null) {
-                        if (v.getIdVenditore() == b.getVenditore_idVenditore()) {
+            Beni beneFromName = BeniBusiness.getInstance().getBeneFromName(bene.getText());
+            if (beneFromName != null) {
+                Utente utente = SessionHelper.getInstance().getUser();
+                if (utente != null) {
+                    Venditore userIsVenditore = VenditoreBusiness.getInstance().findifUserIsVenditore(utente.getUsername());
+                    if (userIsVenditore != null) {
+                        if (userIsVenditore.getIdVenditore() == beneFromName.getVenditore_idVenditore()) {
                             immagini = new ArrayList<String>();
                             for (int ctr = 0; ctr < model.getSize(); ctr++) {
                                 immagini.add((String) model.getElementAt(ctr)); //TODO: CHECK CAST
                             }
                             for (String path : immagini) {
-                                Result k = this.sendImage(path, b.getIdBeni());
-                                if (!k.isSuccess()) {
+                                Result result = this.sendImage(path, beneFromName.getIdBeni());
+                                if (!result.isSuccess()) {
                                     JOptionPane.showMessageDialog(null, "Immagine troppo grande o rimossa.");
                                 } else {
                                     JOptionPane.showMessageDialog(null, model.getSize() + " immagini aggiunte al bene.");
@@ -74,15 +74,15 @@ public class sendImageListener implements ActionListener {
         }
         if ((e.getActionCommand()).equals("Rimuovi tutte le immagini")) {
             //Check 1 - Controlla che il bene esista
-            Beni b = BeniBusiness.getInstance().getBeneFromName(bene.getText());
-            if (b != null) {
-                Utente u = SessionHelper.getInstance().getUser();
-                if (u != null) {
-                    Venditore v = VenditoreBusiness.getInstance().findifUserIsVenditore(u.getUsername());
-                    if (v != null) {
-                        if (v.getIdVenditore() == b.getVenditore_idVenditore()) {
-                            Result r = ImmagineBusiness.getInstance().removeImmaginiFromBene(b);
-                            if (r.isSuccess() == true) {
+            Beni beneFromName = BeniBusiness.getInstance().getBeneFromName(bene.getText());
+            if (beneFromName != null) {
+                Utente utente = SessionHelper.getInstance().getUser();
+                if (utente != null) {
+                    Venditore userIsVenditore = VenditoreBusiness.getInstance().findifUserIsVenditore(utente.getUsername());
+                    if (userIsVenditore != null) {
+                        if (userIsVenditore.getIdVenditore() == beneFromName.getVenditore_idVenditore()) {
+                            Result result = ImmagineBusiness.getInstance().removeImmaginiFromBene(beneFromName);
+                            if (result.isSuccess()) {
                                 JOptionPane.showMessageDialog(null, "Immagini rimosse.");
                             } else {
                                 JOptionPane.showMessageDialog(null, "Non tutte le immagini sono state rimosse.");
@@ -103,30 +103,30 @@ public class sendImageListener implements ActionListener {
     }
 
     private Result sendImage(String path, int beni_id) {
-        Result r = new Result();
-        Immagine i = new Immagine();
+        Result result1 = new Result();
+        Immagine immagine = new Immagine();
 
         try {
             //File immagine = new File(path);
-            i.setBeni_idBeni(beni_id);
-            File f = new File(path);
-            Result result = ImmagineDAO.getInstance().create(i, f);
-            if (result.isSuccess() == true) {
-                r.setSuccess(true);
-                r.setMessage("Immagine aggiunta.");
-                return r;
+            immagine.setBeni_idBeni(beni_id);
+            File file = new File(path);
+            Result result = ImmagineDAO.getInstance().create(immagine, file);
+            if (result.isSuccess()) {
+                result1.setSuccess(true);
+                result1.setMessage("Immagine aggiunta.");
+                return result1;
             } else {
-                r.setSuccess(false);
-                r.setMessage("Query non eseguita. Immagine non aggiunta.");
-                return r;
+                result1.setSuccess(false);
+                result1.setMessage("Query non eseguita. Immagine non aggiunta.");
+                return result1;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        r.setSuccess(false);
-        r.setMessage("Routine not completed.");
-        return r;
+        result1.setSuccess(false);
+        result1.setMessage("Routine not completed.");
+        return result1;
     }
 
 }

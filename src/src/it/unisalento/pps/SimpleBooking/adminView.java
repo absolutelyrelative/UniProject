@@ -27,8 +27,8 @@ public class adminView {
         frame = new JFrame("SimpleBooking ADMIN");
         frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         tabbedPane = new JTabbedPane(JTabbedPane.RIGHT, JTabbedPane.SCROLL_TAB_LAYOUT);
-        ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
-        abV = new admin_beniView(b);
+        ArrayList<Beni> beniToApprove = AmministratoreBusiness.getInstance().beniToApprove();
+        abV = new admin_beniView(beniToApprove);
 
         //COMPONENTI DI JTabbedPane
         tabbedPane.addTab("Aggiungi Admin", aaV.getContentPane());
@@ -55,8 +55,8 @@ public class adminView {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                ArrayList<Beni> b = AmministratoreBusiness.getInstance().beniToApprove();
-                abV.recalculate(b);
+                ArrayList<Beni> beniToApprove1 = AmministratoreBusiness.getInstance().beniToApprove();
+                abV.recalculate(beniToApprove1);
             }
 
             @Override

@@ -34,14 +34,14 @@ public class loginViewListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Log in")) {
-            Result r;
+            Result result;
             String actual_password = String.valueOf(password.getPassword()); //JPasswordField.getText() è deprecato
-            r = UtenteBusiness.getInstance().login(username.getText(), actual_password);
-            if (r.isSuccess() == true) {
+            result = UtenteBusiness.getInstance().login(username.getText(), actual_password);
+            if (result.isSuccess()) {
                 JOptionPane.showMessageDialog(null, "Log-in effettuato.");
-                Utente u = SessionHelper.getInstance().getUser();
-                if (u != null) {
-                    result.setText("Log-in effettuato. Benvenuto, " + u.getUsername());
+                Utente utente = SessionHelper.getInstance().getUser();
+                if (utente != null) {
+                    this.result.setText("Log-in effettuato. Benvenuto, " + utente.getUsername());
                     Seller_View.setVisible(true);
                     Seller_View.addActionListener(new ActionListener() {
                         public void actionPerformed(ActionEvent e) {
@@ -54,8 +54,8 @@ public class loginViewListener implements ActionListener {
                             new buyerView();
                         }
                     });
-                    Amministratore a = UtenteDAO.getInstance().findIfUserIsAdmin(u.getUsername());
-                    if (a != null && a.getId() != 0) { //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
+                    Amministratore userIsAdmin = UtenteDAO.getInstance().findIfUserIsAdmin(utente.getUsername());
+                    if (userIsAdmin != null && userIsAdmin.getId() != 0) { //redundant but why not. Ricorda che comunque null non può essere, e nel db, gli ID autogenerati partono da 1.
                         Admin_View.setVisible(true);
                         Admin_View.addActionListener(new ActionListener() {
                             public void actionPerformed(ActionEvent e) {

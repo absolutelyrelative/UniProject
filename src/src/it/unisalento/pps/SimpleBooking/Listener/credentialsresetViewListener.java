@@ -21,11 +21,11 @@ public class credentialsresetViewListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Reset Password")) {
-            Result r = new Result();
-            Utente u = UtenteBusiness.getInstance().findByUsername(username.getText());
-            if (u != null) {
-                r = UtenteBusiness.getInstance().requestPasswordReset(u.getUsername());
-                if (r.isSuccess() == true) {
+            Result result = new Result();
+            Utente utente = UtenteBusiness.getInstance().findByUsername(username.getText());
+            if (utente != null) {
+                result = UtenteBusiness.getInstance().requestPasswordReset(utente.getUsername());
+                if (result.isSuccess()) {
                     JOptionPane.showMessageDialog(null, "La tua nuova password è stata inviata sulla tua E-Mail.");
                 } else {
                     JOptionPane.showMessageDialog(null, "Si è verificato un'errore durante il reset della password.");

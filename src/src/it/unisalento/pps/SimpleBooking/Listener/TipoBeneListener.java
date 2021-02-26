@@ -26,17 +26,17 @@ public class TipoBeneListener implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         if ((e.getActionCommand()).equals("Aggiungi Tipo Bene")) {
-            Result r = new Result();
-            Utente u = SessionHelper.getInstance().getUser();
+            Result result = new Result();
+            Utente utente = SessionHelper.getInstance().getUser();
 
-            if (u != null) {
-                Amministratore a = AmministratoreBusiness.getInstance().findIfUserIsAdmin(u.getUsername());
-                if (a != null) {
-                    Tipo_Bene tb = new Tipo_Bene();
-                    tb.setNome(add.getText());
-                    tb.setAmministratore_idAmministratore(a.getIdAmministratore());
-                    r = Tipo_BeneBusiness.getInstance().createTB(tb);//Tipo_Bene ha Primary Key(id, Nome), non ci dovrebbero essere conflitti.
-                    if (r.isSuccess() == true) {
+            if (utente != null) {
+                Amministratore userIsAdmin = AmministratoreBusiness.getInstance().findIfUserIsAdmin(utente.getUsername());
+                if (userIsAdmin != null) {
+                    Tipo_Bene tipo_bene = new Tipo_Bene();
+                    tipo_bene.setNome(add.getText());
+                    tipo_bene.setAmministratore_idAmministratore(userIsAdmin.getIdAmministratore());
+                    result = Tipo_BeneBusiness.getInstance().createTB(tipo_bene);//Tipo_Bene ha Primary Key(id, Nome), non ci dovrebbero essere conflitti.
+                    if (result.isSuccess()) {
                         JOptionPane.showMessageDialog(null, "Tipo Bene aggiunto.");
                     } else {
                         JOptionPane.showMessageDialog(null, "Impossibile aggiungere Tipo Bene.");
@@ -49,17 +49,17 @@ public class TipoBeneListener implements ActionListener {
             }
         }
         if ((e.getActionCommand()).equals("Rimuovi Tipo Bene")) {
-            Result r = new Result();
+            Result result = new Result();
             ArrayList<Tipo_Bene> lista_tb = Tipo_BeneBusiness.getInstance().retrieveAll();
-            Tipo_Bene tb_td = new Tipo_Bene();
+            Tipo_Bene tipoBenetoRemove = new Tipo_Bene();
 
             boolean found = false;
-            for (Tipo_Bene tb : lista_tb) {
-                if (tb.getNome().equals(rmv.getText())) {
+            for (Tipo_Bene tipo_bene : lista_tb) {
+                if (tipo_bene.getNome().equals(rmv.getText())) {
                     found = true;
-                    tb_td = tb;
-                    r = Tipo_BeneBusiness.getInstance().delete(tb_td);
-                    if (r.isSuccess() == true) {
+                    tipoBenetoRemove = tipo_bene;
+                    result = Tipo_BeneBusiness.getInstance().delete(tipoBenetoRemove);
+                    if (result.isSuccess()) {
                         JOptionPane.showMessageDialog(null, "Tipo Bene rimosso."); //TODO: Immetti ON CASCADE delete?
                         return;
                     } else {
@@ -68,7 +68,7 @@ public class TipoBeneListener implements ActionListener {
                     }
                 }
             }
-            if (found == false) {
+            if (!found) {
                 JOptionPane.showMessageDialog(null, "Non è stato possibile rimuovere Tipo Bene. Controlla il nome.");
                 return;
             }

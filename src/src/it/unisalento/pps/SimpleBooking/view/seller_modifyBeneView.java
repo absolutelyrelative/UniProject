@@ -67,10 +67,10 @@ public class seller_modifyBeneView extends JFrame {
 
         //CALENDARIO
         //TODO: Cose stranissime per implementare JDatePicker che, per qualche motivo, non ha nessun tipo di documentazione.
-        Properties p = new Properties();
-        p.put("text.today", "Oggi");
-        p.put("text.month", "Mese");
-        p.put("text.year", "Anno");
+        Properties properties = new Properties();
+        properties.put("text.today", "Oggi");
+        properties.put("text.month", "Mese");
+        properties.put("text.year", "Anno");
         UtilDateModel model1 = new UtilDateModel();
         model1.setDate(2021, 1, 1);
         model1.setSelected(true);
@@ -79,8 +79,8 @@ public class seller_modifyBeneView extends JFrame {
         model2.setDate(2021, 1, 1);
         model2.setSelected(true);
 
-        JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, p);
-        JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p);
+        JDatePanelImpl datePanel1 = new JDatePanelImpl(model1, properties);
+        JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, properties);
 
         datePicker_inizio = new JDatePickerImpl(datePanel1, new DateLabelFormatter());
         datePicker_fine = new JDatePickerImpl(datePanel2, new DateLabelFormatter());

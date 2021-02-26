@@ -156,28 +156,28 @@ public class buyer_beniView extends JFrame {
         }
     }
 
-    public void populateBeni(Beni b) {
-        nome.setText(b.getNome());
-        descr.setText(b.getDescrizione());
+    public void populateBeni(Beni beni) {
+        nome.setText(beni.getNome());
+        descr.setText(beni.getDescrizione());
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        dataInizio.setText(format.format(b.getData_Inizio()));
-        dataFine.setText(format.format(b.getData_Fine()));
-        costi.setText(String.valueOf(b.getCosto_pd()) + "pd, " + String.valueOf(b.getCosto_pw()) + "pw, " + String.valueOf(b.getCosto_pm()) + "pm");
-        addr.setText(b.getAddr());
+        dataInizio.setText(format.format(beni.getData_Inizio()));
+        dataFine.setText(format.format(beni.getData_Fine()));
+        costi.setText(String.valueOf(beni.getCosto_pd()) + "pd, " + String.valueOf(beni.getCosto_pw()) + "pw, " + String.valueOf(beni.getCosto_pm()) + "pm");
+        addr.setText(beni.getAddr());
 
-        if (b.getStato_Bene() != 0) {
+        if (beni.getStato_Bene() != 0) {
             approvato.setSelected(true);
         } else {
             approvato.setSelected(false);
         }
-        if (b.getPubblicazione() != 0) {
+        if (beni.getPubblicazione() != 0) {
             pubblicato.setSelected(true);
         } else {
             pubblicato.setSelected(false);
         }
 
 
-        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
+        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(beni);
         img_size = immagini.size();
         img_counter = 0; //Per coerenza personale, lo lascio anche se messo in dichiarazione
 
@@ -185,19 +185,19 @@ public class buyer_beniView extends JFrame {
             immagine_label.setVisible(false);
         } else {
             immagine_label.setVisible(true);
-            Immagine i = immagini.get(0);
-            immagine = this.creaImmaginedaByte(i.getData());
-            Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-            immagine = new ImageIcon(scaled_img);
-            immagine_label.setIcon(immagine);
+            Immagine immagine = immagini.get(0);
+            this.immagine = this.creaImmaginedaByte(immagine.getData());
+            Image scaled_img = this.immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+            this.immagine = new ImageIcon(scaled_img);
+            immagine_label.setIcon(this.immagine);
             immagine_label.setPreferredSize(new Dimension(400, 400));
         }
 
         //TODO: CHANGE
         //Questo è un pochino un mix illegale tra MVC & DAO, facciamo finta di nulla per ora ;)
-        Tipo_Bene tb = Tipo_BeneDAO.getInstance().findById(b.getTipo_Bene_idTipo_Bene());
-        if (tb != null) {
-            tipoBene.setText(tb.getNome());
+        Tipo_Bene tipo_bene = Tipo_BeneDAO.getInstance().findById(beni.getTipo_Bene_idTipo_Bene());
+        if (tipo_bene != null) {
+            tipoBene.setText(tipo_bene.getNome());
         }
     }
 
@@ -223,8 +223,8 @@ public class buyer_beniView extends JFrame {
             } else {
                 counter--;
                 if (!beni.isEmpty()) {
-                    Beni b = beni.get(counter);
-                    populateBeni(b);
+                    Beni beni = this.beni.get(counter);
+                    populateBeni(beni);
                 }
             }
         }
@@ -267,8 +267,8 @@ public class buyer_beniView extends JFrame {
         }
         if (e.getSource() == commenti) {
             if (!beni.isEmpty()) {
-                Beni b = beni.get(counter);
-                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
+                Beni beni = this.beni.get(counter);
+                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(beni.getIdBeni());
                 new guest_commentView(sorted);
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
@@ -288,19 +288,19 @@ public class buyer_beniView extends JFrame {
                     JOptionPane.showMessageDialog(null, "Assicurati che le date siano corrette. Data Inizio non può venire dopo Data Fine.");
                 } else {
                     //Controllo coerenza data con il bene
-                    Beni b = beni.get(counter);
-                    if (Data_Inizio.before(b.getData_Inizio()) || Data_Inizio.after(b.getData_Fine()) || Data_Fine.after(b.getData_Fine()) || Data_Fine.before(b.getData_Inizio())) {
+                    Beni beni = this.beni.get(counter);
+                    if (Data_Inizio.before(beni.getData_Inizio()) || Data_Inizio.after(beni.getData_Fine()) || Data_Fine.after(beni.getData_Fine()) || Data_Fine.before(beni.getData_Inizio())) {
                         JOptionPane.showMessageDialog(null, "Il Bene non è disponibile in queste date.");
                     } else {
-                        boolean ordered = OrdineBusiness.getInstance().isOrdered(b.getIdBeni());
+                        boolean ordered = OrdineBusiness.getInstance().isOrdered(beni.getIdBeni());
                         if (ordered == true) {
                             JOptionPane.showMessageDialog(null, "Il Bene è già stato ordinato. Controlla tra poco o selezionane un altro!");
                         } else {
-                            Result h = OrdineBusiness.getInstance().createOrdine(Data_Inizio, Data_Fine, b);
+                            Result h = OrdineBusiness.getInstance().createOrdine(Data_Inizio, Data_Fine, beni);
                             if (h.isSuccess()) {
                                 JOptionPane.showMessageDialog(null, "Ordine aggiunto. Puoi proseguire al pagamento.");
-                                OrdineBusiness.getInstance().sendAlert(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
-                                PagamentoBusiness.getInstance().generatePagamento(b.getIdBeni()); //CAN BE CHECKED FOR RESULT
+                                OrdineBusiness.getInstance().sendAlert(beni.getIdBeni()); //CAN BE CHECKED FOR RESULT
+                                PagamentoBusiness.getInstance().generatePagamento(beni.getIdBeni()); //CAN BE CHECKED FOR RESULT
                             } else {
                                 JOptionPane.showMessageDialog(null, "Non è stato possibile creare l'ordine. Ricarica la lista dei beni.");
                             }
@@ -314,8 +314,8 @@ public class buyer_beniView extends JFrame {
     }
 
     public ImageIcon creaImmaginedaByte(byte[] data) {
-        ImageIcon a = new ImageIcon(data);
-        return a;
+        ImageIcon imageIcon = new ImageIcon(data);
+        return imageIcon;
     }
 
     public void recalculate(ArrayList<Beni> beni) {
@@ -323,10 +323,10 @@ public class buyer_beniView extends JFrame {
         if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
         } else {
-            Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
-            b.setData_Inizio(new Date());
-            b.setData_Fine(new Date());
-            populateBeni(b);
+            Beni beni1 = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
+            beni1.setData_Inizio(new Date());
+            beni1.setData_Fine(new Date());
+            populateBeni(beni1);
         }
         size = beni.size();
         counter = 0; //Già fatto da dichiarazione ma per coerenza rimane qui

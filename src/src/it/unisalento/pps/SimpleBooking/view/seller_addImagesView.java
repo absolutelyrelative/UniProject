@@ -3,7 +3,6 @@ package it.unisalento.pps.SimpleBooking.view;
 import it.unisalento.pps.SimpleBooking.Listener.sendImageListener;
 
 import javax.swing.*;
-import javax.swing.event.ListDataListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.filechooser.FileSystemView;
 import java.awt.*;

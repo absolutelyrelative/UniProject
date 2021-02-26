@@ -142,26 +142,26 @@ public class buyer_boughtbeniView extends JFrame {
         }
     }
 
-    public void populateBeni(Beni b) {
-        nome.setText(b.getNome());
-        descr.setText(b.getDescrizione());
-        Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(b.getIdBeni());
+    public void populateBeni(Beni beni) {
+        nome.setText(beni.getNome());
+        descr.setText(beni.getDescrizione());
+        Ordine orderFromBeniID = OrdineBusiness.getInstance().getOrderFromBeniID(beni.getIdBeni());
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if (o != null) {
-            Pagamento p = PagamentoBusiness.getInstance().getPagamentoFromOrder(o);
-            dataInizio.setText(format.format(o.getData_Inizio()));
-            dataFine.setText(format.format(o.getData_Fine()));
-            costi.setText(String.valueOf(o.getImporto_Tot()));
-            if (p.getStato() == 1) {
+        if (orderFromBeniID != null) {
+            Pagamento pagamento = PagamentoBusiness.getInstance().getPagamentoFromOrder(orderFromBeniID);
+            dataInizio.setText(format.format(orderFromBeniID.getData_Inizio()));
+            dataFine.setText(format.format(orderFromBeniID.getData_Fine()));
+            costi.setText(String.valueOf(orderFromBeniID.getImporto_Tot()));
+            if (pagamento.getStato() == 1) {
                 pagato.setSelected(true);
             } else {
                 pagato.setSelected(false);
             }
         }
 
-        addr.setText(b.getAddr());
+        addr.setText(beni.getAddr());
 
-        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(b);
+        immagini = ImmagineBusiness.getInstance().getImmaginiFromBene(beni);
         img_size = immagini.size();
         img_counter = 0; //Per coerenza personale, lo lascio anche se messo in dichiarazione
 
@@ -169,19 +169,19 @@ public class buyer_boughtbeniView extends JFrame {
             immagine_label.setVisible(false);
         } else {
             immagine_label.setVisible(true);
-            Immagine i = immagini.get(0);
-            immagine = this.creaImmaginedaByte(i.getData());
-            Image scaled_img = immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
-            immagine = new ImageIcon(scaled_img);
-            immagine_label.setIcon(immagine);
+            Immagine immagine = immagini.get(0);
+            this.immagine = this.creaImmaginedaByte(immagine.getData());
+            Image scaled_img = this.immagine.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+            this.immagine = new ImageIcon(scaled_img);
+            immagine_label.setIcon(this.immagine);
             immagine_label.setPreferredSize(new Dimension(400, 400));
         }
 
         //TODO: CHANGE
         //Questo è un pochino un mix illegale tra MVC & DAO, facciamo finta di nulla per ora ;)
-        Tipo_Bene tb = Tipo_BeneDAO.getInstance().findById(b.getTipo_Bene_idTipo_Bene());
-        if (tb != null) {
-            tipoBene.setText(tb.getNome());
+        Tipo_Bene tipo_bene = Tipo_BeneDAO.getInstance().findById(beni.getTipo_Bene_idTipo_Bene());
+        if (tipo_bene != null) {
+            tipoBene.setText(tipo_bene.getNome());
         }
     }
 
@@ -191,13 +191,13 @@ public class buyer_boughtbeniView extends JFrame {
         if (e.getSource() == b_dx) {
             if (counter < (size - 1)) {
                 counter++;
-                Beni b = beni.get(counter);
-                populateBeni(b);
+                Beni beni = this.beni.get(counter);
+                populateBeni(beni);
             } else {
                 counter = 0;
                 if (!beni.isEmpty()) {
-                    Beni b = beni.get(counter);
-                    populateBeni(b);
+                    Beni beni = this.beni.get(counter);
+                    populateBeni(beni);
                 }
             }
         }
@@ -207,8 +207,8 @@ public class buyer_boughtbeniView extends JFrame {
             } else {
                 counter--;
                 if (!beni.isEmpty()) {
-                    Beni b = beni.get(counter);
-                    populateBeni(b);
+                    Beni beni = this.beni.get(counter);
+                    populateBeni(beni);
                 }
             }
         }
@@ -251,19 +251,19 @@ public class buyer_boughtbeniView extends JFrame {
         }
         if (e.getSource() == commenti) {
             if (!beni.isEmpty()) {
-                Beni b = beni.get(counter);
-                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(b.getIdBeni());
-                new buyer_boughtcommentView(sorted, b);
+                Beni beni = this.beni.get(counter);
+                ArrayList<Comment> sorted = FeedbackBusiness.getInstance().getFormattedFeedbackfromBeniId(beni.getIdBeni());
+                new buyer_boughtcommentView(sorted, beni);
             } else {
                 JOptionPane.showMessageDialog(null, "Errore: Non ci sono beni.");
             }
         }
         if (e.getSource() == paga) {
-            Ordine o = OrdineBusiness.getInstance().getOrderFromBeniID(beni.get(counter).getIdBeni());
-            if (o != null) {
-                Pagamento p = PagamentoBusiness.getInstance().getPagamentoFromOrder(o);
-                if (p != null) {
-                    new buyer_paymentView(beni.get(counter), p);
+            Ordine orderFromBeniID = OrdineBusiness.getInstance().getOrderFromBeniID(beni.get(counter).getIdBeni());
+            if (orderFromBeniID != null) {
+                Pagamento pagamentoFromOrder = PagamentoBusiness.getInstance().getPagamentoFromOrder(orderFromBeniID);
+                if (pagamentoFromOrder != null) {
+                    new buyer_paymentView(beni.get(counter), pagamentoFromOrder);
                 } else {
                     JOptionPane.showMessageDialog(null, "Errore: Pagamento non trovato.");
                 }
@@ -275,8 +275,8 @@ public class buyer_boughtbeniView extends JFrame {
     }
 
     public ImageIcon creaImmaginedaByte(byte[] data) {
-        ImageIcon a = new ImageIcon(data);
-        return a;
+        ImageIcon imageIcon = new ImageIcon(data);
+        return imageIcon;
     }
 
     public void recalculate(ArrayList<Beni> beni) {
@@ -284,10 +284,10 @@ public class buyer_boughtbeniView extends JFrame {
         if (!beni.isEmpty()) {
             populateBeni(beni.get(0));
         } else {
-            Beni b = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
-            b.setData_Inizio(new Date());
-            b.setData_Fine(new Date());
-            populateBeni(b);
+            Beni beni1 = new Beni();    //Empty Beni, will throw exceptions but it's not a big issue.
+            beni1.setData_Inizio(new Date());
+            beni1.setData_Fine(new Date());
+            populateBeni(beni1);
         }
         size = beni.size();
         counter = 0; //Già fatto da dichiarazione ma per coerenza rimane qui
