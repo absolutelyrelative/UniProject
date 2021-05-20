@@ -12,6 +12,8 @@ I had to "hack" a fix because Swing did not provide me with a straightforward wa
 If I had to change something it would be a more consistent way to name variables, perhaps a more elegant solution to the UI implementation using other libraries, and learning NoSQL / MongoDB instead of MySQL for this type of project.
 All in all I think the project shows I am able to use Agile development practices, as well as the other aforementioned programming patterns, and I am capable, willing, and consistently going beyond the minimum acceptable to provide more elegant solutions and, in general, constantly study and improve.
 
+A small note: While the DBConnection class was provided to us by the Professor, I ended up changing it because I personally felt it was not covering possible shortcomings in data query.
+
 The following text can be ignored as it is an instruction / suggestion for my professor.
 
 
