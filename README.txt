@@ -2,7 +2,7 @@ Repository for the Software Engineering course 2020/2021.
 The project guidelines were established by the professor and they consisted in utilising Scrum, DAO / SingleTon patterns, and Java.
 I went beyond the expectations and studied the ICONIX process (As you can see in the documentation given), alongside some other programming patterns visible in the project code.
 
-In the Diagrams folder you can find all the documentation related to the Agile development practices employed.
+In the Diagrams folder you can find all the documentation related to the Scrum development practices employed.
 In the Queries folder you can find some dummy SQL queries written during the implementation of the DAO pattern.
  Unfortunately, I was constrained to use "raw" MySQL and therefore had to inject some SQL upon Schema creation, and it is what is present at the bottom of the page.
  I also went beyond what was required of me in this instance and attempted to use industry standard and not store passwords in plaintext, obviously.
