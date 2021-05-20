@@ -9,7 +9,7 @@ In the Queries folder you can find some dummy SQL queries written during the imp
 The client code can be found in the src folder. I went beyond the requirements and implemented Gradle, I studied Swing and edited some of its objects to fit my needs, I  implemented more programming patterns, such as a 'Result' object, and I tried to unify all the GUI and Event Listeners in some-sort of "isomorphism".
 I had to "hack" a fix because Swing did not provide me with a straightforward way to implement multiple-picture scrolling, by dynamically creating Object Lists.
 
-If I had to change something it would be a more consistent way to name variables, and perhaps a more elegant solution to the UI implementation. 
+If I had to change something it would be a more consistent way to name variables, perhaps a more elegant solution to the UI implementation using other libraries, and learning NoSQL / MongoDB instead of MySQL for this type of project.
 All in all I think the project shows I am able to use Agile development practices, as well as the other aforementioned programming patterns, and I am capable, willing, and consistently going beyond the minimum acceptable to provide more elegant solutions and, in general, constantly study and improve.
 
 The following text can be ignored as it is an instruction / suggestion for my professor.
