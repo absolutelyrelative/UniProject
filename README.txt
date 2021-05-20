@@ -4,6 +4,7 @@ I went beyond the expectations and studied the ICONIX process (As you can see in
 
 In the Diagrams folder you can find all the documentation related to the Scrum development practices employed.
 In the Queries folder you can find some dummy SQL queries written during the implementation of the DAO pattern.
+The Database model was created according to the ICONIX process.
  Unfortunately, I was constrained to use "raw" MySQL and therefore had to inject some SQL upon Schema creation, and it is what is present at the bottom of the page.
  I also went beyond what was required of me in this instance and attempted to use industry standard and not store passwords in plaintext, obviously.
 The client code can be found in the src folder. I went beyond the requirements and implemented Gradle, I studied Swing and edited some of its objects to fit my needs, I  implemented more programming patterns, such as a 'Result' object, and I tried to unify all the GUI and Event Listeners in some-sort of "isomorphism".
